@@ -25,7 +25,10 @@ gtk.gdk.threads_init()
 
 ## directory
 home = expanduser("~")
-persoDir=os.path.join(home,"Greg/work/perso")
+if os.environ.get('DELL') :
+    persoDir=os.path.join(home,"Perso/work/perso")
+else :
+    persoDir=os.path.join(home,"Greg/work/perso")
 logDir=os.path.join(persoDir,"log")
 
 ## common
