@@ -24,6 +24,7 @@ gtk.gdk.threads_init()
 
 ## common
 from python_common import *
+HEADER = "Reduce_Pdf_Weight"
 
 ## directory
 logDir   = getLogDir()
@@ -68,12 +69,8 @@ parser.add_option(
 ## Global variables
 ###############################################
 
-HEADER = "REDUCE_PDF_WEIGHT"
-progName = os.path.basename(sys.argv[0])
-
 t = str(datetime.datetime.today().isoformat("_"))
-logFile = os.path.join(logDir, re.sub(" ", "_", progName) + "_" + t + ".log")
-
+logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 errC = 0
 
 ###############################################
@@ -108,11 +105,21 @@ def reduceWeight(fileList) :
             errC += 1
             dbg.error(HEADER, "In  reduceWeight file: issue with " + str(os.path.join(fileD, fileN + fileE)))
         else :
-            dbg.info(HEADER, "In  reduceWeight original size = " + str(humanSize(fileN + fileE)))
-            if os.path.exists(fileN + fileE):
-                os.remove(fileN + fileE)
-            shutil.move(fileN + ' reduced' + fileE, fileN + fileE)
-            dbg.info(HEADER, "In  reduceWeight reduced size = " + str(humanSize(fileN + fileE)))
+            # is it worth to move the result?
+            originalSize = os.path.getsize(fileN + fileE)
+            reducedSize = os.path.getsize(fileN + ' reduced' + fileE)
+
+            if (originalSize - reducedSize > 0) :
+                # move file
+                if os.path.exists(fileN + fileE):
+                    os.remove(fileN + fileE)
+                shutil.move(fileN + ' reduced' + fileE, fileN + fileE)
+                dbg.info(HEADER, "In  reduceWeight copied file. Gain = " + str(humanSize(originalSize - reducedSize)) + ", original = " + str(humanSize(originalSize)) + ", reduced = " + str(humanSize(reducedSize)))
+            else :
+                # remove result file
+                if os.path.exists(fileN + ' reduced' + fileE):
+                    os.remove(fileN + ' reduced' + fileE)
+                dbg.info(HEADER, "In  reduceWeight removed file. Original = " + str(humanSize(originalSize)) + ", reduced = " + str(humanSize(reducedSize)))
 
         if (fileD != "") :
             os.chdir(oldDir)
@@ -176,7 +183,7 @@ def main() :
 if __name__ == '__main__':
  
     ## Create log class
-    dbg = LOGC(logFile, "reducePdfWeight", parsedArgs.debug, parsedArgs.gui)
+    dbg = LOGC(logFile, HEADER, parsedArgs.debug, parsedArgs.gui)
 
     main()
 
