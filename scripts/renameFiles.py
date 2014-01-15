@@ -9,8 +9,6 @@ rename files in a same directory
 ## Import
 import sys
 import os
-import os.path
-from os.path import expanduser
 import re
 import time, datetime
 import subprocess
@@ -23,16 +21,11 @@ import pygtk
 pygtk.require('2.0')
 gtk.gdk.threads_init()
 
-## directory
-home = expanduser("~")
-if os.environ.get('DELL') :
-    persoDir=os.path.join(home,"Perso/work/perso")
-else :
-    persoDir=os.path.join(home,"Greg/work/perso")
-logDir=os.path.join(persoDir,"log")
-
 ## common
 from python_common import *
+
+## directory
+logDir   = getLogDir()
 
 ###############################################
 

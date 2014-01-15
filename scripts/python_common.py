@@ -6,6 +6,8 @@ Common functions
 '''
 
 import os
+import os.path
+from os.path import expanduser
 import sys
 import re
 import pwd
@@ -68,7 +70,6 @@ class LOGC(object):
             mes = "  ERROR " + self.progName + " :   Exit code " + str(item) + "\n" + color_error + str(msg) + color_reset + "\n"
         self.writeLog(mes)
         sys.exit(color_error + mes + color_reset)
-
 
 
 
@@ -142,6 +143,19 @@ def getUserLogin() :
     except :
         print color_error + 'Cannot get the login user\n'
         sys.exit(-1)
+
+def getHomeDir():
+    return expanduser("~")
+
+def getPersoDir():
+    if os.environ.get('DELL') :
+        return os.path.join(getHomeDir(),"Perso/work/perso")
+    else :
+        return os.path.join(getHomeDir(),"Greg/work/perso")
+
+def getLogDir():
+    return  os.path.join(getPersoDir(),"log")
+
 
 ## Verify lock file
 def verify_lock_file(lockFile) :

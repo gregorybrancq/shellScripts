@@ -10,8 +10,6 @@ Convert MP4 to MP3
 ## Import
 import sys
 import os
-import os.path
-from os.path import expanduser
 import time, datetime
 import subprocess
 from optparse import OptionParser
@@ -23,16 +21,11 @@ import pygtk
 pygtk.require('2.0')
 gtk.gdk.threads_init()
 
-## directory
-home = expanduser("~")
-if os.environ.get('DELL') :
-    persoDir=os.path.join(home,"Perso/work/perso")
-else :
-    persoDir=os.path.join(home,"Greg/work/perso")
-logDir=os.path.join(persoDir,"log")
-
 ## common
 from python_common import *
+
+## directory
+logDir   = getLogDir()
 
 ###############################################
 

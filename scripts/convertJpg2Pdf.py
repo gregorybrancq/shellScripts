@@ -10,11 +10,9 @@ Convert jpg to pdf
 ## Import
 import sys
 import os
-import os.path
 import time, datetime
 import subprocess
 from optparse import OptionParser
-from os.path import expanduser
 
 # use for graphical interface
 import gobject
@@ -23,16 +21,11 @@ import pygtk
 pygtk.require('2.0')
 gtk.gdk.threads_init()
 
-## directory
-home = expanduser("~")
-if os.environ.get('DELL') :
-    persoDir=os.path.join(home,"Perso/work/perso")
-else :
-    persoDir=os.path.join(home,"Greg/work/perso")
-logDir=os.path.join(persoDir,"log")
-
 ## common
 from python_common import *
+
+## directory
+logDir   = getLogDir()
 
 ###############################################
 
