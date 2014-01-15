@@ -23,6 +23,7 @@ gtk.gdk.threads_init()
 
 ## common
 from python_common import *
+HEADER = "Rename_File"
 
 ## directory
 logDir   = getLogDir()
@@ -67,11 +68,8 @@ parser.add_option(
 ## Global variables
 ###############################################
 
-HEADER = "RENAME_FILE"
-progName = re.sub(" ", "_", os.path.basename(sys.argv[0]))
-
 t = str(datetime.datetime.today().isoformat("_"))
-logFile = os.path.join(logDir, re.sub(" ", "_", progName) + "_" + t + ".log")
+logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 
 ###############################################
 
@@ -117,7 +115,7 @@ def main() :
 if __name__ == '__main__':
  
     ## Create log class
-    dbg = LOGC(logFile, "unpack", parsedArgs.debug, parsedArgs.gui)
+    dbg = LOGC(logFile, HEADER, parsedArgs.debug, parsedArgs.gui)
 
     main()
 

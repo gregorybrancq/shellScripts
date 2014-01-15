@@ -167,12 +167,11 @@ def getLogDir():
     return  os.path.join(getPersoDir(),"log")
 
 ## Get the human size of a file
-def humanSize(fileName):
-    fileSize=os.path.getsize(fileName)
+def humanSize(num):
     for x in ['bytes','KB','MB','GB','TB']:
-        if fileSize < 1024.0:
-            return "%3.1f%s" % (fileSize, x)
-        fileSize /= 1024.0
+        if num < 1024.0:
+            return "%3.1f%s" % (num, x)
+        num /= 1024.0
 
 ## Verify lock file
 def verify_lock_file(lockFile) :

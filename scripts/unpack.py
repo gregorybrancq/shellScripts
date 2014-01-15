@@ -24,6 +24,7 @@ gtk.gdk.threads_init()
 
 ## common
 from python_common import *
+HEADER = "Unpack"
 
 ## directory
 homeDir = getHomeDir()
@@ -69,13 +70,9 @@ parser.add_option(
 ## Global variables
 ###############################################
 
-HEADER = "  UNPACK  "
-progName = os.path.basename(sys.argv[0])
-
 t = str(datetime.datetime.today().isoformat("_"))
-logFile = os.path.join(logDir, re.sub(" ", "_", progName) + "_" + t + ".log")
-lockFile = os.path.join(logDir, progName + ".lock")
-
+logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
+lockFile = os.path.join(logDir, HEADER + ".lock")
 warnC = 0
 
 ###############################################
@@ -189,7 +186,7 @@ def main() :
 if __name__ == '__main__':
  
     ## Create log class
-    dbg = LOGC(logFile, progName, parsedArgs.debug, parsedArgs.gui)
+    dbg = LOGC(logFile, HEADER, parsedArgs.debug, parsedArgs.gui)
 
     main()
 

@@ -23,6 +23,7 @@ gtk.gdk.threads_init()
 
 ## common
 from python_common import *
+HEADER = "Mp4->Mp3"
 
 ## directory
 logDir   = getLogDir()
@@ -67,12 +68,8 @@ parser.add_option(
 ## Global variables
 ###############################################
 
-HEADER = "CONVMP42MP3"
-progName = os.path.basename(sys.argv[0])
-
 t = str(datetime.datetime.today().isoformat("_"))
-logFile = os.path.join(logDir, re.sub(" ", "_", progName) + "_" + t + ".log")
-
+logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 errC = 0
 
 ###############################################
@@ -170,7 +167,7 @@ def main() :
 if __name__ == '__main__':
  
     ## Create log class
-    dbg = LOGC(logFile, "convertMP42MP3", parsedArgs.debug, parsedArgs.gui)
+    dbg = LOGC(logFile, HEADER, parsedArgs.debug, parsedArgs.gui)
 
     main()
 
