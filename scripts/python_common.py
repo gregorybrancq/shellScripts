@@ -6,7 +6,6 @@ Common functions
 '''
 
 import os
-import os.path
 from os.path import expanduser
 import sys
 import re
@@ -148,7 +147,18 @@ def getHomeDir():
     return expanduser("~")
 
 def getPersoDir():
+    dell=0
+
     if os.environ.get('DELL') :
+        dell=1
+    else :
+        # grep .cshrc to see if DELL is specified for graphic mode in Nemo
+        for line in open (os.path.join(getHomeDir(), ".cshrc")) :
+            if 'setenv DELL "1"' in line :
+                dell=1
+                break
+
+    if dell :
         return os.path.join(getHomeDir(),"Perso/work/perso")
     else :
         return os.path.join(getHomeDir(),"Greg/work/perso")
@@ -156,6 +166,13 @@ def getPersoDir():
 def getLogDir():
     return  os.path.join(getPersoDir(),"log")
 
+## Get the human size of a file
+def humanSize(fileName):
+    fileSize=os.path.getsize(fileName)
+    for x in ['bytes','KB','MB','GB','TB']:
+        if fileSize < 1024.0:
+            return "%3.1f%s" % (fileSize, x)
+        fileSize /= 1024.0
 
 ## Verify lock file
 def verify_lock_file(lockFile) :
