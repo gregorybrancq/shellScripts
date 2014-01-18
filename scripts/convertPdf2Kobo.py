@@ -16,13 +16,6 @@ import time, datetime
 import subprocess
 from optparse import OptionParser
 
-# use for graphical interface
-import gobject
-import gtk
-import pygtk
-pygtk.require('2.0')
-gtk.gdk.threads_init()
-
 ## common
 from python_common import *
 HEADER = "Pdf->Kobo"
@@ -174,7 +167,7 @@ def main() :
     msg = "\nJob fini : " + str(len(pdfList)) + " livres convertis.\nLivre : " + str(pdfList) + "\n\nLog file = "+ str(logFile)
     if (warnC != 0) :
         msg += "\nWarning = " + str(warnC)
-    dialog_info(progName, msg)
+    dialog_info(HEADER, msg)
     
     dbg.info(HEADER, "Out main")
 
