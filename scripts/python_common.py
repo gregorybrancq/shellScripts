@@ -14,9 +14,12 @@ import time
 import datetime
 import random
 
+# use for graphical interface
+import gobject
 import gtk
 import pygtk
 pygtk.require('2.0')
+gtk.gdk.threads_init()
 
 
 
@@ -85,7 +88,7 @@ def dialog_info(title,msg) :
         gtk.DIALOG_MODAL,
         gtk.MESSAGE_INFO,
         gtk.BUTTONS_CLOSE,
-        msg)
+        msg)                            
     dialog.set_title(title)
     dialog.run()
     dialog.destroy()

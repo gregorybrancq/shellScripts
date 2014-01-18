@@ -14,13 +14,6 @@ import time, datetime
 import subprocess
 from optparse import OptionParser
 
-# use for graphical interface
-import gobject
-import gtk
-import pygtk
-pygtk.require('2.0')
-gtk.gdk.threads_init()
-
 ## common
 from python_common import *
 HEADER = "Mp4->Mp3"
