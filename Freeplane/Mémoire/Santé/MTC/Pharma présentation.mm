@@ -12,7 +12,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 <hook NAME="MapStyle">
 
@@ -402,7 +401,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 <attribute_layout VALUE_WIDTH="150"/>
 <font ITALIC="false"/>
@@ -419,7 +417,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 <attribute_layout VALUE_WIDTH="150"/>
 <font ITALIC="false"/>
@@ -436,7 +433,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 <attribute_layout VALUE_WIDTH="150"/>
 </node>
@@ -452,7 +448,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 <attribute_layout VALUE_WIDTH="150"/>
 </node>
@@ -468,7 +463,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 <attribute_layout VALUE_WIDTH="150"/>
 </node>
@@ -484,7 +478,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 <attribute_layout VALUE_WIDTH="150"/>
 </node>
@@ -500,7 +493,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 <attribute_layout VALUE_WIDTH="150"/>
 </node>
@@ -516,7 +508,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 <attribute_layout VALUE_WIDTH="150"/>
 </node>
@@ -532,7 +523,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 <attribute_layout VALUE_WIDTH="150"/>
 </node>
@@ -548,7 +538,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 <attribute_layout VALUE_WIDTH="150"/>
 </node>
@@ -564,7 +553,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 <attribute_layout VALUE_WIDTH="150"/>
 </node>
@@ -580,7 +568,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 <attribute_layout VALUE_WIDTH="150"/>
 </node>
@@ -596,7 +583,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 <attribute_layout VALUE_WIDTH="150"/>
 </node>
@@ -612,11 +598,10 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 <attribute_layout VALUE_WIDTH="150"/>
 </node>
-<node ID="ID_691422542" CREATED="1391189457569" MODIFIED="1391189483612"><richcontent TYPE="NODE">
+<node ID="ID_691422542" CREATED="1391189457569" MODIFIED="1391453367214"><richcontent TYPE="NODE">
 
 <html>
   <head>
@@ -624,7 +609,7 @@
   </head>
   <body>
     <p>
-      <b>TENG: <i>liane</i></b>, parcourt les m&#233;idiens
+      <b>TENG: <i>liane</i></b>, parcourt les m&#233;ridiens
     </p>
   </body>
 </html>
