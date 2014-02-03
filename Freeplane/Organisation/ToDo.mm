@@ -2985,7 +2985,7 @@
 </node>
 </node>
 </node>
-<node TEXT="Inbox" FOLDED="true" POSITION="left" ID="ID_959764474" CREATED="1375296650840" MODIFIED="1381908343146">
+<node TEXT="Inbox" POSITION="left" ID="ID_959764474" CREATED="1375296650840" MODIFIED="1381908343146">
 <edge COLOR="#0000ff"/>
 <attribute_layout VALUE_WIDTH="125"/>
 <cloud COLOR="#d5d5d5" SHAPE="ARC"/>
@@ -3097,7 +3097,7 @@
 </node>
 </node>
 </node>
-<node TEXT="T&#xe2;ches" FOLDED="true" POSITION="left" ID="ID_1099514383" CREATED="1375725202014" MODIFIED="1381908351026">
+<node TEXT="T&#xe2;ches" POSITION="left" ID="ID_1099514383" CREATED="1375725202014" MODIFIED="1381908351026">
 <edge COLOR="#ff00ff"/>
 <attribute_layout VALUE_WIDTH="125"/>
 <cloud COLOR="#c0d2fe" SHAPE="ARC"/>
@@ -3587,7 +3587,7 @@
 <attribute NAME="Date" VALUE=""/>
 </node>
 </node>
-<node TEXT="Divers" FOLDED="true" ID="ID_1814400263" CREATED="1390587332774" MODIFIED="1390587335529">
+<node TEXT="Divers" ID="ID_1814400263" CREATED="1390587332774" MODIFIED="1390587335529">
 <attribute_layout VALUE_WIDTH="125"/>
 <node TEXT="renouveler la carte d&apos;identit&#xe9; &amp; le passeport" LOCALIZED_STYLE_REF="AutomaticLayout.level,3" ID="ID_656567586" CREATED="1375297306803" MODIFIED="1389031283855">
 <attribute_layout VALUE_WIDTH="125"/>
@@ -3629,7 +3629,7 @@
 </node>
 </node>
 </node>
-<node TEXT="Plaisirs" FOLDED="true" POSITION="left" ID="ID_1777559683" CREATED="1389169477431" MODIFIED="1389169565540">
+<node TEXT="Plaisirs" POSITION="left" ID="ID_1777559683" CREATED="1389169477431" MODIFIED="1389169565540">
 <icon BUILTIN="gohome"/>
 <edge COLOR="#ffff00"/>
 <attribute_layout VALUE_WIDTH="125"/>
