@@ -1,0 +1,95 @@
+<filter_conditions>
+    <negate_condition user_name="Pas fait">
+        <icon_contained_condition ICON="button_ok"/>
+    </negate_condition>
+    <conjunct_condition user_name="Now">
+        <negate_condition>
+            <icon_contained_condition ICON="button_ok"/>
+        </negate_condition>
+        <attribute_contains_condition ATTRIBUTE="When" VALUE="now" MATCH_CASE="false" MATCH_APPROXIMATELY="false"/>
+    </conjunct_condition>
+    <conjunct_condition user_name="Soon">
+        <negate_condition>
+            <icon_contained_condition ICON="button_ok"/>
+        </negate_condition>
+        <attribute_contains_condition ATTRIBUTE="When" VALUE="soon" MATCH_CASE="false" MATCH_APPROXIMATELY="false"/>
+    </conjunct_condition>
+    <conjunct_condition user_name="Cyclique">
+        <negate_condition>
+            <icon_contained_condition ICON="button_ok"/>
+        </negate_condition>
+        <attribute_contains_condition ATTRIBUTE="When" VALUE="cyclique" MATCH_CASE="false" MATCH_APPROXIMATELY="false"/>
+    </conjunct_condition>
+    <conjunct_condition user_name="Someday">
+        <negate_condition>
+            <icon_contained_condition ICON="button_ok"/>
+        </negate_condition>
+        <attribute_contains_condition ATTRIBUTE="When" VALUE="someday" MATCH_CASE="false" MATCH_APPROXIMATELY="false"/>
+    </conjunct_condition>
+    <conjunct_condition user_name="Delegate">
+        <negate_condition>
+            <icon_contained_condition ICON="button_ok"/>
+        </negate_condition>
+        <attribute_contains_condition ATTRIBUTE="When" VALUE="delegate" MATCH_CASE="false" MATCH_APPROXIMATELY="false"/>
+    </conjunct_condition>
+    <conjunct_condition user_name="Gtask">
+        <negate_condition>
+            <icon_contained_condition ICON="button_ok"/>
+        </negate_condition>
+        <attribute_contains_condition ATTRIBUTE="When" VALUE="gtasks" MATCH_CASE="false" MATCH_APPROXIMATELY="false"/>
+    </conjunct_condition>
+    <conjunct_condition user_name="Perso Now">
+        <conjunct_condition user_name="Now">
+            <negate_condition>
+                <icon_contained_condition ICON="button_ok"/>
+            </negate_condition>
+            <attribute_contains_condition ATTRIBUTE="When" VALUE="now" MATCH_CASE="false" MATCH_APPROXIMATELY="false"/>
+        </conjunct_condition>
+        <negate_condition>
+            <attribute_contains_condition user_name="Pro" ATTRIBUTE="Th&#xe8;me" VALUE="pro" MATCH_CASE="false" MATCH_APPROXIMATELY="false"/>
+        </negate_condition>
+    </conjunct_condition>
+    <conjunct_condition user_name="Perso Soon">
+        <conjunct_condition user_name="Soon">
+            <negate_condition>
+                <icon_contained_condition ICON="button_ok"/>
+            </negate_condition>
+            <attribute_contains_condition ATTRIBUTE="When" VALUE="soon" MATCH_CASE="false" MATCH_APPROXIMATELY="false"/>
+        </conjunct_condition>
+        <negate_condition>
+            <attribute_contains_condition user_name="Pro" ATTRIBUTE="Th&#xe8;me" VALUE="pro" MATCH_CASE="false" MATCH_APPROXIMATELY="false"/>
+        </negate_condition>
+    </conjunct_condition>
+    <conjunct_condition user_name="Fait en 2013">
+        <icon_contained_condition ICON="button_ok"/>
+        <attribute_contains_condition ATTRIBUTE="Date" VALUE="/13" MATCH_CASE="false" MATCH_APPROXIMATELY="false"/>
+    </conjunct_condition>
+    <conjunct_condition user_name="Fait le 01/14">
+        <icon_contained_condition user_name="Fait" ICON="button_ok"/>
+        <attribute_contains_condition ATTRIBUTE="Date" VALUE="01/14" MATCH_CASE="false" MATCH_APPROXIMATELY="false"/>
+    </conjunct_condition>
+    <conjunct_condition user_name="Fait le 02/14">
+        <icon_contained_condition user_name="Fait" ICON="button_ok"/>
+        <attribute_contains_condition ATTRIBUTE="Date" VALUE="02/14" MATCH_CASE="false" MATCH_APPROXIMATELY="false"/>
+    </conjunct_condition>
+    <conjunct_condition user_name="Fait le 03/14">
+        <icon_contained_condition user_name="Fait" ICON="button_ok"/>
+        <attribute_contains_condition ATTRIBUTE="Date" VALUE="03/14" MATCH_CASE="false" MATCH_APPROXIMATELY="false"/>
+    </conjunct_condition>
+    <conjunct_condition user_name="Fait le 04/14">
+        <icon_contained_condition user_name="Fait" ICON="button_ok"/>
+        <attribute_contains_condition ATTRIBUTE="Date" VALUE="04/14" MATCH_CASE="false" MATCH_APPROXIMATELY="false"/>
+    </conjunct_condition>
+    <conjunct_condition user_name="Fait le 05/14">
+        <icon_contained_condition user_name="Fait" ICON="button_ok"/>
+        <attribute_contains_condition ATTRIBUTE="Date" VALUE="05/14" MATCH_CASE="false" MATCH_APPROXIMATELY="false"/>
+    </conjunct_condition>
+    <conjunct_condition user_name="Fait le 06/14">
+        <icon_contained_condition user_name="Fait" ICON="button_ok"/>
+        <attribute_contains_condition ATTRIBUTE="Date" VALUE="06/14" MATCH_CASE="false" MATCH_APPROXIMATELY="false"/>
+    </conjunct_condition>
+    <conjunct_condition user_name="Fait en 2014">
+        <icon_contained_condition user_name="Fait" ICON="button_ok"/>
+        <attribute_contains_condition ATTRIBUTE="Date" VALUE="/14" MATCH_CASE="false" MATCH_APPROXIMATELY="false"/>
+    </conjunct_condition>
+</filter_conditions>
