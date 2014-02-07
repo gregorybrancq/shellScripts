@@ -697,17 +697,17 @@
 </node>
 </node>
 </node>
-<node TEXT="Grands Vins de France" FOLDED="true" ID="ID_1057295390" CREATED="1379092048192" MODIFIED="1391417562160" LINK="../Job/Grands%20Vins%20de%20France.mm">
+<node TEXT="Grands Vins de France" ID="ID_1057295390" CREATED="1379092048192" MODIFIED="1391417562160" LINK="../Job/Grands%20Vins%20de%20France.mm">
 <icon BUILTIN="gohome"/>
 <attribute_layout VALUE_WIDTH="125"/>
 <attribute NAME="Where" VALUE="home"/>
 <attribute NAME="Who" VALUE="job"/>
 <attribute NAME="Target" VALUE="Pause"/>
-<node TEXT="Phase 1" FOLDED="true" ID="ID_221710518" CREATED="1384760326842" MODIFIED="1391417295958">
+<node TEXT="Phase 1" ID="ID_221710518" CREATED="1384760326842" MODIFIED="1391417295958">
 <icon BUILTIN="button_ok"/>
 <attribute_layout VALUE_WIDTH="125"/>
 <attribute NAME="Date" VALUE="21/12/13"/>
-<node TEXT="Etre pr&#xea;t &#xe0; cr&#xe9;er la soci&#xe9;t&#xe9;" FOLDED="true" ID="ID_1980779253" CREATED="1379092122776" MODIFIED="1385970635041">
+<node TEXT="Etre pr&#xea;t &#xe0; cr&#xe9;er la soci&#xe9;t&#xe9;" ID="ID_1980779253" CREATED="1379092122776" MODIFIED="1385970635041">
 <attribute_layout VALUE_WIDTH="125"/>
 <node TEXT="trouver le nom" ID="ID_1689095098" CREATED="1379092137293" MODIFIED="1391417295957">
 <icon BUILTIN="button_ok"/>
@@ -734,9 +734,9 @@
 <attribute NAME="Date" VALUE="10/12/13"/>
 </node>
 </node>
-<node TEXT="Avoir un site web fr" FOLDED="true" ID="ID_1357514133" CREATED="1385206941169" MODIFIED="1388103878609">
+<node TEXT="Avoir un site web fr" ID="ID_1357514133" CREATED="1385206941169" MODIFIED="1388103878609">
 <attribute_layout VALUE_WIDTH="150"/>
-<node TEXT="Partager info entre nous" FOLDED="true" ID="ID_1827930203" CREATED="1375297226925" MODIFIED="1391417295956">
+<node TEXT="Partager info entre nous" ID="ID_1827930203" CREATED="1375297226925" MODIFIED="1391417295956">
 <icon BUILTIN="button_ok"/>
 <attribute_layout NAME_WIDTH="73" VALUE_WIDTH="120"/>
 <attribute NAME="Date" VALUE="25/11/13"/>
@@ -781,7 +781,7 @@
 <attribute NAME="When" VALUE="now"/>
 <attribute NAME="Date" VALUE="11/11/13"/>
 </node>
-<node TEXT="Contenu" FOLDED="true" ID="ID_10699737" CREATED="1375297226925" MODIFIED="1385317063738">
+<node TEXT="Contenu" ID="ID_10699737" CREATED="1375297226925" MODIFIED="1385317063738">
 <attribute_layout NAME_WIDTH="73" VALUE_WIDTH="120"/>
 <node TEXT="pr&#xe9;sentation de la soci&#xe9;t&#xe9;" ID="ID_565310244" CREATED="1379093029688" MODIFIED="1391417295951">
 <icon BUILTIN="button_ok"/>
@@ -864,7 +864,7 @@
 <attribute NAME="Date" VALUE="10/12/13"/>
 </node>
 </node>
-<node TEXT="Juridique" FOLDED="true" ID="ID_1959039545" CREATED="1375297226925" MODIFIED="1384333393558">
+<node TEXT="Juridique" ID="ID_1959039545" CREATED="1375297226925" MODIFIED="1384333393558">
 <attribute_layout NAME_WIDTH="74" VALUE_WIDTH="120"/>
 <node TEXT="d&#xe9;finir s&apos;il faut une licence alcool" ID="ID_666925206" CREATED="1369345591977" MODIFIED="1391417295945">
 <icon BUILTIN="button_ok"/>
@@ -876,7 +876,7 @@
 </node>
 </node>
 </node>
-<node TEXT="4 producteurs" FOLDED="true" ID="ID_872532181" CREATED="1385207069260" MODIFIED="1388102438905">
+<node TEXT="4 producteurs" ID="ID_872532181" CREATED="1385207069260" MODIFIED="1388102438905">
 <attribute_layout VALUE_WIDTH="150"/>
 <node TEXT="Foire aux vins pour trouver un max de producteur" ID="ID_167047321" CREATED="1379092509340" MODIFIED="1391417295945">
 <icon BUILTIN="button_ok"/>
@@ -912,9 +912,9 @@
 <attribute NAME="Date" VALUE="21/12/13"/>
 </node>
 </node>
-<node TEXT="Phase 2" FOLDED="true" ID="ID_265792406" CREATED="1384760333920" MODIFIED="1389168473757">
+<node TEXT="Phase 2" ID="ID_265792406" CREATED="1384760333920" MODIFIED="1389168473757">
 <attribute_layout VALUE_WIDTH="125"/>
-<node TEXT="Soci&#xe9;t&#xe9;" FOLDED="true" ID="ID_1703942554" CREATED="1388104026982" MODIFIED="1388104029683">
+<node TEXT="Soci&#xe9;t&#xe9;" ID="ID_1703942554" CREATED="1388104026982" MODIFIED="1388104029683">
 <attribute_layout VALUE_WIDTH="150"/>
 <node TEXT="constituer le dossier de cr&#xe9;ation" ID="ID_774447417" CREATED="1379092189357" MODIFIED="1391417295942">
 <attribute_layout VALUE_WIDTH="125"/>
@@ -938,9 +938,9 @@
 <attribute NAME="Date" VALUE="" OBJECT="org.freeplane.features.format.FormattedObject||date:date:M/d/yy h:mm a"/>
 </node>
 </node>
-<node TEXT="Site web" FOLDED="true" ID="ID_1291492100" CREATED="1388104057172" MODIFIED="1388104059533">
+<node TEXT="Site web" ID="ID_1291492100" CREATED="1388104057172" MODIFIED="1388104059533">
 <attribute_layout VALUE_WIDTH="150"/>
-<node TEXT="Mise &#xe0; jour du site web" FOLDED="true" ID="ID_979482234" CREATED="1386712129203" MODIFIED="1386712135147">
+<node TEXT="Mise &#xe0; jour du site web" ID="ID_979482234" CREATED="1386712129203" MODIFIED="1386712135147">
 <attribute_layout VALUE_WIDTH="150"/>
 <node TEXT="est-ce que css supporte le multilingue fr/en/ch?" ID="ID_1113996243" CREATED="1379093814526" MODIFIED="1391417295941">
 <attribute_layout VALUE_WIDTH="125"/>
@@ -965,7 +965,7 @@
 <attribute NAME="Date" VALUE="" OBJECT="org.freeplane.features.format.FormattedObject||date:date:M/d/yy h:mm a"/>
 </node>
 </node>
-<node TEXT="Envoyer la premi&#xe8;re livraison" FOLDED="true" ID="ID_147113315" CREATED="1388104128386" MODIFIED="1388104138233">
+<node TEXT="Envoyer la premi&#xe8;re livraison" ID="ID_147113315" CREATED="1388104128386" MODIFIED="1388104138233">
 <attribute_layout VALUE_WIDTH="150"/>
 <node TEXT="le transport" ID="ID_219987452" CREATED="1369343599597" MODIFIED="1391417295939">
 <attribute_layout VALUE_WIDTH="125"/>
@@ -1031,7 +1031,7 @@
 <hook NAME="FirstGroupNode"/>
 </node>
 </node>
-<node TEXT="Phase 1" FOLDED="true" ID="ID_323330222" CREATED="1389206549110" MODIFIED="1391417295988">
+<node TEXT="Phase 1" ID="ID_323330222" CREATED="1389206549110" MODIFIED="1391417295988">
 <attribute_layout VALUE_WIDTH="125"/>
 <attribute NAME="Where" VALUE="home"/>
 <attribute NAME="Who" VALUE="job"/>
@@ -1057,7 +1057,7 @@
   </body>
 </html>
 </richcontent>
-<node TEXT="Admin" FOLDED="true" ID="ID_378678239" CREATED="1389206965521" MODIFIED="1389206966954">
+<node TEXT="Admin" ID="ID_378678239" CREATED="1389206965521" MODIFIED="1389206966954">
 <attribute_layout VALUE_WIDTH="125"/>
 <node TEXT="Examiner les diff&#xe9;rentes offres d&apos;OVH" ID="ID_1514858226" CREATED="1379092207498" MODIFIED="1391417295935">
 <icon BUILTIN="password"/>
@@ -1084,7 +1084,7 @@
 <attribute NAME="Date" VALUE="" OBJECT="org.freeplane.features.format.FormattedObject||date:date:M/d/yy h:mm a"/>
 </node>
 </node>
-<node TEXT="Technique" FOLDED="true" ID="ID_1226407201" CREATED="1389207006756" MODIFIED="1389207008487">
+<node TEXT="Technique" ID="ID_1226407201" CREATED="1389207006756" MODIFIED="1389207008487">
 <attribute_layout VALUE_WIDTH="125"/>
 <node TEXT="D&#xe9;finir les livres &#xe0; lire pour la cr&#xe9;ation du site" ID="ID_871318386" CREATED="1375297226925" MODIFIED="1391417295934">
 <icon BUILTIN="password"/>
@@ -1103,7 +1103,7 @@
 <attribute NAME="Date" VALUE="" OBJECT="org.freeplane.features.format.FormattedObject||date:date:M/d/yy h:mm a"/>
 </node>
 </node>
-<node TEXT="Features" FOLDED="true" ID="ID_1498484382" CREATED="1389206956662" MODIFIED="1389206959040">
+<node TEXT="Features" ID="ID_1498484382" CREATED="1389206956662" MODIFIED="1389206959040">
 <attribute_layout VALUE_WIDTH="125"/>
 <node TEXT="Choisir les premi&#xe8;res options &#xe0; d&#xe9;velopper gratuitement et rapidement" ID="ID_411620955" CREATED="1375297226925" MODIFIED="1391417295932">
 <icon BUILTIN="password"/>
@@ -1115,7 +1115,7 @@
 </node>
 </node>
 </node>
-<node TEXT="Phase 2" FOLDED="true" ID="ID_1850871396" CREATED="1389207102577" MODIFIED="1391417295988">
+<node TEXT="Phase 2" ID="ID_1850871396" CREATED="1389207102577" MODIFIED="1391417295988">
 <attribute_layout VALUE_WIDTH="125"/>
 <attribute NAME="Where" VALUE="home"/>
 <attribute NAME="Who" VALUE="job"/>
@@ -1138,7 +1138,7 @@
   </body>
 </html>
 </richcontent>
-<node TEXT="Cr&#xe9;er la soci&#xe9;t&#xe9;" FOLDED="true" ID="ID_1663313685" CREATED="1379092122776" MODIFIED="1389170224046">
+<node TEXT="Cr&#xe9;er la soci&#xe9;t&#xe9;" ID="ID_1663313685" CREATED="1379092122776" MODIFIED="1389170224046">
 <attribute_layout VALUE_WIDTH="125"/>
 <node TEXT="Trouver le nom" ID="ID_141330465" CREATED="1379092207498" MODIFIED="1391417295932">
 <attribute_layout VALUE_WIDTH="125"/>
@@ -2352,6 +2352,93 @@
 <attribute NAME="Who" VALUE="perso"/>
 <attribute NAME="When" VALUE="cyclique"/>
 </node>
+<node TEXT="Faire un logiciel pour le freeplane ToDo" ID="ID_198766639" CREATED="1375297476956" MODIFIED="1391700516733">
+<icon BUILTIN="password"/>
+<icon BUILTIN="wizard"/>
+<attribute_layout NAME_WIDTH="74" VALUE_WIDTH="104"/>
+<attribute NAME="Where" VALUE="freeplane"/>
+<attribute NAME="Who" VALUE="perso"/>
+<attribute NAME="When" VALUE="now"/>
+<richcontent TYPE="DETAILS">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      Faire un script Groovy pour:
+    </p>
+    <ul>
+      <li>
+        calcul automatique de l'avanc&#233;e du projet
+      </li>
+      <li>
+        marquer une t&#226;che comme finie
+      </li>
+      <li>
+        v&#233;rification
+
+        <ul>
+          <li>
+            si les t&#226;ches pour le mois/semaine ne d&#233;passe pas le temps imparti
+          </li>
+          <li>
+            si les projets peuvent tenir les dates finales
+          </li>
+        </ul>
+      </li>
+      <li>
+        analyse du mois
+
+        <ul>
+          <li>
+            comparer le pourcentage de chaque projet sur un mois (une p&#233;riode)
+          </li>
+        </ul>
+      </li>
+      <li>
+        optimiser le plugin GTD
+
+        <ul>
+          <li>
+            trouver un syst&#232;me plus intelligent et automatique:
+
+            <ul>
+              <li>
+                doit sortir les t&#226;ches &#224; faire afin d'aboutir &#224; la r&#233;alisation des projets en fonction
+
+                <ul>
+                  <li>
+                    des objectifs
+                  </li>
+                  <li>
+                    des priorit&#233;s
+                  </li>
+                  <li>
+                    des deadlines
+                  </li>
+                  <li>
+                    &#224; revoir le syst&#232;me des dates - now, soon, someday -
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            pouvoir marquer la t&#226;che comme termin&#233;e
+          </li>
+        </ul>
+      </li>
+      <li>
+        g
+      </li>
+    </ul>
+  </body>
+</html>
+
+</richcontent>
+</node>
 <node TEXT="Sommets de la r&#xe9;ussite" FOLDED="true" ID="ID_455629769" CREATED="1375297476904" MODIFIED="1391417562152">
 <icon BUILTIN="gohome"/>
 <attribute_layout VALUE_WIDTH="125"/>
@@ -2972,13 +3059,6 @@
 <node TEXT="&quot;Comprendre et pratiquer l&apos;Enn&#xe9;agramme&quot; de Halin" ID="ID_550311051" CREATED="1375297476874" MODIFIED="1391417562148">
 <icon BUILTIN="password"/>
 <attribute_layout VALUE_WIDTH="125"/>
-<attribute NAME="Where" VALUE="freeplane"/>
-<attribute NAME="Who" VALUE="perso"/>
-<attribute NAME="When" VALUE="now"/>
-</node>
-<node TEXT="&quot;Lecture rapide&quot; de Tony Buzan" ID="ID_198766639" CREATED="1375297476956" MODIFIED="1391417562146">
-<icon BUILTIN="password"/>
-<attribute_layout NAME_WIDTH="74" VALUE_WIDTH="104"/>
 <attribute NAME="Where" VALUE="freeplane"/>
 <attribute NAME="Who" VALUE="perso"/>
 <attribute NAME="When" VALUE="now"/>
