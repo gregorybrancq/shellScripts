@@ -49,7 +49,7 @@
 </stylenode>
 </map_styles>
 </hook>
-<hook NAME="AutomaticEdgeColor" COUNTER="1"/>
+<hook NAME="AutomaticEdgeColor" COUNTER="2"/>
 <hook NAME="accessories/plugins/AutomaticLayout.properties" VALUE="ALL"/>
 <attribute_layout VALUE_WIDTH="125"/>
 <node TEXT="Lu" POSITION="right" ID="ID_18316218" CREATED="1378321696756" MODIFIED="1378321698455">
@@ -61,10 +61,17 @@
 <node TEXT="L&apos;autoroute du Millionnaire" ID="ID_1191335332" CREATED="1365616873779" MODIFIED="1378321725736" LINK="L&apos;autoroute%20Du%20Millionaire.mm"/>
 <node TEXT="&quot;M&#xe9;thode de Super Lecture&quot; de Jacques Crousset" ID="ID_1343616807" CREATED="1357496031563" MODIFIED="1379352446363" LINK="../Livres/Super%20Lecture.mm"/>
 <node TEXT="&quot;Les 5 Tib&#xe9;tains&quot; de Peter Kelder" ID="ID_892412830" CREATED="1370445321540" MODIFIED="1379352491725" LINK="Les%205%20Tib&#xe9;tains.mm"/>
-<node TEXT="&quot;Comment Pratiquer la Radiesth&#xe9;sie&quot; de Bernard Baudouin" ID="ID_1530078873" CREATED="1379352330426" MODIFIED="1379352627026" LINK="Comment%20Pratiquer%20la%20Radiesth&#xe9;sie%20de%20Bernard%20Baudouin.mm">
+<node TEXT="&quot;Comment Pratiquer la Radiesth&#xe9;sie&quot; de Bernard Baudouin" ID="ID_1530078873" CREATED="1379352330426" MODIFIED="1391627392724" LINK="Comment%20Pratiquer%20la%20Radiesth&#xe9;sie.mm">
 <attribute_layout VALUE_WIDTH="125"/>
 </node>
 <node TEXT="&quot;Les Robes de Lumi&#xe8;re&quot; de Daniel Meurois-Givaudan" ID="ID_1364043809" CREATED="1379352330426" MODIFIED="1382029686096" LINK="Les%20Robes%20de%20Lumi&#xe8;re.mm">
+<attribute_layout VALUE_WIDTH="125"/>
+</node>
+</node>
+<node TEXT="R&#xe9;sum&#xe9;" POSITION="right" ID="ID_1026808583" CREATED="1391626574322" MODIFIED="1391700007947" HGAP="8" VSHIFT="80">
+<edge COLOR="#0000ff"/>
+<attribute_layout VALUE_WIDTH="125"/>
+<node TEXT="&quot;Ready, fire, aim&quot; de Michael Masterson" ID="ID_1768795074" CREATED="1391626580075" MODIFIED="1391626833207" LINK="Ready,%20Fire,%20Aim.mm">
 <attribute_layout VALUE_WIDTH="125"/>
 </node>
 </node>
