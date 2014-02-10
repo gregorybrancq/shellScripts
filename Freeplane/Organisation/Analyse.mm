@@ -1445,7 +1445,7 @@
 </node>
 <node TEXT="Je d&#xe9;finis les priorit&#xe9;s sur les projets al&#xe9;atoirement, ca manque d&apos;efficacit&#xe9; car je peux facilement repousser la date puisqu&apos;il n&apos;y en a pas...." ID="ID_755145534" CREATED="1391451136016" MODIFIED="1391451419127">
 <attribute_layout VALUE_WIDTH="125"/>
-<node TEXT="Programme doit v&#xe9;rifier si tout est faisable et calcul&#xe9; l&apos;avanc&#xe9;e du projet en fonction de la DATE BUTOIR (DEADLINE)" ID="ID_212966884" CREATED="1391451165064" MODIFIED="1391451385384">
+<node TEXT="Programme doit v&#xe9;rifier si tout est faisable et calculer l&apos;avanc&#xe9;e du projet en fonction de la DATE BUTOIR (DEADLINE)" ID="ID_212966884" CREATED="1391451165064" MODIFIED="1391794340949">
 <icon BUILTIN="idea"/>
 <attribute_layout VALUE_WIDTH="125"/>
 </node>
