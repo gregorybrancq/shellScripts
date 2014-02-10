@@ -2352,94 +2352,87 @@
 <attribute NAME="Who" VALUE="perso"/>
 <attribute NAME="When" VALUE="cyclique"/>
 </node>
-<node TEXT="Faire un logiciel pour le freeplane ToDo" ID="ID_198766639" CREATED="1375297476956" MODIFIED="1391700516733">
+<node TEXT="Faire un logiciel pour le freeplane ToDo" ID="ID_198766639" CREATED="1375297476956" MODIFIED="1392060889759">
 <icon BUILTIN="password"/>
 <icon BUILTIN="wizard"/>
 <attribute_layout NAME_WIDTH="74" VALUE_WIDTH="104"/>
 <attribute NAME="Where" VALUE="freeplane"/>
 <attribute NAME="Who" VALUE="perso"/>
 <attribute NAME="When" VALUE="now"/>
-<richcontent TYPE="DETAILS">
+<node TEXT="Liens" FOLDED="true" ID="ID_201165443" CREATED="1392060830241" MODIFIED="1392060832008">
+<attribute_layout VALUE_WIDTH="150"/>
+<node TEXT="../../Freeplane/Groovy/Introduction%20to%20Groovy.html" ID="ID_417267324" CREATED="1392031358771" MODIFIED="1392031358771" LINK="../../Freeplane/Groovy/Introduction%20to%20Groovy.html">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="../../Freeplane/Groovy/Introduction%20to%20Groovy%20Part%20II.html" ID="ID_415618333" CREATED="1392031358773" MODIFIED="1392031358773" LINK="../../Freeplane/Groovy/Introduction%20to%20Groovy%20Part%20II.html">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="../../Freeplane/Groovy/Introduction%20to%20Groovy,%20Part%203.html" ID="ID_1238997756" CREATED="1392031358776" MODIFIED="1392031358776" LINK="../../Freeplane/Groovy/Introduction%20to%20Groovy,%20Part%203.html"/>
+<node TEXT="../../Freeplane/Groovy/Scripting.html" ID="ID_1456662335" CREATED="1392031358781" MODIFIED="1392031358781" LINK="../../Freeplane/Groovy/Scripting.html"/>
+<node TEXT="../../Freeplane/Groovy/Scripting:_Example_scripts.html" ID="ID_1929828168" CREATED="1392031358784" MODIFIED="1392031358784" LINK="../../Freeplane/Groovy/Scripting:_Example_scripts.html"/>
+<node TEXT="../../Freeplane/Groovy/GroovyCookbook%20Dates%20and%20Times.html" ID="ID_870513175" CREATED="1392031358785" MODIFIED="1392031358785" LINK="../../Freeplane/Groovy/GroovyCookbook%20Dates%20and%20Times.html"/>
+<node TEXT="../../Freeplane/Groovy/GroovyCookBook%20Numbers.html" ID="ID_1881221550" CREATED="1392031358786" MODIFIED="1392031358786" LINK="../../Freeplane/Groovy/GroovyCookBook%20Numbers.html"/>
+<node TEXT="../../Freeplane/Groovy/Your_own_utility_script_library.html" ID="ID_294982036" CREATED="1392031358789" MODIFIED="1392031358789" LINK="../../Freeplane/Groovy/Your_own_utility_script_library.html">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+</node>
+<node TEXT="marquer une t&#xe2;che comme finie" ID="ID_1064920772" CREATED="1392060761268" MODIFIED="1392060782159">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="calcul automatique de l&apos;avanc&#xe9;e du projet" ID="ID_1347705556" CREATED="1392060761266" MODIFIED="1392060777128">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="v&#xe9;rification" ID="ID_870042913" CREATED="1392060761271" MODIFIED="1392060787267">
+<attribute_layout VALUE_WIDTH="150"/>
+<node TEXT="si les t&#xe2;ches pour le mois/semaine ne d&#xe9;passe pas le temps imparti" ID="ID_1199717818" CREATED="1392060761273" MODIFIED="1392060823259">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="si les projets peuvent tenir les dates finales" ID="ID_194013631" CREATED="1392060761275" MODIFIED="1392060827768">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+</node>
+<node TEXT="analyse du mois" ID="ID_1124484931" CREATED="1392060761277" MODIFIED="1392060791823">
+<attribute_layout VALUE_WIDTH="150"/>
+<node TEXT="comparer le pourcentage de chaque projet sur un mois (une p&#xe9;riode)" ID="ID_1883065912" CREATED="1392060761280" MODIFIED="1392060816689">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+</node>
+<node ID="ID_801086271" CREATED="1392060761281" MODIFIED="1392060797936"><richcontent TYPE="NODE">
 
 <html>
   <head>
     
   </head>
   <body>
-    <p>
-      Faire un script Groovy pour:
+    <p style="text-align: left">
+      optimiser le plugin GTD
     </p>
-    <ul>
-      <li>
-        calcul automatique de l'avanc&#233;e du projet
-      </li>
-      <li>
-        marquer une t&#226;che comme finie
-      </li>
-      <li>
-        v&#233;rification
-
-        <ul>
-          <li>
-            si les t&#226;ches pour le mois/semaine ne d&#233;passe pas le temps imparti
-          </li>
-          <li>
-            si les projets peuvent tenir les dates finales
-          </li>
-        </ul>
-      </li>
-      <li>
-        analyse du mois
-
-        <ul>
-          <li>
-            comparer le pourcentage de chaque projet sur un mois (une p&#233;riode)
-          </li>
-        </ul>
-      </li>
-      <li>
-        optimiser le plugin GTD
-
-        <ul>
-          <li>
-            trouver un syst&#232;me plus intelligent et automatique:
-
-            <ul>
-              <li>
-                doit sortir les t&#226;ches &#224; faire afin d'aboutir &#224; la r&#233;alisation des projets en fonction
-
-                <ul>
-                  <li>
-                    des objectifs
-                  </li>
-                  <li>
-                    des priorit&#233;s
-                  </li>
-                  <li>
-                    des deadlines
-                  </li>
-                  <li>
-                    &#224; revoir le syst&#232;me des dates - now, soon, someday -
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li>
-            pouvoir marquer la t&#226;che comme termin&#233;e
-          </li>
-        </ul>
-      </li>
-      <li>
-        g
-      </li>
-    </ul>
   </body>
 </html>
 
 </richcontent>
+<attribute_layout VALUE_WIDTH="150"/>
+<node TEXT="pouvoir marquer la t&#xe2;che comme termin&#xe9;e" ID="ID_1231931309" CREATED="1392060761293" MODIFIED="1392060810001">
+<attribute_layout VALUE_WIDTH="150"/>
 </node>
-<node TEXT="Sommets de la r&#xe9;ussite" FOLDED="true" ID="ID_455629769" CREATED="1375297476904" MODIFIED="1391417562152">
+<node TEXT="doit sortir les t&#xe2;ches &#xe0; faire afin d&apos;aboutir &#xe0; la r&#xe9;alisation des projets en fonction" ID="ID_891795923" CREATED="1392060761284" MODIFIED="1392060859244">
+<attribute_layout VALUE_WIDTH="150"/>
+<node TEXT="des objectifs" ID="ID_1018027173" CREATED="1392060761286" MODIFIED="1392060864197">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="des priorit&#xe9;s" ID="ID_241576002" CREATED="1392060761287" MODIFIED="1392060868283">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="des deadlines" ID="ID_1081710073" CREATED="1392060761290" MODIFIED="1392060871953">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="&#xe0; revoir le syst&#xe8;me des dates - now, soon, someday -" ID="ID_311847270" CREATED="1392060761291" MODIFIED="1392060876485">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+</node>
+</node>
+</node>
+<node TEXT="Sommets de la r&#xe9;ussite" ID="ID_455629769" CREATED="1375297476904" MODIFIED="1391417562152">
 <icon BUILTIN="gohome"/>
 <attribute_layout VALUE_WIDTH="125"/>
 <attribute NAME="Where" VALUE="home"/>
@@ -2518,7 +2511,7 @@
 <attribute NAME="When" VALUE="soon"/>
 </node>
 </node>
-<node TEXT="2013" FOLDED="true" ID="ID_603823068" CREATED="1388104361762" MODIFIED="1388104363285">
+<node TEXT="2013" ID="ID_603823068" CREATED="1388104361762" MODIFIED="1388104363285">
 <attribute_layout VALUE_WIDTH="150"/>
 <node TEXT="B&#xe9;n&#xe9;dicte Ann - Je m&apos;autorise &#xe0; &#xea;tre heureux en amour.mp3" ID="ID_1917661349" CREATED="1388104412908" MODIFIED="1391417295837" LINK="../../D&#xe9;veloppement%20personnel/Sommet%20de%20la%20reussite/2013/B&#xe9;n&#xe9;dicte%20Ann%20-%20Je%20m&apos;autorise%20&#xe0;%20&#xea;tre%20heureux%20en%20amour.mp3">
 <icon BUILTIN="password"/>
@@ -3084,7 +3077,7 @@
 <node TEXT="http://www.homeoint.org/books5/langue/" ID="ID_1500481384" CREATED="1390924314423" MODIFIED="1390924314423" LINK="http://www.homeoint.org/books5/langue/"/>
 <node TEXT="http://www.homeoint.org/cgh/index.htm" ID="ID_121051509" CREATED="1390924321971" MODIFIED="1390924321971" LINK="http://www.homeoint.org/cgh/index.htm"/>
 </node>
-<node TEXT="GTD" FOLDED="true" POSITION="left" ID="ID_1249779750" CREATED="1375687987128" MODIFIED="1389207734631" LINK="../M&#xe9;moire/Livres/Getting%20Things%20Done.mm" HGAP="1174" VSHIFT="10">
+<node TEXT="GTD" POSITION="left" ID="ID_1249779750" CREATED="1375687987128" MODIFIED="1389207734631" LINK="../M&#xe9;moire/Livres/Getting%20Things%20Done.mm" HGAP="1174" VSHIFT="10">
 <edge STYLE="hide_edge" COLOR="#00ff00"/>
 <attribute_layout VALUE_WIDTH="150"/>
 <cloud COLOR="#f0f0f0" SHAPE="ARC"/>
@@ -3754,6 +3747,9 @@
 <attribute NAME="Who" VALUE="perso"/>
 <attribute NAME="When" VALUE="soon"/>
 <attribute NAME="Date" VALUE=""/>
+<node TEXT="Personal MBA" ID="ID_1254317339" CREATED="1392031331187" MODIFIED="1392055942282" LINK="http://www.des-livres-pour-changer-de-vie.fr/personal-mba/">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
 </node>
 </node>
 </node>
