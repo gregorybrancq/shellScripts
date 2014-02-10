@@ -1,6 +1,6 @@
 <map version="freeplane 1.2.0">
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
-<node LOCALIZED_STYLE_REF="AutomaticLayout.level.root" FOLDED="false" ID="ID_1723255651" CREATED="1283093380553" MODIFIED="1369421608120" MAX_WIDTH="600" MIN_WIDTH="150" COLOR="#990099"><richcontent TYPE="NODE">
+<node LOCALIZED_STYLE_REF="AutomaticLayout.level.root" FOLDED="false" ID="ID_1723255651" CREATED="1283093380553" MODIFIED="1391926769038" MAX_WIDTH="600" MIN_WIDTH="150" COLOR="#990099"><richcontent TYPE="NODE">
 
 <html>
   <head>
@@ -12,6 +12,7 @@
     </p>
   </body>
 </html>
+
 </richcontent>
 <font SIZE="22" BOLD="true"/>
 <hook NAME="MapStyle">
