@@ -49,7 +49,7 @@
 </stylenode>
 </map_styles>
 </hook>
-<hook NAME="AutomaticEdgeColor" COUNTER="2"/>
+<hook NAME="AutomaticEdgeColor" COUNTER="3"/>
 <hook NAME="accessories/plugins/AutomaticLayout.properties" VALUE="ALL"/>
 <attribute_layout VALUE_WIDTH="125"/>
 <node TEXT="Lu" POSITION="right" ID="ID_18316218" CREATED="1378321696756" MODIFIED="1378321698455">
@@ -68,15 +68,69 @@
 <attribute_layout VALUE_WIDTH="125"/>
 </node>
 </node>
-<node TEXT="R&#xe9;sum&#xe9;" POSITION="right" ID="ID_1026808583" CREATED="1391626574322" MODIFIED="1391700007947" HGAP="8" VSHIFT="80">
+<node TEXT="R&#xe9;sum&#xe9;" POSITION="right" ID="ID_1026808583" CREATED="1391626574322" MODIFIED="1391626578039">
 <edge COLOR="#0000ff"/>
 <attribute_layout VALUE_WIDTH="125"/>
+<node TEXT="Personal MBA de Des Livres Pour Changer de Vie" ID="ID_479603083" CREATED="1392055860515" MODIFIED="1392055892431" LINK="http://www.des-livres-pour-changer-de-vie.fr/personal-mba/">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
 <node TEXT="&quot;Ready, fire, aim&quot; de Michael Masterson" ID="ID_1768795074" CREATED="1391626580075" MODIFIED="1391626833207" LINK="Ready,%20Fire,%20Aim.mm">
 <attribute_layout VALUE_WIDTH="125"/>
+</node>
+<node TEXT="&quot;Getting everything you can out of all you&apos;ve got&quot; de Jay Abraham" ID="ID_919357306" CREATED="1392050533115" MODIFIED="1392050583671" LINK="http://www.des-livres-pour-changer-de-vie.fr/getting-everything-you-can-out-of-all-youve-got/">
+<icon BUILTIN="pencil"/>
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="&quot;The Path of Least Resistance&quot; de Robert Fritz part1" ID="ID_1002300038" CREATED="1392031331190" MODIFIED="1392056039685">
+<icon BUILTIN="pencil"/>
+<attribute_layout VALUE_WIDTH="150"/>
+<node TEXT="part1" ID="ID_1266067728" CREATED="1392031331190" MODIFIED="1392056046020" LINK="http://www.des-livres-pour-changer-de-vie.fr/the-path-of-least-resistance-apprendre-a-devenir-la-force-creative-de-votre-propre-vie-1/">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="part2" ID="ID_1505434705" CREATED="1392031331190" MODIFIED="1392056077418" LINK="http://www.des-livres-pour-changer-de-vie.fr/the-path-of-least-resistance-apprendre-a-devenir-la-force-creative-de-votre-propre-vie-2/">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+</node>
+<node TEXT="&quot;The New Business Road Test&quot; de John W. Mullins" ID="ID_1386313133" CREATED="1392056094735" MODIFIED="1392056183953" LINK="http://www.des-livres-pour-changer-de-vie.fr/the-new-business-road-test/">
+<icon BUILTIN="pencil"/>
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="&quot;3D Negotiation&quot; de David A.Lan" ID="ID_792677817" CREATED="1392056094735" MODIFIED="1392056412522" LINK="http://www.des-livres-pour-changer-de-vie.fr/3d-negotiation-david-a-lan-james-sebenius-1/">
+<icon BUILTIN="pencil"/>
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="&quot;Bargaining for Advantage (N&#xe9;gocier &#xe0; son avantage)&quot; &#x2013; G. Richard Shell" ID="ID_1309410650" CREATED="1392056094735" MODIFIED="1392056459616" LINK="http://www.des-livres-pour-changer-de-vie.fr/bargaining-for-advantage-g-richard-shell/">
+<icon BUILTIN="pencil"/>
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="&quot;Indispensable&quot; &#x2013; Joe Calloway" ID="ID_1451089050" CREATED="1392056094735" MODIFIED="1392056503874" LINK="http://www.des-livres-pour-changer-de-vie.fr/indispensable-joe-calloway/">
+<icon BUILTIN="pencil"/>
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="&quot;The unwritten laws of Business&quot; &#x2013; W. J. King" ID="ID_1615329557" CREATED="1392056094735" MODIFIED="1392056556324" LINK="http://www.des-livres-pour-changer-de-vie.fr/the-unwritten-laws-of-business/">
+<icon BUILTIN="pencil"/>
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="&quot;45 m&#xe9;thodes efficaces pour Recruter avec discernement&quot; &#x2013; Pierre Mornell" ID="ID_230610102" CREATED="1392056094735" MODIFIED="1392056628506" LINK="http://www.des-livres-pour-changer-de-vie.fr/45-methodes-efficaces-pour-recruter-avec-discernement/">
+<icon BUILTIN="pencil"/>
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="&quot;L&#x2019;Efficacit&#xe9;, Objectif Num&#xe9;ro 1 des Cadres&quot; &#x2013; Peter F. Drucker" ID="ID_833184333" CREATED="1392056094735" MODIFIED="1392056683740" LINK="http://www.des-livres-pour-changer-de-vie.fr/l-efficacite-objectif-numero-1-des-cadres/">
+<icon BUILTIN="pencil"/>
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="&quot;Personal Development for Smart People&quot; &#x2013; Steve Pavlina" ID="ID_1327998484" CREATED="1392056094735" MODIFIED="1392056721386" LINK="http://www.des-livres-pour-changer-de-vie.fr/personal-development-for-smart-people/">
+<icon BUILTIN="pencil"/>
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="&quot;Strat&#xe9;gies de prosp&#xe9;rit&#xe9;&quot; &#x2013; Jim Rohn" ID="ID_1044462959" CREATED="1392056094735" MODIFIED="1392056763154" LINK="http://www.des-livres-pour-changer-de-vie.fr/strategies-de-prosperite/">
+<icon BUILTIN="pencil"/>
+<attribute_layout VALUE_WIDTH="150"/>
 </node>
 </node>
 <node TEXT="A Lire" POSITION="left" ID="ID_1399165877" CREATED="1378321707702" MODIFIED="1378321711291">
 <edge COLOR="#007c7c"/>
+<attribute_layout VALUE_WIDTH="125"/>
 <node ID="ID_1932743776" CREATED="1375297420933" MODIFIED="1375297420933"><richcontent TYPE="NODE">
 
 <html>
