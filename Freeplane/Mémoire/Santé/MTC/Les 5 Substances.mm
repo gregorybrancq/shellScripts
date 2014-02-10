@@ -15,7 +15,7 @@
 </richcontent>
 <font SIZE="16"/>
 <edge STYLE="hide_edge" COLOR="#808080" WIDTH="thin"/>
-<hook NAME="MapStyle">
+<hook NAME="MapStyle" zoom="0.908">
     <properties show_note_icons="true"/>
 
 <map_styles>
@@ -201,6 +201,7 @@
   </body>
 </html>
 </richcontent>
+<attribute_layout VALUE_WIDTH="150"/>
 </node>
 <node TEXT="Jing acquis (aspect yin)" ID="ID_1212650362" CREATED="1359397208600" MODIFIED="1359397262522"/>
 </node>
@@ -287,7 +288,7 @@
 </richcontent>
 <attribute_layout VALUE_WIDTH="125"/>
 </node>
-<node ID="ID_698402007" CREATED="1338824294204" MODIFIED="1359398294916" COLOR="#111111"><richcontent TYPE="NODE">
+<node ID="ID_698402007" CREATED="1338824294204" MODIFIED="1391795377261" COLOR="#111111"><richcontent TYPE="NODE">
 
 <html>
   <head>
@@ -295,10 +296,11 @@
   </head>
   <body>
     <p>
-      <font color="#cc00cc">Ye liquides</font>
+      <font color="#cc00cc">Ye liquides denses</font>
     </p>
   </body>
 </html>
+
 </richcontent>
 <font SIZE="12"/>
 <richcontent TYPE="DETAILS">
@@ -317,6 +319,7 @@
   </body>
 </html>
 </richcontent>
+<attribute_layout VALUE_WIDTH="150"/>
 </node>
 <node ID="ID_96830118" CREATED="1338824294204" MODIFIED="1363622730888" COLOR="#111111" HGAP="15" VSHIFT="-79"><richcontent TYPE="NODE">
 

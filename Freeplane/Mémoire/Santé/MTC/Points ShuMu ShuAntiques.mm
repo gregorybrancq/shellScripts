@@ -16,7 +16,7 @@
   </body>
 </html>
 </richcontent>
-<hook NAME="MapStyle" zoom="0.826">
+<hook NAME="MapStyle" zoom="0.908">
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node">
@@ -364,10 +364,10 @@
 <hook NAME="FreeNode"/>
 <hook URI="img/pts%20shu%20antique%20yin.jpg" SIZE="1.0" NAME="ExternalObject"/>
 </node>
-<node TEXT="Relations" ID="ID_1260973571" CREATED="1372695207794" MODIFIED="1372697523730" HGAP="178" VSHIFT="92">
-<hook URI="img/pts%20shu%20antique%20relation.jpg" SIZE="1.0" NAME="ExternalObject"/>
+<node TEXT="Relations" ID="ID_1260973571" CREATED="1372695207794" MODIFIED="1391797660182" HGAP="178" VSHIFT="92">
 <hook NAME="FreeNode"/>
 <attribute_layout VALUE_WIDTH="125"/>
+<hook URI="img/pts%20shu%20antique%20relation.jpg" SIZE="1.0" NAME="ExternalObject"/>
 </node>
 </node>
 </node>

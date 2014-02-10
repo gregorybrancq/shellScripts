@@ -63,7 +63,7 @@
 </stylenode>
 </map_styles>
 </hook>
-<hook NAME="AutomaticEdgeColor" COUNTER="8"/>
+<hook NAME="AutomaticEdgeColor" COUNTER="9"/>
 <hook NAME="accessories/plugins/AutomaticLayout.properties" VALUE="ALL"/>
 <attribute_layout VALUE_WIDTH="125"/>
 <richcontent TYPE="DETAILS">
@@ -79,7 +79,14 @@
   </body>
 </html>
 </richcontent>
-<node POSITION="left" ID="ID_935148917" CREATED="1357488124000" MODIFIED="1373047848182" HGAP="257" VSHIFT="-220" MAX_WIDTH="600" MIN_WIDTH="1"><richcontent TYPE="NODE">
+<node TEXT="M&#xe9;ridiens" POSITION="left" ID="ID_935148917" CREATED="1357488124000" MODIFIED="1391798216136" HGAP="257" VSHIFT="-270" MAX_WIDTH="600" MIN_WIDTH="1">
+<icon BUILTIN="pencil"/>
+<edge COLOR="#0000ff"/>
+<hook NAME="FreeNode"/>
+<attribute_layout VALUE_WIDTH="150"/>
+<node ID="ID_1834206126" CREATED="1380217443263" MODIFIED="1391796064093">
+<icon BUILTIN="pencil"/>
+<richcontent TYPE="NODE">
 
 <html>
   <head>
@@ -87,13 +94,16 @@
   </head>
   <body>
     <p>
-      <a href="M&#xe9;ridiens.mm">Acupuncture</a>
+      <a href="Les%20M&#xe9;ridiens.mm">Les M&#233;ridiens</a>
     </p>
   </body>
 </html>
 </richcontent>
-<edge COLOR="#0000ff"/>
-<hook NAME="FreeNode"/>
+<attribute_layout VALUE_WIDTH="125"/>
+</node>
+<node TEXT="Localisation des pts (&#xe0; supprimer)" ID="ID_1059883701" CREATED="1391797990683" MODIFIED="1391798016798" LINK="M&#xe9;ridiens.mm">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
 <node ID="ID_1873915565" CREATED="1371404565907" MODIFIED="1371404576634"><richcontent TYPE="NODE">
 
 <html>
@@ -107,6 +117,58 @@
   </body>
 </html>
 </richcontent>
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node ID="ID_886523867" CREATED="1372680726995" MODIFIED="1391798171529">
+<icon BUILTIN="pencil"/>
+<richcontent TYPE="NODE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      <a href="Points%20d'acu.mm">Points d'acupuncture</a>
+    </p>
+  </body>
+</html>
+</richcontent>
+<attribute_layout VALUE_WIDTH="150"/>
+<richcontent TYPE="DETAILS">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <ul>
+      <li>
+        mettre la localisation des pts
+      </li>
+    </ul>
+  </body>
+</html>
+
+</richcontent>
+</node>
+<node ID="ID_840349603" CREATED="1373047798166" MODIFIED="1391798200732">
+<icon BUILTIN="pencil"/>
+<richcontent TYPE="NODE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      <a href="Points%20Sp&#xe9;cifiques.mm">Points sp&#233;cifiques</a>
+    </p>
+  </body>
+</html>
+
+</richcontent>
+<attribute_layout VALUE_WIDTH="150"/>
 </node>
 <node ID="ID_1711913456" CREATED="1373207852117" MODIFIED="1373207868637"><richcontent TYPE="NODE">
 
@@ -121,34 +183,7 @@
   </body>
 </html>
 </richcontent>
-</node>
-<node ID="ID_886523867" CREATED="1372680726995" MODIFIED="1373217656745"><richcontent TYPE="NODE">
-
-<html>
-  <head>
-    
-  </head>
-  <body>
-    <p>
-      <a href="Points%20d'acu.mm">Points d'acupuncture</a>
-    </p>
-  </body>
-</html>
-</richcontent>
-</node>
-<node ID="ID_840349603" CREATED="1373047798166" MODIFIED="1373205828448"><richcontent TYPE="NODE">
-
-<html>
-  <head>
-    
-  </head>
-  <body>
-    <p>
-      <a href="Points%20Sp&#xe9;cifiques.mm">pts sp&#233;cifiques</a>
-    </p>
-  </body>
-</html>
-</richcontent>
+<attribute_layout VALUE_WIDTH="150"/>
 </node>
 </node>
 <node TEXT="Pharmacop&#xe9;e" POSITION="left" ID="ID_1265673082" CREATED="1357488161359" MODIFIED="1391180812382" HGAP="256" VSHIFT="-78" LINK="Produits.mm">
@@ -511,7 +546,9 @@
 </richcontent>
 <attribute_layout VALUE_WIDTH="125"/>
 </node>
-<node ID="ID_633220679" CREATED="1372675043856" MODIFIED="1372697542758"><richcontent TYPE="NODE">
+<node ID="ID_633220679" CREATED="1372675043856" MODIFIED="1391797798380">
+<icon BUILTIN="pencil"/>
+<richcontent TYPE="NODE">
 
 <html>
   <head>
@@ -525,21 +562,25 @@
 </html>
 </richcontent>
 <attribute_layout VALUE_WIDTH="125"/>
-</node>
-<node ID="ID_1834206126" CREATED="1380217443263" MODIFIED="1389636168816"><richcontent TYPE="NODE">
+<richcontent TYPE="DETAILS">
 
 <html>
   <head>
     
   </head>
   <body>
-    <p>
-      <a href="Les%20M&#xe9;ridiens.mm">Les M&#233;ridiens</a>
-    </p>
+    <ul>
+      <li>
+        d&#233;finir un graphe pour les pts shu antiques
+      </li>
+      <li>
+        trouver un sch&#233;ma pour le flot du Qi
+      </li>
+    </ul>
   </body>
 </html>
+
 </richcontent>
-<attribute_layout VALUE_WIDTH="125"/>
 </node>
 </node>
 <node POSITION="right" ID="ID_305686495" CREATED="1358010958743" MODIFIED="1371193455481" HGAP="50" VSHIFT="-20"><richcontent TYPE="NODE">
@@ -637,7 +678,7 @@
 <attribute_layout VALUE_WIDTH="125"/>
 </node>
 </node>
-<node POSITION="right" ID="ID_506865576" CREATED="1357495020872" MODIFIED="1389809257950" VSHIFT="40"><richcontent TYPE="NODE">
+<node POSITION="right" ID="ID_506865576" CREATED="1357495020872" MODIFIED="1391798112255" HGAP="80" VSHIFT="40"><richcontent TYPE="NODE">
 
 <html>
   <head>

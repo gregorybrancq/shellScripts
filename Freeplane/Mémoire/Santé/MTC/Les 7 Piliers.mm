@@ -68,43 +68,43 @@
 </hook>
 <hook NAME="accessories/plugins/AutomaticLayout.properties" VALUE="ALL"/>
 <attribute_layout VALUE_WIDTH="125"/>
-<node TEXT="Spirituel" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" POSITION="left" ID="ID_884350601" CREATED="1362381712216" MODIFIED="1389265226494" HGAP="410" VSHIFT="-285">
+<node TEXT="Spirituel" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" POSITION="left" ID="ID_884350601" CREATED="1362381712216" MODIFIED="1391794817216" HGAP="430" VSHIFT="-285">
 <attribute_layout VALUE_WIDTH="150"/>
 <hook URI="logo/spirituel.jpg" SIZE="1.0" NAME="ExternalObject"/>
 <hook NAME="FreeNode"/>
 <edge STYLE="hide_edge"/>
 </node>
-<node TEXT="Amour" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" POSITION="left" ID="ID_1631658807" CREATED="1362381694357" MODIFIED="1389265298468" HGAP="540" VSHIFT="-110">
-<attribute_layout VALUE_WIDTH="150"/>
-<hook URI="logo/amour.png" SIZE="1.0" NAME="ExternalObject"/>
-<hook NAME="FreeNode"/>
-<edge STYLE="hide_edge"/>
-</node>
-<node TEXT="Sant&#xe9;" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" POSITION="left" ID="ID_421011414" CREATED="1362381705544" MODIFIED="1389265301046" HGAP="280" VSHIFT="-110">
+<node TEXT="Sant&#xe9;" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" POSITION="left" ID="ID_421011414" CREATED="1362381705544" MODIFIED="1391794812002" HGAP="300" VSHIFT="-120">
 <attribute_layout VALUE_WIDTH="150"/>
 <hook URI="logo/sant&#xe9;.jpg" SIZE="1.0" NAME="ExternalObject"/>
 <hook NAME="FreeNode"/>
 <edge STYLE="hide_edge"/>
 </node>
-<node TEXT="Famille" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" POSITION="left" ID="ID_612291930" CREATED="1362381678193" MODIFIED="1389265304123" HGAP="400" VSHIFT="30">
+<node TEXT="Amour" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" POSITION="left" ID="ID_1631658807" CREATED="1362381694357" MODIFIED="1391794831143" HGAP="570" VSHIFT="-110">
+<attribute_layout VALUE_WIDTH="150"/>
+<hook URI="logo/amour.png" SIZE="1.0" NAME="ExternalObject"/>
+<hook NAME="FreeNode"/>
+<edge STYLE="hide_edge"/>
+</node>
+<node TEXT="Famille" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" POSITION="left" ID="ID_612291930" CREATED="1362381678193" MODIFIED="1391794820286" HGAP="420" VSHIFT="20">
 <attribute_layout VALUE_WIDTH="150"/>
 <hook URI="logo/famille.jpg" SIZE="1.0" NAME="ExternalObject"/>
 <hook NAME="FreeNode"/>
 <edge STYLE="hide_edge"/>
 </node>
-<node TEXT="Professionnel" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" POSITION="left" ID="ID_6899964" CREATED="1362381707254" MODIFIED="1389265306174" HGAP="270" VSHIFT="160">
+<node TEXT="Professionnel" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" POSITION="left" ID="ID_6899964" CREATED="1362381707254" MODIFIED="1391794822997" HGAP="290" VSHIFT="150">
 <attribute_layout VALUE_WIDTH="150"/>
 <hook URI="logo/professionnel.jpg" SIZE="1.0" NAME="ExternalObject"/>
 <hook NAME="FreeNode"/>
 <edge STYLE="hide_edge"/>
 </node>
-<node TEXT="Social" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" POSITION="left" ID="ID_347349158" CREATED="1362381703525" MODIFIED="1389265309884" HGAP="540" VSHIFT="160">
+<node TEXT="Social" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" POSITION="left" ID="ID_347349158" CREATED="1362381703525" MODIFIED="1391794826926" HGAP="570" VSHIFT="160">
 <attribute_layout VALUE_WIDTH="150"/>
 <hook URI="logo/social.jpg" SIZE="1.0" NAME="ExternalObject"/>
 <hook NAME="FreeNode"/>
 <edge STYLE="hide_edge"/>
 </node>
-<node TEXT="Finance" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" POSITION="left" ID="ID_717454813" CREATED="1362381696982" MODIFIED="1389265311817" HGAP="410" VSHIFT="270">
+<node TEXT="Finance" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" POSITION="left" ID="ID_717454813" CREATED="1362381696982" MODIFIED="1391794824707" HGAP="430" VSHIFT="280">
 <attribute_layout VALUE_WIDTH="150"/>
 <hook URI="logo/finance.gif" SIZE="1.0" NAME="ExternalObject"/>
 <hook NAME="FreeNode"/>
@@ -124,6 +124,7 @@
 </node>
 <node TEXT="Savoir faire l&#x2019;amour" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" POSITION="right" ID="ID_421050246" CREATED="1335029417537" MODIFIED="1362381758093">
 <edge WIDTH="thin"/>
+<attribute_layout VALUE_WIDTH="150"/>
 </node>
 <node TEXT="Savoir ma&#xee;triser son esprit" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" POSITION="right" ID="ID_868485304" CREATED="1335029417536" MODIFIED="1362381758099">
 <edge WIDTH="thin"/>

@@ -1,7 +1,7 @@
 <map version="freeplane 1.2.0">
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
 <node TEXT="QI, SANG, LO, YIN/YANG" FOLDED="false" ID="ID_1723255651" CREATED="1283093380553" MODIFIED="1391185369553"><hook NAME="MapStyle" zoom="0.751">
-    <properties show_note_icons="true" show_icon_for_attributes="true"/>
+    <properties show_icon_for_attributes="true" show_note_icons="true"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node">
@@ -223,7 +223,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -382,7 +381,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -428,7 +426,6 @@
     </table>
   </body>
 </html>
-
 </richcontent>
 <attribute_layout VALUE_WIDTH="150"/>
 <node TEXT="Sympt&#xf4;mes" ID="ID_466922955" CREATED="1358186068068" MODIFIED="1359533457896"><richcontent TYPE="DETAILS">
@@ -563,7 +560,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -820,7 +816,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -844,7 +839,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -864,7 +858,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -884,7 +877,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -904,7 +896,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -992,7 +983,6 @@
     </table>
   </body>
 </html>
-
 </richcontent>
 <attribute_layout VALUE_WIDTH="125"/>
 <edge COLOR="#007c00"/>
@@ -1146,7 +1136,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -1263,7 +1252,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -1373,7 +1361,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -1483,7 +1470,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -1519,7 +1505,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -1560,7 +1545,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>

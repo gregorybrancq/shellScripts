@@ -121,6 +121,7 @@
   </body>
 </html>
 </richcontent>
+<attribute_layout VALUE_WIDTH="150"/>
 </node>
 <node TEXT="Pl&#xe9;nitude de Yang" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" ID="ID_1144245939" CREATED="1335032080016" MODIFIED="1373203868447" HGAP="82" VSHIFT="53">
 <edge STYLE="bezier" WIDTH="thin"/>
@@ -221,7 +222,7 @@
   </body>
 </html>
 </richcontent>
-<node TEXT="due &#xe0; la malnutrition du corps, des visc&#xe8;res et des tissus" ID="ID_548435837" CREATED="1373203140697" MODIFIED="1373269412702" HGAP="140" VSHIFT="50"><richcontent TYPE="DETAILS">
+<node TEXT="d&#xfb;e &#xe0; la malnutrition du corps, des visc&#xe8;res et des tissus" ID="ID_548435837" CREATED="1373203140697" MODIFIED="1391795579510" HGAP="140" VSHIFT="50"><richcontent TYPE="DETAILS">
 
 <html>
   <head>

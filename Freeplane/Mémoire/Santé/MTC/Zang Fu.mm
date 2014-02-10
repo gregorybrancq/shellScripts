@@ -152,11 +152,13 @@
 <node TEXT="stocke le sang" ID="ID_1089560249" CREATED="1371192489609" MODIFIED="1371192493813"/>
 <node TEXT="assure le bon fonctionnement du chong mai et ren mai &quot;la mer du sang&quot;" ID="ID_807907261" CREATED="1358201710939" MODIFIED="1371192752731">
 <font SIZE="12"/>
+<attribute_layout VALUE_WIDTH="150"/>
 </node>
 <node TEXT="gouverne le drainage et la dispersion" ID="ID_1611687468" CREATED="1338531375451" MODIFIED="1371192780962" COLOR="#990000">
 <font SIZE="12"/>
+<attribute_layout VALUE_WIDTH="150"/>
 </node>
-<node TEXT="fait circuler pour entretenir le mouvement du Qi &amp; du&#xa; Sang" ID="ID_1594262567" CREATED="1358201565447" MODIFIED="1380216774089" COLOR="#990000">
+<node TEXT="fait circuler pour entretenir le mouvement du Qi &amp; du&#xa; Sang" ID="ID_1594262567" CREATED="1358201565447" MODIFIED="1391796520952" COLOR="#990000" MAX_WIDTH="1000" MIN_WIDTH="1">
 <font SIZE="12"/>
 <attribute_layout VALUE_WIDTH="125"/>
 </node>
@@ -449,8 +451,9 @@
 <node TEXT="diffusion des fluides et de l&apos;essence des aliments" ID="ID_1244879936" CREATED="1338532529000" MODIFIED="1338532542641" COLOR="#111111">
 <font SIZE="12"/>
 </node>
-<node TEXT="propulsion et r&#xe9;gulation Qi et du Sang" ID="ID_1833915783" CREATED="1338532544390" MODIFIED="1338532553941" COLOR="#111111">
+<node TEXT="propulsion et r&#xe9;gulation du Qi et du Sang" ID="ID_1833915783" CREATED="1338532544390" MODIFIED="1391796886104" COLOR="#111111">
 <font SIZE="12"/>
+<attribute_layout VALUE_WIDTH="150"/>
 </node>
 <node TEXT="fait circuler Ying Qi &amp; Wei Qi" ID="ID_585527934" CREATED="1338532573233" MODIFIED="1338532588106" COLOR="#111111">
 <font SIZE="12"/>
@@ -491,6 +494,7 @@
 </node>
 <node TEXT="production du Qi et du Sang" ID="ID_679204192" CREATED="1338532608240" MODIFIED="1338532619014" COLOR="#111111">
 <font SIZE="12"/>
+<attribute_layout VALUE_WIDTH="150"/>
 </node>
 </node>
 <node ID="ID_749890323" CREATED="1338532028032" MODIFIED="1359898767413" COLOR="#111111" HGAP="19" VSHIFT="22"><richcontent TYPE="NODE">
@@ -525,9 +529,11 @@
 </richcontent>
 <node TEXT="excr&#xe9;tion" ID="ID_1965486220" CREATED="1338532642553" MODIFIED="1338532644764" COLOR="#111111">
 <font SIZE="12"/>
+<attribute_layout VALUE_WIDTH="150"/>
 </node>
 <node TEXT="s&#xe9;paration du Pur et du Trouble" ID="ID_254329699" CREATED="1338532623013" MODIFIED="1338532640274" COLOR="#111111">
 <font SIZE="12"/>
+<attribute_layout VALUE_WIDTH="150"/>
 </node>
 </node>
 </node>
@@ -633,7 +639,7 @@
 <font SIZE="12"/>
 </node>
 </node>
-<node ID="ID_329551489" CREATED="1338532790518" MODIFIED="1341329384818" COLOR="#990000" HGAP="30" VSHIFT="18"><richcontent TYPE="NODE">
+<node ID="ID_329551489" CREATED="1338532790518" MODIFIED="1391796962216" COLOR="#990000" HGAP="30" VSHIFT="18"><richcontent TYPE="NODE">
 
 <html>
   <head>
@@ -645,8 +651,10 @@
     </p>
   </body>
 </html>
+
 </richcontent>
 <font SIZE="14"/>
+<attribute_layout VALUE_WIDTH="150"/>
 <node TEXT="permettent la circulation du Qi et du Sang" ID="ID_447378496" CREATED="1338535137994" MODIFIED="1338535148295" COLOR="#111111">
 <font SIZE="12"/>
 </node>

@@ -49,12 +49,19 @@
 </stylenode>
 </map_styles>
 </hook>
-<hook NAME="AutomaticEdgeColor" COUNTER="1"/>
+<hook NAME="AutomaticEdgeColor" COUNTER="2"/>
 <attribute_layout VALUE_WIDTH="125"/>
 <hook NAME="accessories/plugins/AutomaticLayout.properties" VALUE="ALL"/>
 <node TEXT="Ils sont les voies de circulation du Qi et du sang dans tout l&apos;organisme" POSITION="right" ID="ID_1712490107" CREATED="1389636193035" MODIFIED="1389636217578">
 <edge COLOR="#ff0000"/>
 <attribute_layout VALUE_WIDTH="125"/>
+</node>
+<node TEXT="Circulation" POSITION="left" ID="ID_968863800" CREATED="1391797431472" MODIFIED="1391797435707">
+<edge COLOR="#0000ff"/>
+<attribute_layout VALUE_WIDTH="150"/>
+<node TEXT="P - GI - E - Rte - C - IG - V - R - MC - TR - VB - F" ID="ID_1179897197" CREATED="1391797438882" MODIFIED="1391797509609">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
 </node>
 </node>
 </map>
