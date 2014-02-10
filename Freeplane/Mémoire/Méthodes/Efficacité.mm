@@ -49,7 +49,7 @@
 </stylenode>
 </map_styles>
 </hook>
-<hook NAME="AutomaticEdgeColor" COUNTER="6"/>
+<hook NAME="AutomaticEdgeColor" COUNTER="7"/>
 <attribute_layout VALUE_WIDTH="125"/>
 <hook NAME="accessories/plugins/AutomaticLayout.properties" VALUE="ALL"/>
 <node TEXT="Efficace VS Performant" POSITION="right" ID="ID_1098608566" CREATED="1361889393751" MODIFIED="1391020723344">
@@ -96,72 +96,49 @@
 <icon BUILTIN="idea"/>
 </node>
 </node>
-<node TEXT="Id&#xe9;es qui collent" POSITION="left" ID="ID_1743414036" CREATED="1391020377973" MODIFIED="1391020814534">
+<node TEXT="Divers" POSITION="left" ID="ID_1111542259" CREATED="1391795860212" MODIFIED="1391795866485">
+<edge COLOR="#7c0000"/>
+<attribute_layout VALUE_WIDTH="150"/>
+<node TEXT="Id&#xe9;es qui collent" ID="ID_1743414036" CREATED="1391020377973" MODIFIED="1391795860257">
 <attribute_layout VALUE_WIDTH="125"/>
-<edge COLOR="#ff00ff"/>
-<node TEXT="De la simplicit&#xe9;" ID="ID_920407482" CREATED="1391020403419" MODIFIED="1391020471382">
+<node TEXT="De la simplicit&#xe9;" FOLDED="true" ID="ID_920407482" CREATED="1391020403419" MODIFIED="1391020471382">
 <attribute_layout VALUE_WIDTH="125"/>
 <node TEXT="Un grand avocat a d&#xe9;clar&#xe9; : &#xab; Si vous avancez dix arguments, m&#xea;me s&#x2019;ils sont tous pertinents, les jur&#xe9;s les auront tous oubli&#xe9;s quand ils retourneront dans la salle des d&#xe9;lib&#xe9;rations &#xbb;. Pour &#xea;tre simple, il faut effeuiller une id&#xe9;e jusqu&#x2019;&#xe0; son coeur, en excluant sans rel&#xe2;che." ID="ID_1548402805" CREATED="1391020392297" MODIFIED="1391020412886">
 <attribute_layout VALUE_WIDTH="125"/>
 </node>
 </node>
-<node TEXT="De l&#x2019;inattendu" ID="ID_1666268823" CREATED="1391020420749" MODIFIED="1391020423679">
+<node TEXT="De l&#x2019;inattendu" FOLDED="true" ID="ID_1666268823" CREATED="1391020420749" MODIFIED="1391020423679">
 <attribute_layout VALUE_WIDTH="125"/>
 <node TEXT="Pour attirer l&#x2019;attention, il faut d&#xe9;jouer les intuitions." ID="ID_1001353474" CREATED="1391020392297" MODIFIED="1391020419387">
 <attribute_layout VALUE_WIDTH="125"/>
 </node>
 </node>
-<node TEXT="Du concret" ID="ID_506421470" CREATED="1391020431252" MODIFIED="1391020434170">
+<node TEXT="Du concret" FOLDED="true" ID="ID_506421470" CREATED="1391020431252" MODIFIED="1391020434170">
 <attribute_layout VALUE_WIDTH="125"/>
 <node TEXT="Les id&#xe9;es naturellement adh&#xe9;sives regorgent d&#x2019;images concr&#xe8;tes. C&#x2019;est ici que la communication d&#x2019;entreprise se prend souvent les pieds dans le tapis." ID="ID_1026458770" CREATED="1391020392316" MODIFIED="1391020430229">
 <attribute_layout VALUE_WIDTH="125"/>
 </node>
 </node>
-<node TEXT="De la cr&#xe9;dibilit&#xe9;" ID="ID_1937367700" CREATED="1391020442272" MODIFIED="1391020444743">
+<node TEXT="De la cr&#xe9;dibilit&#xe9;" FOLDED="true" ID="ID_1937367700" CREATED="1391020442272" MODIFIED="1391020444743">
 <attribute_layout VALUE_WIDTH="125"/>
-<node TEXT="Si un ministre de la Sant&#xe9; parle d&#x2019;un probl&#xe8;me de sant&#xe9;, nous sommes dispos&#xe9; &#xe0; le croire. Mais nous ne sommes pas toujours nanti d&#x2019;une telle position d&#x2019;autorit&#xe9;. Nos id&#xe9;es doivent donc porter en elles-m&#xea;me leurs lettres de cr&#xe9;dit." ID="ID_1468632349" CREATED="1391020392319" MODIFIED="1391020441379">
+<node TEXT="Si un ministre de la Sant&#xe9; parle d&#x2019;un probl&#xe8;me de sant&#xe9;, nous sommes dispos&#xe9;s &#xe0; le croire. Mais nous ne sommes pas toujours nanti d&#x2019;une telle position d&#x2019;autorit&#xe9;. Nos id&#xe9;es doivent donc porter en elles-m&#xea;me leurs lettres de cr&#xe9;dit." ID="ID_1468632349" CREATED="1391020392319" MODIFIED="1391795670162">
 <attribute_layout VALUE_WIDTH="125"/>
 </node>
 </node>
-<node TEXT="De l&#x2019;&#xe9;motion" ID="ID_1578999934" CREATED="1391020452172" MODIFIED="1391020455535">
+<node TEXT="De l&#x2019;&#xe9;motion" FOLDED="true" ID="ID_1578999934" CREATED="1391020452172" MODIFIED="1391020455535">
 <attribute_layout VALUE_WIDTH="125"/>
 <node TEXT="Pour susciter de la passion pour nos id&#xe9;es, il faut faire ressentir quelque chose aux auditeurs ou aux lecteurs. Nous sommes faits pour &#xe9;prouver des choses pour les individus, par pour des abstractions." ID="ID_1641752109" CREATED="1391020392327" MODIFIED="1391020451182">
 <attribute_layout VALUE_WIDTH="125"/>
 </node>
 </node>
-<node TEXT="Une histoire" ID="ID_924682189" CREATED="1391020462875" MODIFIED="1391020465843">
+<node TEXT="Une histoire" FOLDED="true" ID="ID_924682189" CREATED="1391020462875" MODIFIED="1391020465843">
 <attribute_layout VALUE_WIDTH="125"/>
 <node TEXT="Entendre des histoires ou des anecdotes agit comme un simulateur de vol, en nous pr&#xe9;parant &#xe0; r&#xe9;agir plus vite et plus efficacement si une situation semblable se produit." ID="ID_582992623" CREATED="1391020392339" MODIFIED="1391020461219">
 <attribute_layout VALUE_WIDTH="125"/>
 </node>
 </node>
 </node>
-<node TEXT="Prendre des d&#xe9;cisions" POSITION="left" ID="ID_349290081" CREATED="1365616643435" MODIFIED="1391020840607">
-<attribute_layout VALUE_WIDTH="125"/>
-<edge COLOR="#00ffff"/>
-<node TEXT="prendre des d&#xe9;cisions" ID="ID_1938037778" CREATED="1365749414296" MODIFIED="1391022458406" LINK="file:/data/exports/users/gregory/Perso/Freeplane/M&#xe9;moire/Livres/La%20Semaine%20de%204%20Heures.mm#ID_1080287488">
-<attribute_layout VALUE_WIDTH="125"/>
-</node>
-<node TEXT="simple" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" ID="ID_474880310" CREATED="1337714629469" MODIFIED="1391022365519">
-<edge STYLE="bezier"/>
-<attribute_layout VALUE_WIDTH="125"/>
-<node TEXT="quelle est la pire cons&#xe9;quence possible de ce choix ?" LOCALIZED_STYLE_REF="AutomaticLayout.level,3" ID="ID_343384348" CREATED="1337714647477" MODIFIED="1391022383437">
-<attribute_layout VALUE_WIDTH="125"/>
-</node>
-<node TEXT="quelle est la probabilit&#xe9; de cette cons&#xe9;quence ?" LOCALIZED_STYLE_REF="AutomaticLayout.level,3" ID="ID_1652059988" CREATED="1337714647482" MODIFIED="1391022383439"/>
-<node TEXT="est-ce que c&#x2019;est un risque acceptable ?" LOCALIZED_STYLE_REF="AutomaticLayout.level,3" ID="ID_1755939188" CREATED="1337714647495" MODIFIED="1391022383441"/>
-</node>
-<node TEXT="compliqu&#xe9;" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" ID="ID_1266363441" CREATED="1337714648541" MODIFIED="1391022371409">
-<edge STYLE="bezier"/>
-<attribute_layout VALUE_WIDTH="125"/>
-<node TEXT="matrice des diff&#xe9;rents facteurs" LOCALIZED_STYLE_REF="AutomaticLayout.level,3" ID="ID_592538695" CREATED="1337714653982" MODIFIED="1391022383443"/>
-<node TEXT="mettre le poids a chaque facteur" LOCALIZED_STYLE_REF="AutomaticLayout.level,3" ID="ID_1605918560" CREATED="1337714695494" MODIFIED="1391022383428">
-<attribute_layout VALUE_WIDTH="125"/>
-</node>
-</node>
-</node>
-<node TEXT="7 Rules" POSITION="left" ID="ID_1545177158" CREATED="1391021063455" MODIFIED="1391022104735">
-<edge COLOR="#ffff00"/>
+<node TEXT="7 Rules" ID="ID_1545177158" CREATED="1391021063455" MODIFIED="1391795871667">
 <attribute_layout VALUE_WIDTH="125"/>
 <node TEXT="Be proactive" FOLDED="true" ID="ID_1341756476" CREATED="1391021804940" MODIFIED="1391021808849">
 <attribute_layout VALUE_WIDTH="125"/>
@@ -201,6 +178,31 @@
 <node TEXT="Sharpen the Saw" FOLDED="true" ID="ID_284162530" CREATED="1391022328945" MODIFIED="1391022330069">
 <attribute_layout VALUE_WIDTH="125"/>
 <node TEXT="Take time out from production to build production capacity through personal renewal of the physical, mental, social/emotional, and spiritual dimensions. Maintain a balance among these dimensions." ID="ID_1533312396" CREATED="1391022336016" MODIFIED="1391022336016"/>
+</node>
+</node>
+</node>
+<node TEXT="Prendre des d&#xe9;cisions" POSITION="left" ID="ID_349290081" CREATED="1365616643435" MODIFIED="1391020840607">
+<attribute_layout VALUE_WIDTH="125"/>
+<edge COLOR="#00ffff"/>
+<node TEXT="prendre des d&#xe9;cisions" ID="ID_1938037778" CREATED="1365749414296" MODIFIED="1391795806718" LINK="../Livres/La%20Semaine%20de%204%20Heures.mm">
+<attribute_layout VALUE_WIDTH="125"/>
+</node>
+<node TEXT="simple" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" ID="ID_474880310" CREATED="1337714629469" MODIFIED="1391022365519">
+<edge STYLE="bezier"/>
+<attribute_layout VALUE_WIDTH="125"/>
+<node TEXT="quelle est la pire cons&#xe9;quence possible de ce choix ?" LOCALIZED_STYLE_REF="AutomaticLayout.level,3" ID="ID_343384348" CREATED="1337714647477" MODIFIED="1391022383437">
+<attribute_layout VALUE_WIDTH="125"/>
+</node>
+<node TEXT="quelle est la probabilit&#xe9; de cette cons&#xe9;quence ?" LOCALIZED_STYLE_REF="AutomaticLayout.level,3" ID="ID_1652059988" CREATED="1337714647482" MODIFIED="1391022383439"/>
+<node TEXT="est-ce que c&#x2019;est un risque acceptable ?" LOCALIZED_STYLE_REF="AutomaticLayout.level,3" ID="ID_1755939188" CREATED="1337714647495" MODIFIED="1391022383441"/>
+</node>
+<node TEXT="compliqu&#xe9;" LOCALIZED_STYLE_REF="AutomaticLayout.level,2" ID="ID_1266363441" CREATED="1337714648541" MODIFIED="1391022371409">
+<edge STYLE="bezier"/>
+<attribute_layout VALUE_WIDTH="125"/>
+<node TEXT="matrice des diff&#xe9;rents facteurs" LOCALIZED_STYLE_REF="AutomaticLayout.level,3" ID="ID_592538695" CREATED="1337714653982" MODIFIED="1391022383443"/>
+<node TEXT="mettre le poids a chaque facteur" LOCALIZED_STYLE_REF="AutomaticLayout.level,3" ID="ID_1605918560" CREATED="1337714695494" MODIFIED="1391022383428">
+<attribute_layout VALUE_WIDTH="125"/>
+</node>
 </node>
 </node>
 </node>
