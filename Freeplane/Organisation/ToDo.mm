@@ -1412,7 +1412,7 @@
 <attribute NAME="When" VALUE="soon"/>
 </node>
 </node>
-<node TEXT="Admin" FOLDED="true" ID="ID_273197332" CREATED="1381130458295" MODIFIED="1391417562158">
+<node TEXT="Admin" ID="ID_273197332" CREATED="1381130458295" MODIFIED="1391417562158">
 <icon BUILTIN="button_ok"/>
 <attribute_layout VALUE_WIDTH="125"/>
 <attribute NAME="Date" VALUE="16/10/13"/>
@@ -1432,7 +1432,7 @@
 <attribute NAME="When" VALUE="now"/>
 <attribute NAME="Date" VALUE="16/10/13"/>
 </node>
-<node TEXT="Inscription MTC 4&#xe8;me ann&#xe9;e" FOLDED="true" ID="ID_1104874626" CREATED="1375297400964" MODIFIED="1391417295905">
+<node TEXT="Inscription MTC 4&#xe8;me ann&#xe9;e" ID="ID_1104874626" CREATED="1375297400964" MODIFIED="1391417295905">
 <icon BUILTIN="button_ok"/>
 <attribute_layout NAME_WIDTH="73" VALUE_WIDTH="88"/>
 <attribute NAME="Date" VALUE="08/10/13"/>
@@ -2376,7 +2376,7 @@
 <attribute_layout VALUE_WIDTH="150"/>
 </node>
 </node>
-<node TEXT="marquer une t&#xe2;che comme finie" ID="ID_1064920772" CREATED="1392060761268" MODIFIED="1392060782159">
+<node TEXT="marquer une t&#xe2;che comme finie" ID="ID_1064920772" CREATED="1392060761268" MODIFIED="1392069983968">
 <attribute_layout VALUE_WIDTH="150"/>
 </node>
 <node TEXT="calcul automatique de l&apos;avanc&#xe9;e du projet" ID="ID_1347705556" CREATED="1392060761266" MODIFIED="1392060777128">
@@ -2388,6 +2388,9 @@
 <attribute_layout VALUE_WIDTH="150"/>
 </node>
 <node TEXT="si les projets peuvent tenir les dates finales" ID="ID_194013631" CREATED="1392060761275" MODIFIED="1392060827768">
+<attribute_layout VALUE_WIDTH="150"/>
+</node>
+<node TEXT="si &quot;date&quot; est pr&#xe9;sent et que l&apos;ic&#xf4;ne &quot;button_ok&quot; n&apos;est pas l&#xe0;, rajouter l&apos;ic&#xf4;ne" ID="ID_1285903240" CREATED="1392074499398" MODIFIED="1392074554149">
 <attribute_layout VALUE_WIDTH="150"/>
 </node>
 </node>
@@ -2409,7 +2412,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 <attribute_layout VALUE_WIDTH="150"/>
 <node TEXT="pouvoir marquer la t&#xe2;che comme termin&#xe9;e" ID="ID_1231931309" CREATED="1392060761293" MODIFIED="1392060810001">
