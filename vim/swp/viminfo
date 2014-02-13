@@ -1,0 +1,580 @@
+# Ce fichier viminfo a été généré par Vim 7.3.
+# Vous pouvez l'éditer, mais soyez prudent.
+
+# 'encoding' dans lequel ce fichier a été écrit
+*encoding=utf-8
+
+
+# hlsearch on (H) or off (h):
+~h
+# Dernier motif de recherche  :
+~MSle0~/vimswp
+
+# Dernier motif de recherche Substitue  :
+~MSle0&\t
+
+# Dernières chaînes de substitution :
+$    
+
+# Historique ligne de commande (chronologie décroissante) :
+:q!
+:1
+:q
+:e ~/.cshrc
+:vsp
+:hsp
+:x
+:nohls
+:%s/\t/    
+:%s/\t/   
+:%s/\(.*\) -> \(.*\)perso\(.*\)/rm \1 \&\& ln -s \2env\3 \1
+:e Unpack_2014-01-18_22:40:56.240151.log
+:e Unpack_2014-01-18_22:39:36.563191.log
+:e Unpack_2014-01-18_22:37:59.288211.log
+:cd ~/Greg/work/perso/log
+:pwd
+:qa!
+:w
+:e calendar-views.css
+:%s/\([0-9]*\)\/\([0-9]*\)\/\([0-9]*\),/20\3-\2-\1,
+
+# Historique chaîne de recherche (chronologie décroissante) :
+?/vimswp
+?/VIM
+?/\$
+?/$
+?/.vim
+? \t
+?/\t
+? \(.*\) -> \(.*\)perso\(.*\)
+? \<statusInfo\>
+? \<allIcons\>
+? \<findOk\>
+?/gros
+?/suss
+?/bresson
+?/bie
+?/parente
+?/castay
+?/conj
+?/breton
+?/signoret
+
+# Historique expression (chronologie décroissante) :
+
+# Historique ligne de saisie (chronologie décroissante) :
+
+# Historique ligne de saisie (chronologie décroissante) :
+
+# Registres :
+"0	CHAR	0
+	attributes.getAttributeNames()
+"1	LINE	0
+	          git@bitbucket.org:gregory_brancq/gvdf.git
+"2	LINE	0
+	[user]
+		name = Gregory Brancq
+		email = gregory.brancq@free.fr
+		mail = gregory.brancq@free.fr
+"3	LINE	0
+	groovysh -> /opt/groovy/groovy-2.2.1/bin/groovysh*
+"4	LINE	0
+	groovyConsole -> /opt/groovy/groovy-2.2.1/bin/groovyConsole*
+"5	LINE	0
+	groovy -> /opt/groovy/groovy-2.2.1/bin/groovy*
+"6	LINE	0
+	freeplane -> /opt/freeplane/freeplane-1.2.23_01/freeplane.sh*
+"7	BLOCK	42
+	lrwxrwxrwx 1 greg greg   52 déc.  10 09:53 
+	lrwxrwxrwx 1 greg greg   52 déc.  10 09:53 
+	lrwxrwxrwx 1 greg greg   52 déc.  10 09:53 
+	lrwxrwxrwx 1 greg greg   53 déc.  10 09:53 
+	lrwxrwxrwx 1 greg greg   45 déc.  10 09:53 
+	lrwxrwxrwx 1 greg greg   47 janv.  7 12:11 
+	lrwxrwxrwx 1 greg greg   42 déc.  10 09:53 
+	lrwxrwxrwx 1 greg greg   35 févr. 10 21:05 
+	lrwxrwxrwx 1 greg greg   42 févr. 10 21:07 
+	lrwxrwxrwx 1 greg greg   37 févr. 10 21:06 
+	lrwxrwxrwx 1 greg greg   43 déc.  10 09:53 
+	lrwxrwxrwx 1 greg greg   47 déc.  10 09:53 
+	lrwxrwxrwx 1 greg greg   53 janv. 15 20:42 
+	lrwxrwxrwx 1 greg greg   49 déc.  10 09:53 
+	lrwxrwxrwx 1 greg greg   44 déc.  10 09:53 
+"8	LINE	0
+	-rwxrwxr-x 1 greg greg   63 juil. 30  2013 tomighty*
+"9	LINE	0
+	-rwxrwxr-x 1 greg greg  524 janv. 23 10:49 timeline*
+"a	LINE	0
+	264
+<						<span class="gauche">Website designed by <a href="index.html">grands-vins-de-france.fr</a> &copy; 2013</span><span class="droite"><a href="mentions.html">Mentions Légales</a> &nbsp; | &nbsp; <a href="vente.html">Conditions Générales de Vente</a></span>
+""-	CHAR	0
+	~greg/Greg/work/env/vim
+
+# Marques dans le fichier :
+'0  1  0  ~/.vimrc
+'1  77  16  ~/Greg/work/env/vim/vimrc.vim
+'2  7  29  ~/Greg/work/gvdf/local/www/.git/config
+'3  80  133  ~/Greg/work/gvdf/local/www/presentation.html
+'4  8  1  ~/Greg/work/gvdf/local/www/.git/config
+'5  20  3  ~/.gitconfig
+'6  6  31  ~/.local/share/applications/eclipse.desktop
+'7  30  0  ~/Greg/work/perso/Freeplane/Freeplane/scripts/taskFinished.groovy
+'8  7  0  /opt/groovy/groovy-2.2.1/bin/groovy
+'9  1  58  ~/.freeplane/1.2.x/scripts/testJython.py
+
+# Liste de sauts (le plus récent en premier) :
+-'  1  0  ~/.vimrc
+-'  77  16  ~/Greg/work/env/vim/vimrc.vim
+-'  158  22  ~/Greg/work/env/vim/vimrc.vim
+-'  540  0  ~/Greg/work/env/vim/vimrc.vim
+-'  442  13  ~/Greg/work/env/vim/vimrc.vim
+-'  441  13  ~/Greg/work/env/vim/vimrc.vim
+-'  439  13  ~/Greg/work/env/vim/vimrc.vim
+-'  157  24  ~/Greg/work/env/vim/vimrc.vim
+-'  149  17  ~/Greg/work/env/vim/vimrc.vim
+-'  513  12  ~/Greg/work/env/vim/vimrc.vim
+-'  511  12  ~/Greg/work/env/vim/vimrc.vim
+-'  505  58  ~/Greg/work/env/vim/vimrc.vim
+-'  489  51  ~/Greg/work/env/vim/vimrc.vim
+-'  479  3  ~/Greg/work/env/vim/vimrc.vim
+-'  476  46  ~/Greg/work/env/vim/vimrc.vim
+-'  473  22  ~/Greg/work/env/vim/vimrc.vim
+-'  470  10  ~/Greg/work/env/vim/vimrc.vim
+-'  444  12  ~/Greg/work/env/vim/vimrc.vim
+-'  443  12  ~/Greg/work/env/vim/vimrc.vim
+-'  302  22  ~/Greg/work/env/vim/vimrc.vim
+-'  150  8  ~/Greg/work/env/vim/vimrc.vim
+-'  55  57  ~/Greg/work/env/vim/vimrc.vim
+-'  54  35  ~/Greg/work/env/vim/vimrc.vim
+-'  402  37  ~/Greg/work/env/vim/vimrc.vim
+-'  393  42  ~/Greg/work/env/vim/vimrc.vim
+-'  330  50  ~/Greg/work/env/vim/vimrc.vim
+-'  176  25  ~/Greg/work/env/vim/vimrc.vim
+-'  59  28  ~/Greg/work/env/vim/vimrc.vim
+-'  49  36  ~/Greg/work/env/vim/vimrc.vim
+-'  48  12  ~/Greg/work/env/vim/vimrc.vim
+-'  36  47  ~/Greg/work/env/vim/vimrc.vim
+-'  28  11  ~/Greg/work/env/vim/vimrc.vim
+-'  1  0  ~/Greg/work/env/vim/vimrc.vim
+-'  7  29  ~/Greg/work/gvdf/local/www/.git/config
+-'  1  0  ~/Greg/work/gvdf/local/www/.git/config
+-'  80  133  ~/Greg/work/gvdf/local/www/presentation.html
+-'  1  0  ~/Greg/work/gvdf/local/www/presentation.html
+-'  8  1  ~/Greg/work/gvdf/local/www/.git/config
+-'  20  3  ~/.gitconfig
+-'  2  0  ~/.gitconfig
+-'  6  3  ~/.gitconfig
+-'  23  10  ~/.gitconfig
+-'  5  0  ~/.gitconfig
+-'  6  31  ~/.local/share/applications/eclipse.desktop
+-'  1  0  ~/.local/share/applications/eclipse.desktop
+-'  30  0  ~/Greg/work/perso/Freeplane/Freeplane/scripts/taskFinished.groovy
+-'  6  0  ~/Greg/work/perso/Freeplane/Freeplane/scripts/taskFinished.groovy
+-'  25  12  ~/Greg/work/perso/Freeplane/Freeplane/scripts/taskFinished.groovy
+-'  26  16  ~/Greg/work/perso/Freeplane/Freeplane/scripts/taskFinished.groovy
+-'  11  4  ~/Greg/work/perso/Freeplane/Freeplane/scripts/taskFinished.groovy
+-'  12  4  ~/Greg/work/perso/Freeplane/Freeplane/scripts/taskFinished.groovy
+-'  10  22  ~/Greg/work/perso/Freeplane/Freeplane/scripts/taskFinished.groovy
+-'  3  9  ~/Greg/work/perso/Freeplane/Freeplane/scripts/taskFinished.groovy
+-'  8  26  ~/Greg/work/perso/Freeplane/Freeplane/scripts/taskFinished.groovy
+-'  31  0  ~/Greg/work/perso/Freeplane/Freeplane/scripts/taskFinished.groovy
+-'  1  0  ~/Greg/work/perso/Freeplane/Freeplane/scripts/taskFinished.groovy
+-'  7  0  /opt/groovy/groovy-2.2.1/bin/groovy
+-'  1  0  /opt/groovy/groovy-2.2.1/bin/groovy
+-'  1  58  ~/.freeplane/1.2.x/scripts/testJython.py
+-'  44  37  ~/Greg/IMTC/Thèses/Analyse Scientifique et Energétique des Effets du Jeûne - Christophe Conjeaud.pdf
+-'  1  0  ~/Greg/IMTC/Thèses/Analyse Scientifique et Energétique des Effets du Jeûne - Christophe Conjeaud.pdf
+-'  1  0  /usr/lib/udev/rules.d/50-udev-default.rules
+-'  1  3  ~/Informatique/Nexus4/Tools/google-apps/gapps-jb-20130813/install-optional.sh
+-'  14  15  ~/.local/share/applications/opencellar.desktop
+-'  1  0  ~/.local/share/applications/opencellar.desktop
+-'  10  15  ~/.local/share/applications/opencellar.desktop
+-'  18  0  ~/Greg/A trier/Zen, La vida de Dogen - cd2 en.srt
+-'  1  0  ~/Greg/A trier/Zen, La vida de Dogen - cd2 en.srt
+-'  1  0  ~/output_gBLyWGqIkJY_1_en.srt
+-'  110  0  ~/Greg/Freeplane/Mémoire/Spirituel/Chakras.mm
+-'  195  6  ~/Greg/Freeplane/Mémoire/Spirituel/Chakras.mm
+-'  190  28  ~/Greg/Freeplane/Mémoire/Spirituel/Chakras.mm
+-'  175  0  ~/Greg/Freeplane/Mémoire/Spirituel/Chakras.mm
+-'  1  0  ~/Greg/Freeplane/Mémoire/Spirituel/Chakras.mm
+-'  59  0  ~/Documents/Ubuntu/reminder.txt
+-'  1  0  ~/Documents/Ubuntu/reminder.txt
+-'  16  0  ~/Config/Thunderbird/Install/xgk07gq1.default/chrome/calendar-views.css
+-'  1  0  ~/Config/Thunderbird/Install/xgk07gq1.default/chrome/calendar-views.css
+-'  1  0  ~/.local/share/applications/rescuetime.desktop
+-'  77  16  ~/Greg/work/env/vim/vimrc.vim
+-'  158  22  ~/Greg/work/env/vim/vimrc.vim
+-'  540  0  ~/Greg/work/env/vim/vimrc.vim
+-'  442  13  ~/Greg/work/env/vim/vimrc.vim
+-'  441  13  ~/Greg/work/env/vim/vimrc.vim
+-'  439  13  ~/Greg/work/env/vim/vimrc.vim
+-'  157  24  ~/Greg/work/env/vim/vimrc.vim
+-'  149  17  ~/Greg/work/env/vim/vimrc.vim
+-'  513  12  ~/Greg/work/env/vim/vimrc.vim
+-'  511  12  ~/Greg/work/env/vim/vimrc.vim
+-'  505  58  ~/Greg/work/env/vim/vimrc.vim
+-'  489  51  ~/Greg/work/env/vim/vimrc.vim
+-'  479  3  ~/Greg/work/env/vim/vimrc.vim
+-'  476  46  ~/Greg/work/env/vim/vimrc.vim
+-'  473  22  ~/Greg/work/env/vim/vimrc.vim
+-'  470  10  ~/Greg/work/env/vim/vimrc.vim
+-'  444  12  ~/Greg/work/env/vim/vimrc.vim
+-'  443  12  ~/Greg/work/env/vim/vimrc.vim
+
+# Liste des tampons :
+%~/.vimrc	1	0
+
+# Historique des marques dans les fichiers (les plus récentes en premier) :
+
+> ~/.vimrc
+	"	1	0
+	^	1	7
+	.	1	6
+	+	1	6
+
+> ~/Greg/work/env/vim/vimrc.vim
+	"	77	16
+	^	59	28
+	.	59	28
+	+	59	28
+	+	393	14
+	+	59	28
+
+> ~/.cshrc
+	"	51	30
+	^	51	31
+	.	51	30
+	+	51	30
+
+> ~/Greg/work/gvdf/local/www/.git/config
+	"	7	29
+	^	7	29
+	.	7	29
+	+	7	48
+	+	8	0
+	+	7	29
+
+> ~/Greg/work/gvdf/local/www/presentation.html
+	"	80	133
+	^	80	134
+	.	80	133
+	+	80	133
+
+> ~/.gitconfig
+	"	20	3
+	^	20	4
+	.	20	4
+	+	10	0
+	+	1	0
+	+	20	0
+	+	2	0
+	+	2	0
+	+	20	4
+
+> ~/.local/share/applications/eclipse.desktop
+	"	6	31
+	.	6	17
+	+	1	0
+	+	10	9
+	+	4	17
+	+	6	17
+
+> ~/Greg/work/perso/Freeplane/Freeplane/scripts/taskFinished.groovy
+	"	30	0
+	^	14	21
+	.	3	0
+	+	8	0
+	+	8	11
+	+	29	0
+	+	30	0
+	+	8	4
+	+	8	23
+	+	8	0
+	+	8	11
+	+	8	0
+	+	8	0
+	+	8	16
+	+	8	22
+	+	5	39
+	+	6	0
+	+	6	22
+	+	8	0
+	+	5	15
+	+	8	0
+	+	8	0
+	+	8	12
+	+	4	21
+	+	8	0
+	+	26	27
+	+	4	23
+	+	8	14
+	+	8	0
+	+	3	0
+	+	26	0
+	+	3	33
+	+	7	21
+	+	26	14
+	+	26	24
+	+	3	0
+	+	3	0
+	+	31	0
+	+	26	19
+	+	26	3
+	+	26	0
+	+	26	32
+	+	26	4
+	+	26	14
+	+	26	26
+	+	26	0
+	+	26	0
+	+	26	15
+	+	26	0
+	+	27	0
+	+	26	0
+	+	18	4
+	+	10	26
+	+	11	26
+	+	18	0
+	+	26	5
+	+	11	0
+	+	10	22
+	+	26	0
+	+	12	19
+	+	17	8
+	+	13	25
+	+	15	25
+	+	13	23
+	+	25	4
+	+	25	0
+	+	26	0
+	+	20	0
+	+	19	0
+	+	27	13
+	+	25	29
+	+	26	23
+	+	25	0
+	+	2	0
+	+	26	0
+	+	25	7
+	+	25	0
+	+	2	0
+	+	3	0
+	+	3	0
+	+	3	2
+	+	3	0
+	+	3	17
+	+	3	10
+	+	25	26
+	+	3	0
+	+	3	15
+	+	3	0
+	+	22	30
+	+	25	0
+	+	23	47
+	+	25	23
+	+	3	0
+	+	24	35
+	+	13	25
+	+	14	27
+	+	15	15
+	+	14	35
+	+	16	12
+	+	14	29
+	+	6	0
+	+	25	0
+	+	3	0
+
+> ~/Greg/work/perso/Freeplane/Freeplane/Scripts/autoResizeExternalImages.groovy
+	"	11	40
+
+> ~/Greg/work/perso/Freeplane/Freeplane/Scripts/Clear all attributes.groovy
+	"	27	18
+
+> ~/Greg/work/perso/Freeplane/Freeplane/Scripts/CreateTodayGTD.groovy
+	"	16	34
+
+> ~/Greg/work/perso/Freeplane/Freeplane/Scripts/exportToCSV_2.groovy
+	"	25	8
+
+> ~/Greg/work/perso/Freeplane/Freeplane/Scripts/pomodoro-timer.groovy
+	"	108	6
+
+> ~/Greg/work/perso/Freeplane/Freeplane/Scripts/sortAttributes.groovy
+	"	11	0
+
+> ~/Greg/work/perso/Freeplane/Freeplane/Scripts/sortChildren.groovy
+	"	4	0
+
+> ~/Greg/work/perso/Freeplane/Freeplane/Scripts/sumAttributeValues.groovy
+	"	1	0
+
+> ~/Greg/work/perso/Freeplane/Freeplane/Scripts/sumAttributeValuesRecursively.groovy
+	"	7	24
+
+> ~/Greg/work/perso/Freeplane/Freeplane/Test/test.mm
+	"	63	27
+
+> ~/Greg/work/perso/Freeplane/Freeplane/scripts/freeplaneGTD.groovy
+	"	173	64
+
+> /opt/groovy/groovy-2.2.1/bin/groovy
+	"	7	0
+
+> /opt/groovy/groovy-2.2.1/bin/hello.groovy
+	"	8	25
+	.	1	0
+	+	1	0
+
+> ~/.freeplane/1.2.x/scripts/testJython.py
+	"	1	58
+	.	1	0
+	+	1	0
+
+> ~/Greg/IMTC/Thèses/Analyse Scientifique et Energétique des Effets du Jeûne - Christophe Conjeaud.pdf
+	"	44	37
+
+> /usr/lib/udev/rules.d/50-udev-default.rules
+	"	1	0
+
+> ~/Informatique/Nexus4/Tools/google-apps/gapps-jb-20130813/install-optional.sh
+	"	1	3
+	.	1	3
+	+	1	3
+
+> ~/.local/share/applications/opencellar.desktop
+	"	14	15
+	^	9	33
+	.	9	32
+	+	2	22
+	+	3	31
+	+	8	41
+	+	6	22
+	+	5	40
+	+	9	8
+	+	10	5
+	+	9	32
+
+> ~/Greg/A trier/Zen, La vida de Dogen - cd2 en.srt
+	"	18	0
+
+> ~/output_gBLyWGqIkJY_1_en.srt
+	"	1	0
+
+> ~/Greg/Freeplane/Mémoire/Spirituel/Chakras.mm
+	"	110	0
+	.	110	0
+	+	190	0
+	+	110	0
+
+> ~/Documents/Ubuntu/reminder.txt
+	"	59	0
+	^	59	0
+	.	59	0
+	+	60	0
+	+	58	1
+	+	59	0
+
+> /usr/lib/thunderbird-addons/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/chrome/calendar/skin/calendar/calendar-views.css
+	"	1	0
+
+> /usr/lib/thunderbird-addons/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/chrome/calendar/skin/calendar/common/calendar-views.css
+	"	1011	17
+	^	1017	11
+	.	1017	10
+	+	1018	0
+	+	1017	20
+	+	1018	13
+	+	1017	10
+
+> ~/Config/Thunderbird/Install/xgk07gq1.default/chrome/calendar-views.css
+	"	16	0
+	.	14	0
+	+	11	0
+	+	14	0
+
+> ~/.local/share/applications/rescuetime.desktop
+	"	1	0
+	^	10	15
+	.	10	5
+	+	3	25
+	+	5	24
+	+	6	21
+	+	8	9
+	+	9	8
+	+	10	5
+
+> ~/.Skype/gregory.brancq/main.db-journal
+	"	350	678
+
+> ~/Greg/work/perso/log/Unpack_2014-01-18_22:27:39.697503.log
+	"	13	24
+
+> ~/Unpack_2014-01-18_22:37:59.288211.log
+	"	1	0
+
+> ~/Greg/work/perso/log/Unpack_2014-01-18_22:37:59.288211.log
+	"	16	8
+
+> ~/Greg/work/perso/log/Unpack_2014-01-18_22:39:36.563191.log
+	"	21	16
+
+> ~/Greg/work/perso/log/Unpack_2014-01-18_22:40:56.240151.log
+	"	21	16
+
+> ~/Greg/work/perso/.git/COMMIT_EDITMSG
+	"	1	18
+	.	1	41
+	+	1	41
+
+> ~/Greg/work/perso/.git/rebase-merge/git-rebase-todo
+	"	1	5
+	^	1	6
+	.	1	5
+	+	1	5
+
+> ~/Greg/work/perso/scripts/convertJpg2Pdf.py
+	"	25	0
+	.	17	0
+	+	17	0
+
+> ~/Greg/work/perso/scripts/convertMP42MP3.py
+	"	17	0
+	.	17	0
+	+	17	0
+
+> ~/Greg/work/perso/scripts/convertPdf2Jpg.py
+	"	17	0
+	.	17	0
+	+	17	0
+
+> ~/Greg/work/perso/scripts/convertPdf2Kobo.py
+	"	19	0
+	^	170	22
+	.	19	0
+	+	170	21
+	+	19	0
+
+> ~/Greg/work/perso/scripts/dropbox.py
+	"	282	15
+
+> ~/Greg/work/perso/scripts/photoTurn.py
+	"	17	0
+	.	17	0
+	+	17	0
+
+> ~/Greg/work/perso/scripts/python_common.py
+	"	17	0
+	^	91	40
+	.	17	0
+	+	24	0
+	+	16	0
+	+	24	0
+	+	24	0
+	+	91	39
+	+	24	0
+	+	17	0
+
+> ~/Greg/work/perso/scripts/reducePdfWeight.py
+	"	18	0
+	.	18	0
+	+	18	0
