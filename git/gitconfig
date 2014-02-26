@@ -1,0 +1,24 @@
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    ui = auto
+[user]
+    name = Gregory Brancq
+    email = gregory.brancq@free.fr
+[alias]
+    ci = commit
+    co = checkout
+    st = status
+    br = branch
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    type = cat-file -t
+    dump = cat-file -p
+    tkdiff = difftool -t tkdiff -y
+    tkdiffc = difftool -t tkdiff -y --cached
+    ls = ls-tree --name-only HEAD
+[core]
+    editor = vim
+    excludesfile = ~/.gitignore_global
+[push]
+    default = simple
