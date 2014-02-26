@@ -346,7 +346,6 @@ endif " gui_running
     :map <S-F2> :mksession! ~/vim/last_vim_session.vim<CR>
 
     :map <F4> :quit<Esc>
-    :map <C-W> :quit<Esc>
     :map <F5> :sp<Esc>
     :map <F6> :vsp<Esc>
     :map <F7> :tabnew<Esc>
