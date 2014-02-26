@@ -188,6 +188,11 @@ endif " gui_running
     set number
     " remplace des shiftwidth au lieu des tab
     set expandtab
+    " When using spaces for tabs, set this to the number of spaces
+    " inserted for each <TAB> key press and hitting <backspace>
+    " in InsertMode will delete that many spaces as
+    " if you had deleted a TAB character. 
+    set softtabstop=4
     " a <tab> in an indent inserts 'shiftwidth' spaces (not tabstop)
     set smarttab
     " number of spaces the tab stands for
@@ -324,12 +329,15 @@ endif " gui_running
 
     :map <F2> :w<CR>
     :imap <F2> <ESC>:w<CR>
+    :map <C-S> :w<CR>
+    :imap <C-S> <ESC>:w<CR>
     :map <F3> :wall<CR>
     :imap <F3> <ESC>:wall<CR>
 
     :map <S-F2> :mksession! ~/vim/last_vim_session.vim<CR>
 
     :map <F4> :quit<Esc>
+    :map <C-W> :quit<Esc>
     :map <F5> :sp<Esc>
     :map <F6> :vsp<Esc>
     :map <F7> :tabnew<Esc>
