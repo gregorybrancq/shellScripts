@@ -409,7 +409,7 @@ endif " gui_running
 
         " Color
         colors slate
-        source $VIM/colors/neon.vim
+        source $VIMRC/colors/neon.vim
 
     endif " gui_running
 
@@ -466,12 +466,12 @@ endif " gui_running
 
 
 "    " Permet de commenter n'importe quel type de fichier
-"    source $VIM/plugin/BlockComment.vim
+"    source $VIMRC/plugin/BlockComment.vim
 "    " Utilise les fonctions grep
-"    source $VIM/plugin/grep.vim
-    "source $VIM/plugin/utils.vim
-    "source $VIM/plugin/fexplore.vim
-    "source $VIM/plugin/minibufexpl.vim
+"    source $VIMRC/plugin/grep.vim
+    "source $VIMRC/plugin/utils.vim
+    "source $VIMRC/plugin/fexplore.vim
+    "source $VIMRC/plugin/minibufexpl.vim
 
 
 
