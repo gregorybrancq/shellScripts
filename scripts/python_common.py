@@ -162,9 +162,9 @@ def getPersoDir():
                 break
 
     if dell :
-        return os.path.join(getHomeDir(),"Perso/work/perso")
+        return os.path.join(getHomeDir(),"Perso/work/env")
     else :
-        return os.path.join(getHomeDir(),"Greg/work/perso")
+        return os.path.join(getHomeDir(),"Greg/work/env")
 
 def getLogDir():
     return  os.path.join(getPersoDir(),"log")
