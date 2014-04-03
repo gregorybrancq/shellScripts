@@ -18,7 +18,7 @@ from optparse import OptionParser
 
 ## common
 from python_common import *
-HEADER = "Pdf->Kobo"
+HEADER = "PdfTOKobo"
 
 ## directory
 logDir   = getLogDir()

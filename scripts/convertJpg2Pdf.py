@@ -16,7 +16,7 @@ from optparse import OptionParser
 
 ## common
 from python_common import *
-HEADER = "Jpg->Pdf"
+HEADER = "JpgTOPdf"
 
 ## directory
 logDir   = getLogDir()

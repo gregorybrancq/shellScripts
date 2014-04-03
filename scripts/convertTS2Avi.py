@@ -2,7 +2,7 @@
 # -*- coding: latin1 -*-
 
 '''
-Convert MP4 to MP3
+Convert M2TS to AVI
 '''
 
 
@@ -16,7 +16,7 @@ from optparse import OptionParser
 
 ## common
 from python_common import *
-HEADER = "Mp4TOMp3"
+HEADER = "M2tsTOAvi"
 
 ## directory
 logDir   = getLogDir()
@@ -90,7 +90,7 @@ def convertFile(fileList) :
         if (fileD != "") :
             os.chdir(fileD)
 
-        cmd='pacpl --to mp3 -bitrate 320 "' + fileN + fileE + '"'
+        cmd='ffmpeg -i "' + fileN + fileE + '" -threads 3 -r 29.97 -vcodec libxvid -s 1024x576 -aspect 16:9 -b 2000k -qmin 3 -qmax 5 -bufsize 4096 -mbd 2 -bf 2 -acodec libmp3lame -ar 48000 -ab 128k -ac 2 "' + fileN + '.avi"'
         dbg.info(HEADER, "In  convertFile cmd=" + str(cmd))
         procPopen = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT)
         procPopen.wait()
@@ -130,12 +130,12 @@ def main() :
     dbg.info(HEADER, "In  main args=" + str(args))
 
     ## Create list of files
-    extAuth=[".mp4", ".MP4"]
+    extAuth=[".m2ts", ".M2TS"]
     (fileList, warnC) = listFromArgs(dbg, HEADER, args, extAuth)
 
-    ## Verify if there is at least one photo to convertPdf2Jpg
+    ## Verify if there is at least one video to convert
     if (len(fileList) == 0) :
-        dialog_error("Convert MP4 files", "\nNo video has been found\n")
+        dialog_error("Convert M2TS files", "\nNo video has been found\n")
     else :
         dbg.info(HEADER, "In  main videos to convert = " + str(len(fileList)))
 
