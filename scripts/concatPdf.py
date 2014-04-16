@@ -87,7 +87,7 @@ def concatFile(fileList) :
         if (fileD != "") :
             fileListStr += fileD + "/"
 
-        fileListStr += fileN + fileE + " "
+        fileListStr += '"' + fileN + fileE + '" '
 
     findName = False
     outputName = "concat.pdf"
