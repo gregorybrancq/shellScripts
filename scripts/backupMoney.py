@@ -118,7 +118,7 @@ def backupToDo() :
 
     if not findBackup :
         now = datetime.datetime.now()
-        newName = "Backup-" + str(now.strftime("%Y-%m-%d"))
+        newName = "Backup-" + str(now.strftime("%Y-%m-%d") + ".mny")
         dbg.info(HEADER, "In  compare copy newName=" + str(newName))
         shutil.copy2(fileOriginal, os.path.join(fileBackupDir, newName))
 
