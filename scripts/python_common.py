@@ -265,7 +265,6 @@ def move_files(old_path, new_path) :
 
 def addFile(dbg, header, fileName, extAuth, typeList, warnNb) :
     dbg.info(header, "In  addFile fileName=" + str(fileName))
-    tList = list()
     dirN = os.path.dirname(fileName)
     dirN1=dirN.replace('(','\(')
     dirN2=dirN1.replace(')','\)')
