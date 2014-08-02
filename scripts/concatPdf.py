@@ -83,20 +83,23 @@ def concatFile(fileList) :
     dbg.info(HEADER, "In  concatFile")
 
     fileListStr = ""
+    firstFileName = ""
     for (fileD, fileN, fileE) in fileList :
+        if (firstFileName == "") :
+            firstFileName = fileN
         if (fileD != "") :
             fileListStr += fileD + "/"
 
         fileListStr += '"' + fileN + fileE + '" '
 
     findName = False
-    outputName = "concat.pdf"
     i = 0
+    outputName = firstFileName + ".pdf"
     while not findName :
         if not os.path.exists(outputName):
             findName = True
         else :
-            outputName = "concat_" + str(i) + ".pdf"
+            outputName = firstFileName + "_" + str(i) + ".pdf"
             i += 1
 
     cmd='pdftk ' + fileListStr + ' cat output ' + outputName
