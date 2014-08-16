@@ -147,13 +147,8 @@ def main() :
     dbg.debug("fileList="+str(fileList))
     splitFile(fileList)
 
-    msg = "\nJob fini.\n"
-    if (warnC != 0) :
-        msg += "\nWarning = " + str(warnC)
-    if (errC != 0) :
-        msg += "\nError = " + str(errC)
-    msg += "\n\nLog file = " + str(logFile)
-    dialog_info("Concat PDF files", msg)
+    ## End dialog
+    dialog_end(warnC, errC, logFile, "Split PDF files", "\nJob fini.")
     
     dbg.info(HEADER, "Out main")
 

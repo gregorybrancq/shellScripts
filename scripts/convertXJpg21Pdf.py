@@ -135,7 +135,7 @@ def concatFile(fileList) :
             outputName = firstFileName + "_" + str(i) + ".pdf"
             i += 1
 
-    cmd='pdftk ' + fileListStr + ' cat output ' + outputName
+    cmd='pdftk ' + fileListStr + ' cat output "' + outputName + '"'
     dbg.info(HEADER, "In  concatFile cmd=" + str(cmd))
     procPopen = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT)
     procPopen.wait()
@@ -192,12 +192,12 @@ def main() :
     dbg.info(HEADER, "In  main args=" + str(args))
 
     ## Create list of files
-    extAuth=[".jpg", ".JPG", ".tif", ".TIF", ".gif", ".GIF"]
+    extAuth=[".jpg", ".JPG", ".jpeg", ".JPEG", ".tif", ".TIF", ".gif", ".GIF"]
     (fileList, warnC) = listFromArgs(dbg, HEADER, args, extAuth)
 
-    ## Verify if there is at least one photo to convertPdf2Jpg
+    ## Verify if there is at least one file to convert
     if (len(fileList) == 0) :
-        dbg.exit("1", "No image has been found\n")
+        dbg.exit("Convert X JPG to 1 PDF", "No image has been found\n")
 
     ## Convert them
     dbg.debug("fileList="+str(fileList))
@@ -211,20 +211,8 @@ def main() :
     dbg.debug("fileListConvert="+str(fileListConvert))
     cleanFiles(fileListConvert, firstN, outputN)
 
-    msg = "\nJob fini.\n"
-    dbg.debug("11")
-    if (warnC != 0) :
-        dbg.debug("12")
-        msg += "\nWarning = " + str(warnC)
-    dbg.debug("13")
-    if (errC != 0) :
-        dbg.debug("14")
-        msg += "\nError = " + str(errC)
-    dbg.debug("15")
-    msg += "\n\nLog file = " + str(logFile)
-    dbg.debug("16 msg=" + str(msg))
-    dialog_info("Convert images", msg)
-    dbg.debug("17")
+    ## End dialog
+    dialog_end(warnC, errC, logFile, "Convert images", "\nJob fini.")
     
     dbg.info(HEADER, "Out main")
 

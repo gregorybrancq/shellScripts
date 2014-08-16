@@ -102,7 +102,7 @@ def concatFile(fileList) :
             outputName = firstFileName + "_" + str(i) + ".pdf"
             i += 1
 
-    cmd='pdftk ' + fileListStr + ' cat output ' + outputName
+    cmd='pdftk ' + fileListStr + ' cat output "' + outputName + '"'
     dbg.info(HEADER, "In  concatFile cmd=" + str(cmd))
     procPopen = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT)
     procPopen.wait()
@@ -150,14 +150,9 @@ def main() :
     dbg.debug("fileList="+str(fileList))
     concatFile(fileList)
 
-    msg = "\nJob fini.\n"
-    if (warnC != 0) :
-        msg += "\nWarning = " + str(warnC)
-    if (errC != 0) :
-        msg += "\nError = " + str(errC)
-    msg += "\n\nLog file = " + str(logFile)
-    dialog_info("Concat PDF files", msg)
-    
+    ## End dialog
+    dialog_end(warnC, errC, logFile, "Concat PDF files", "\nJob fini.")
+
     dbg.info(HEADER, "Out main")
 
 ###############################################

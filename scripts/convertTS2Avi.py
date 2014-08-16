@@ -142,14 +142,9 @@ def main() :
     ## Convert them
     convertFile(fileList)
 
-    msg = "\nJob fini : " + str(len(fileList)) + " video a convertir.\n"
-    if (warnC != 0) :
-        msg += "\nWarning = " + str(warnC)
-    if (errC != 0) :
-        msg += "\nError = " + str(errC)
-    msg += "\n\nLog file = " + str(logFile)
-    dialog_info("Convert video", msg)
-    
+    ## End dialog
+    dialog_end(warnC, errC, logFile, "Convert images", "\nJob fini : " + str(len(fileList)) + " video converties.")
+
     dbg.info(HEADER, "Out main")
 
 ###############################################

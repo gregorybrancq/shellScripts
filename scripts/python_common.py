@@ -119,6 +119,18 @@ def dialog_ask(title,msg) :
         return True
     return False
 
+## End dialog
+def dialog_end(warnC,errC,logFile,title,msg) :
+    if (errC != 0) :
+        msg += "\nError = " + str(errC)
+        msg += "\nLog file = " + str(logFile)
+        dialog_error(title, msg)
+    else :
+        if (warnC != 0) :
+            msg += "\nWarning = " + str(warnC)
+        msg += "\n\nLog file = " + str(logFile)
+        dialog_info(title, msg)
+
 ###############################################
 
 

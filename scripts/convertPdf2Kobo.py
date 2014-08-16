@@ -66,6 +66,7 @@ parser.add_option(
 t = str(datetime.datetime.today().isoformat("_"))
 logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 warnC = 0
+errC = 0
 
 ###############################################
 
@@ -81,7 +82,7 @@ warnC = 0
 
 def convert(pdfList) :
     global dbg
-    global warnC
+    global errC
     dbg.info(HEADER, "In  convert")
 
     oldDir = os.getcwd()
@@ -105,8 +106,8 @@ def convert(pdfList) :
             procPopen = subprocess.Popen(cmdToLaunch, shell=True, stderr=subprocess.STDOUT)
             procPopen.wait()
             if (procPopen.returncode != 0) :
-                warnC += 1
-                dbg.warn(HEADER, "In  convert, file " + str(os.path.join(pdfDir, pdfName + pdfExt)) + " was not successful.")
+                errC += 1
+                dbg.error(HEADER, "In  convert, file " + str(os.path.join(pdfDir, pdfName + pdfExt)) + " was not successful.")
 
             ## replace the original file
             # if os.path.isfile(pdfName + "_k2opt" + pdfExt) :
@@ -164,10 +165,9 @@ def main() :
     ## Convert them
     dbg.info(HEADER, "Script will convert " + str(len(pdfList)) + " file(s)")
     convert(pdfList)
-    msg = "\nJob fini : " + str(len(pdfList)) + " livres convertis.\nLivre : " + str(pdfList) + "\n\nLog file = "+ str(logFile)
-    if (warnC != 0) :
-        msg += "\nWarning = " + str(warnC)
-    dialog_info(HEADER, msg)
+
+    ## End dialog
+    dialog_end(warnC, errC, logFile, "Convert Kobo", "\nJob fini : " + str(len(pdfList)) + " livres convertis.\nLivre : " + str(pdfList) + ".")
     
     dbg.info(HEADER, "Out main")
 

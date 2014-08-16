@@ -200,24 +200,19 @@ def main() :
     dbg.info(HEADER, "In  main args=" + str(args))
 
     ## Create list of files
-    extAuth=[".jpg", ".JPG", ".tif", ".TIF", ".gif", ".GIF"]
+    extAuth=[".jpg", ".JPG", ".jpeg", ".JPEG", ".tif", ".TIF", ".gif", ".GIF"]
     (fileList, warnC) = listFromArgs(dbg, HEADER, args, extAuth)
 
-    ## Verify if there is at least one photo to convertPdf2Jpg
+    ## Verify if there is at least one file to convert
     if (len(fileList) == 0) :
-        dbg.exit("1", "No image has been found\n")
+        dbg.exit("Convert JPG to PDF", "No image has been found\n")
 
     ## Convert them
     dbg.debug("fileList="+str(fileList))
     convertFile(fileList)
 
-    msg = "\nJob fini.\n"
-    if (warnC != 0) :
-        msg += "\nWarning = " + str(warnC)
-    if (errC != 0) :
-        msg += "\nError = " + str(errC)
-    msg += "\n\nLog file = " + str(logFile)
-    dialog_info("Convert images", msg)
+    ## End dialog
+    dialog_end(warnC, errC, logFile, "Convert images", "\nJob fini.")
     
     dbg.info(HEADER, "Out main")
 
@@ -230,7 +225,6 @@ if __name__ == '__main__':
  
     ## Create log class
     dbg = LOGC(logFile, HEADER, parsedArgs.debug, parsedArgs.gui)
-
     main()
 
 

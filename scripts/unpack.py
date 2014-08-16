@@ -164,10 +164,9 @@ def main() :
 
     ## Unpack them
     unpack(movieList)
-    msg = "\nJob fini : " + str(len(movieList)) + " films convertis.\n\nLog file = "+ str(logFile)
-    if (warnC != 0) :
-        msg += "\nWarning = " + str(warnC)
-    dialog_info(HEADER, msg)
+
+    ## End dialog
+    dialog_end(warnC, errC, logFile, "Unpack movies", "\nJob fini : " + str(len(movieList)) + " films convertis.")
     
     ## Remove lock file
     remove_lock_file(lockFile)

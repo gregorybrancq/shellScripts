@@ -158,13 +158,8 @@ def main() :
     ## Convert them
     reduceWeight(fileList)
 
-    msg = "\nJob fini : " + str(len(fileList)) + " pdf reduced.\n"
-    if (warnC != 0) :
-        msg += "\nWarning = " + str(warnC)
-    if (errC != 0) :
-        msg += "\nError = " + str(errC)
-    msg += "\n\nLog file = " + str(logFile)
-    dialog_info("Reduce PDF weight", msg)
+    ## End dialog
+    dialog_end(warnC, errC, logFile, "Reduce PDF weight", "\nJob fini : " + str(len(fileList)) + " pdf reduced.")
     
     dbg.info(HEADER, "Out main")
 

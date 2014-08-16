@@ -145,10 +145,9 @@ def main() :
 
     ## Convert them
     exifConvert(photoList)
-    msg = "\nJob fini : " + str(len(photoList)) + " images converties.\n\nLog file = "+ str(logFile)
-    if (warnC != 0) :
-        msg += "\nWarning = " + str(warnC)
-    dialog_info("Pivoter les images", msg)
+
+    ## End dialog
+    dialog_end(warnC, errC, logFile, "Pivoter les images", "\nJob fini : " + str(len(photoList)) + " images converties.")
     
     ## Remove lock file
     remove_lock_file(lockFile)
