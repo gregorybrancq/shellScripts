@@ -158,12 +158,8 @@ def getUserLogin() :
         print color_error + 'Cannot get the login user\n'
         sys.exit(-1)
 
-def getHomeDir():
-    return expanduser("~")
-
-def getPersoDir():
+def isDell():
     dell=0
-
     if os.environ.get('DELL') :
         dell=1
     else :
@@ -172,8 +168,13 @@ def getPersoDir():
             if 'setenv DELL "1"' in line :
                 dell=1
                 break
+    return dell
 
-    if dell :
+def getHomeDir():
+    return expanduser("~")
+
+def getPersoDir():
+    if isDell() :
         return os.path.join(getHomeDir(),"Perso/work/env")
     else :
         return os.path.join(getHomeDir(),"Greg/work/env")
