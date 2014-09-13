@@ -39,6 +39,7 @@ parser = OptionParser()
 
 
 parser.add_option(
+    "-d",
     "--debug",
     action  = "store_true",
     dest    = "debug",
@@ -68,18 +69,16 @@ parser.add_option(
 t = str(datetime.datetime.today().isoformat("_"))
 logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 lockFile = os.path.join(logDir, HEADER + ".lock")
-warnC = 0
 
 fileBackupList = []
 fileBackupName = ""
 
 fileName = "comptes.kmy"
+fileBackupDir = os.path.join(homeDir, "Backup/KMyMoney")
 if isDell() :
     fileOriginal = os.path.join(homeDir, "Perso/Money/KMyMoney", fileName)
-    fileBackupDir = os.path.join(homeDir, "Perso/Money/KMyMoney/Backup")
 else :
     fileOriginal = os.path.join(homeDir, "Greg/Money/KMyMoney", fileName)
-    fileBackupDir = os.path.join(homeDir, "Greg/Money/KMyMoney/Backup")
 
 ###############################################
 
@@ -109,17 +108,16 @@ def backupToDo() :
     findBackupFiles()
 
     ## Look if it's necessary to backup
-    doBackup = False
+    didBackup = False
     for f in fileBackupList :
         dbg.info(HEADER, "In  backupToDo fileBackup=" + str(f))
         comp = filecmp.cmp(fileOriginal, os.path.join(fileBackupDir, f))
         if comp :
             dbg.info(HEADER, "In  backupToDo fileBackup find")
-            fileBackupName = f
-            doBackup = True
+            didBackup = True
             break
 
-    if not doBackup :
+    if not didBackup :
         now = datetime.datetime.now()
         (fileN, extN) = os.path.splitext(fileName)
         newName = fileN + "_" + str(now.strftime("%Y-%m-%d") + extN)
@@ -146,8 +144,6 @@ def backupToDo() :
 
 def main() :
     global dbg
-    global warnC
-    movieList = list()
     dbg.info(HEADER, "In  main")
 
     ## Backup file
