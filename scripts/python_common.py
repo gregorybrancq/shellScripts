@@ -269,6 +269,28 @@ def move_files(old_path, new_path) :
             pass
 
 
+def sendMail(From, To, Cc, Subject, Message):
+
+    # Import smtplib for the actual sending function
+    import smtplib
+    # Import the email modules we'll need
+    from email.mime.text import MIMEText
+
+    msg = MIMEText(Message)
+
+    msg['Subject'] = Subject
+    msg['From'] = From
+    msg['To'] = To
+    msg['Cc'] = Cc
+    
+    # Send the message via our own SMTP server, but don't include the
+    # envelope header.
+    s = smtplib.SMTP('localhost')
+    s.sendmail(From, [To], msg.as_string())
+    s.quit()
+
+
+
 
 ###############################################
 ###############################################
