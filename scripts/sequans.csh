@@ -4,7 +4,7 @@ set procPid=`ps -C openvpn -o pid=`
 set status=$?
 
 if ($status == "1") then
-    cd /home/greg/Config/OpenVPN/sequans
+    cd ~/Config/OpenVPN/sequans
     more password
     sudo ./connect-France.sh
 else
