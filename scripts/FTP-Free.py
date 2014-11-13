@@ -88,17 +88,20 @@ def main() :
     dbg.info(HEADER, "In  main args=" + str(args))
 
     if args.__len__() != 1 :
-        dialog_error("Send File to DL Free", "Only 1 file is supported")
+        dialog_error("Send File to DL Free", "Only 1 file supported")
         sys.exit(-1)
 
-    fileList = ""
+    fileN = ""
     if (os.path.isfile(args[0].encode('latin1'))) :
-        fileList = os.path.join(os.getcwd(), args[0].encode('latin1'))
+        fileN = os.path.join(os.getcwd(), args[0].encode('latin1'))
+    else :
+        dialog_error("Send File to DL Free", args[0].encode('latin1') + " is not a file")
+        sys.exit(-1)
 
-    ## Launch the pyrenamer program
+    ## Launch the ftp free program
     out = ""
     err = ""
-    cmdToLaunch='/home/greg/Greg/work/bin/ftp-free "' + str(fileList) + '"'
+    cmdToLaunch='/home/greg/Greg/work/bin/ftp-free "' + str(fileN) + '"'
     dbg.info(HEADER, "In  main cmdToLaunch=" + str(cmdToLaunch))
     procPopen = Popen(cmdToLaunch, shell=True, stdout=PIPE, stderr=PIPE)
     out, err = procPopen.communicate()
@@ -106,7 +109,7 @@ def main() :
     dbg.info(HEADER, "In  main result err\n" + str(err))
 
     ## Print result
-    msg = "Fichier envoyé : " + str(fileList) + "\n"
+    msg = "Fichier envoyé : " + str(fileN) + "\n\n"
     if re.search("Fichier d'origine :", out) :
         msg += "URL de download: " + "\n"
         msg += "    " + re.findall("URL Fichier depose : (.*)", out)[0] + "\n"
@@ -118,6 +121,12 @@ def main() :
         dialog_error("Send File to DL Free", msg)
     else :
         dialog_info("Send File to DL Free", msg)
+
+    ## Send email
+    dbg.info(HEADER, "In  main send mail")
+    dbg.info(HEADER, "In  main send mail args[0].encode=" + str(args[0].encode('latin1')))
+    dbg.info(HEADER, "In  main send mail msg.encode=" + str(msg.encode('latin1')))
+    sendMail("gregory.brancq@free.fr", "gregory.brancq@free.fr", "", "Send to DL Free : " + str(args[0].encode('latin1')), msg.encode('latin1'));
 
     dbg.info(HEADER, "Out main")
 
