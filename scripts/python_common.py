@@ -173,14 +173,20 @@ def isDell():
 def getHomeDir():
     return expanduser("~")
 
-def getPersoDir():
+def getBinDir():
+    if isDell() :
+        return os.path.join(getHomeDir(),"Perso/work/bin")
+    else :
+        return os.path.join(getHomeDir(),"Greg/work/bin")
+
+def getEnvDir():
     if isDell() :
         return os.path.join(getHomeDir(),"Perso/work/env")
     else :
         return os.path.join(getHomeDir(),"Greg/work/env")
 
 def getLogDir():
-    return  os.path.join(getPersoDir(),"log")
+    return  os.path.join(getEnvDir(),"log")
 
 ## Get the human size of a file
 def humanSize(num):
