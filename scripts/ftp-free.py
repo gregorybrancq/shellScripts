@@ -92,16 +92,16 @@ def main() :
         sys.exit(-1)
 
     fileN = ""
-    if (os.path.isfile(args[0].encode('latin1'))) :
-        fileN = os.path.join(os.getcwd(), args[0].encode('latin1'))
+    if (os.path.isfile(args[0])) :
+        fileN = args[0]
     else :
-        dialog_error("Send File to DL Free", args[0].encode('latin1') + " is not a file")
+        dialog_error("Send File to DL Free", args[0] + " is not a file")
         sys.exit(-1)
 
     ## Launch the ftp free program
     out = ""
     err = ""
-    cmdToLaunch='/home/greg/Greg/work/bin/ftp-free "' + str(fileN) + '"'
+    cmdToLaunch=getBinDir() + '/ftp-free "' + str(fileN) + '"'
     dbg.info(HEADER, "In  main cmdToLaunch=" + str(cmdToLaunch))
     procPopen = Popen(cmdToLaunch, shell=True, stdout=PIPE, stderr=PIPE)
     out, err = procPopen.communicate()
@@ -126,7 +126,10 @@ def main() :
     dbg.info(HEADER, "In  main send mail")
     dbg.info(HEADER, "In  main send mail args[0].encode=" + str(args[0].encode('latin1')))
     dbg.info(HEADER, "In  main send mail msg.encode=" + str(msg.encode('latin1')))
-    sendMail("gregory.brancq@free.fr", "gregory.brancq@free.fr", "", "Send to DL Free : " + str(args[0].encode('latin1')), msg.encode('latin1'));
+    try:
+        sendMail("gregory.brancq@free.fr", "gregory.brancq@free.fr", "", "Send to DL Free : " + str(args[0].encode('latin1')), msg.encode('latin1'));
+    except :
+        dbg.error(HEADER, "In  main send mail issue ")
 
     dbg.info(HEADER, "Out main")
 
