@@ -19,6 +19,6 @@
     ls = ls-tree --name-only HEAD
 [core]
     editor = vim
-    excludesfile = ~/.gitignore_global
+    excludesfile = gitignore_global
 [push]
     default = simple
