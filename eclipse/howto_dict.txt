@@ -1,0 +1,3 @@
+
+apt-get install aspell aspell-fr aspell-en
+aspell dump master fr | cut -d / -f 1 > dictionnay_fr.txt
