@@ -11,6 +11,8 @@
 "noremap k e
 "noremap K E
 
+
+
 " largeur du texte
 set textwidth=1000
 " on garde d'une ligne a l'autre l'indentation d'un paragraphe
@@ -31,3 +33,4 @@ set ignorecase
 " on n'ignore pas les majuscules
 set smartcase
 
+noremap <BS> dd
