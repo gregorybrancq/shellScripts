@@ -75,10 +75,7 @@ fileBackupName = ""
 
 fileName = "comptes.kmy"
 fileBackupDir = os.path.join(homeDir, "Backup/KMyMoney")
-if isDell() :
-    fileOriginal = os.path.join(homeDir, "Perso/Money/KMyMoney", fileName)
-else :
-    fileOriginal = os.path.join(homeDir, "Greg/Money/KMyMoney", fileName)
+fileOriginal = os.path.join(homeDir, "Config/Money/KMyMoney", fileName)
 
 ###############################################
 
