@@ -12,8 +12,8 @@ if (-r ~/.csh_alias) then
     source ~/.csh_alias
 endif
 
-if (-r ~/.git-completion) then
-    source ~/.git-completion
+if (-r ~/.git-completion.csh) then
+    source ~/.git-completion.csh
 endif
 
 
