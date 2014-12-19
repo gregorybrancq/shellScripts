@@ -1,30 +1,83 @@
 
-################
-# 1. Les alias #
-################
+# Gestion de la couleur pour 'ls' (exportation de LS_COLORS)
+if [ -x /usr/bin/dircolors ]
+then
+  if [ -r ~/.zsh_dir_colors ]
+  then
+    eval "`dircolors ~/.zsh_dir_colors`"
+  elif [ -r /etc/dir_colors ]
+  then
+    eval "`dircolors /etc/dir_colors`"
+  else
+    eval "`dircolors`"
+  fi
+fi
 
 # Gestion du 'ls' : couleur & ne touche pas aux accents
 alias ls='ls --classify --tabsize=0 --literal --color=auto --show-control-chars --human-readable'
 
-# Demande confirmation avant d'écraser un fichier
-alias cp='cp --interactive'
-alias mv='mv --interactive'
-alias rm='rm --interactive'
-
 # Raccourcis pour 'ls'
-alias ll='ls -l'
+alias l='ls -l'
 alias la='ls -a'
-alias lla='ls -la'
+alias ll='ls -la'
+alias lS='ls -rtalFhS'
+
+# Demande confirmation avant d'écraser un fichier
+alias cp='cp'
+alias mv='mv'
+alias rm='rm -f'
 
 # Quelques alias pratiques
+alias h='history'
 alias c='clear'
 alias less='less --quiet'
 alias s='cd ..'
 alias df='df --human-readable'
 alias du='du --human-readable'
-alias m='mutt -y'
+alias m='more'
 alias md='mkdir'
 alias rd='rmdir'
-alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
+alias ap='cd ..;echo $cwd'
+alias app='cd ../..;echo $cwd'
+alias appp='cd ../../..;echo $cwd'
+alias apppp='cd ../../../..;echo $cwd'
+alias appppp='cd ../../../../..;echo $cwd'
+alias apppppp='cd ../../../../../..;echo $cwd'
+alias appppppp='cd ../../../../../../..;echo $cwd'
+alias apppppppp='cd ../../../../../../../..;echo $cwd'
+alias appppppppp='cd ../../../../../../../../..;echo $cwd'
 
+alias so='source'
+alias xx='exit'
+alias ki='kill -9 \!*'
+
+# Process
+alias pss='ps -edf | grep greg | more'
+alias pst='pss | grep firefox | grep -v grep; pss | grep thunder | grep -v grep; pss | grep skype | grep -v grep'
+alias psnx='pss | grep nx | grep -v grep'
+
+# Programmes
+alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
+alias fr='setxkbmap fr'
+alias v='vim -g -geom 100x50 \!*'
+alias tk='tkdiff \!*'
+alias tkg='git tkdiff \!*'
+alias tkgc='git tkdiffc \!*'
+alias it='install_tools \!*'
+alias webex='setenv LD_LIBRARY_PATH "/opt/java/jre-8u25_i586/lib/i386:/opt/java/jre-8u25_i586/lib/i386/client"; linux32 firefox'
+
+# Git
+alias gsta='git status \!*'
+alias gst='git status -uno \!*'
+alias gci='git commit -m \!*'
+alias glog='git log --name-status \!*'
+
+# Machines
+alias ss='ssh -XY \!*'
+alias ssp='ssh -X gregory@portable'
+alias ssc='ssh -X gregory@chablis'
+alias ssk='ssh -X gregory@kenny'
+alias ssz='ssh -X gregory@mazis'
+alias ssf='ssh -Y fpga@kenny'
+alias sse='ssh -Y edatools@kenny'
 
