@@ -1,0 +1,51 @@
+#echo "** In  .cshrc **"
+
+## 
+## Common files
+## 
+
+if (-r ~/.basic) then
+    source ~/.basic
+endif
+
+if (-r ~/.alias) then
+    source ~/.alias
+endif
+
+if (-r ~/.git-completion) then
+    source ~/.git-completion
+endif
+
+
+## 
+## Account Part
+## 
+
+setenv DELL "1"
+
+# VIM
+#setenv EDITOR gvim
+setenv VIMRUNTIME "/usr/share/vim/vim74"
+setenv VIMRC $HOME/Perso/work/env/vim
+
+## Keepass
+alias mykee 'scp /data/exports/users/gregory/Perso/KeePass/AllPassword.kdbx gregory@kenny:/home/gregory/perso/keepass/AllPassword.kdbx'
+
+## PATH
+foreach incr_path ( $HOME/Perso/work/bin )
+    if (-d $incr_path) then
+        if ($?PATH) then
+            set path_status=""
+            set path_status=`echo $PATH | grep "$incr_path"` >> /dev/null
+            if ($#path_status == "0") then
+                setenv PATH ${incr_path}:"${PATH}"
+            endif
+        else
+            setenv PATH "${incr_path}"
+        endif
+    endif
+    unset path_status
+end
+
+
+#echo "** Out .cshrc **"
