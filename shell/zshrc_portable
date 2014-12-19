@@ -1,37 +1,56 @@
-# Set up the prompt
+#!/usr/bin/env zsh
+#   _________  _   _ ____   ____ 
+#  |__  / ___|| | | |  _ \ / ___|
+#    / /\___ \| |_| | |_) | |    
+# _ / /_ ___) |  _  |  _ <| |___ 
+#(_)____|____/|_| |_|_| \_\\____|
+#
+ 
+# /etc/zsh/zshrc ou ~/.zshrc
+# Fichier de configuration principal de zsh, lu au lancement des shells interactifs
+# (et non des shells d'interprétation de fichier)
+# Formation Debian GNU/Linux par Alexis de Lattre
+# http://formation-debian.via.ecp.fr/
 
-autoload -Uz promptinit
-promptinit
-prompt adam1
 
-setopt histignorealldups sharehistory
 
-# Use emacs keybindings even if our EDITOR is set to vi
-bindkey -e
+#############
+# Les alias #
+#############
 
-# Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
-HISTSIZE=1000
-SAVEHIST=1000
-HISTFILE=~/.zsh_history
+if [ -r ~/.zsh_alias ]
+then
+    source ~/.zsh_alias
+fi
 
-# Use modern completion system
-autoload -Uz compinit
-compinit
 
-zstyle ':completion:*' auto-description 'specify: %d'
-zstyle ':completion:*' completer _expand _complete _correct _approximate
-zstyle ':completion:*' format 'Completing %d'
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' menu select=2
-eval "$(dircolors -b)"
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
-zstyle ':completion:*' menu select=long
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-zstyle ':completion:*' use-compctl false
-zstyle ':completion:*' verbose true
+####################################
+# Prompt et définition des touches #
+####################################
 
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+if [ -r ~/.zsh_common ]
+then
+    source ~/.zsh_common
+fi
+
+
+#######
+# Git #
+#######
+
+# if [ -r ~/.git-completion.zsh ]
+# then
+#     source ~/.git-completion.zsh    
+# fi
+
+
+############
+# Portable #
+############
+
+export DELL="1"
+
+# VIM
+export VIMRUNTIME="/usr/share/vim/vim74"
+export VIMRC="$HOME/Perso/work/env/vim"
+
