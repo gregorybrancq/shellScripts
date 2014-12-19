@@ -4,12 +4,12 @@
 ## Common files
 ## 
 
-if (-r ~/.basic) then
-    source ~/.basic
+if (-r ~/.csh_basic) then
+    source ~/.csh_basic
 endif
 
-if (-r ~/.alias) then
-    source ~/.alias
+if (-r ~/.csh_alias) then
+    source ~/.csh_alias
 endif
 
 if (-r ~/.git-completion) then
