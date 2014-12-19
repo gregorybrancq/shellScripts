@@ -4,8 +4,8 @@
 ## Common files
 ## 
 
-if (-r ~/.csh_basic) then
-    source ~/.csh_basic
+if (-r ~/.csh_common) then
+    source ~/.csh_common
 endif
 
 if (-r ~/.csh_alias) then
