@@ -12,6 +12,7 @@
 # Formation Debian GNU/Linux par Alexis de Lattre
 # http://formation-debian.via.ecp.fr/
 
+#echo "** In  .zshrc **"
 
 
 #############
@@ -54,3 +55,23 @@ export DELL="1"
 export VIMRUNTIME="/usr/share/vim/vim74"
 export VIMRC="$HOME/Perso/work/env/vim"
 
+## PATH
+for incr_path ( $HOME/Perso/work/bin )
+do
+    if [ -d $incr_path ]
+    then
+        if [ ! -z "$PATH" ]
+        then
+            path_status=`echo $PATH | grep "$incr_path"` >> /dev/null
+            if [ -z "$path_status" ]
+            then
+                export PATH=${incr_path}:"${PATH}"
+            fi
+        else
+            export PATH="${incr_path}"
+        fi
+    fi
+    unset path_status
+done
+
+#echo "** Out .zshrc **"
