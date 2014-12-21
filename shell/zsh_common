@@ -45,9 +45,11 @@ bindkey ''    delete-char             # Del
 bindkey '[3~' delete-char
 bindkey '[2~' overwrite-mode          # Insert
 bindkey '[5~' history-search-backward # PgUp
-bindkey 'p' history-search-backward # PgUp
+bindkey 'p'   history-search-backward # alt+p
 bindkey '[6~' history-search-forward  # PgDn
-bindkey 'P' history-search-forward  # PgDn
+bindkey 'P'   history-search-forward  # alt+P
+bindkey 'b'   backward-word           # alt+b
+bindkey 'f'   forward-word            # alt+f
 
 # Prise en charge des touches [début], [fin] et autres
 typeset -A key
