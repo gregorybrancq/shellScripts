@@ -77,9 +77,12 @@ key[PageDown]=${terminfo[knp]}
 
 # Titre de la fenêtre d'un xterm
 case $TERM in
-   xterm*)
-       precmd () {print -Pn "\e]0;%n@%m: %~\a"}
-       ;;
+    xterm*)
+        if [ -z "$SEQUANS_VPN" ]
+        then
+            precmd () {print -Pn "\e]0;%n@%m: %~\a"}
+        fi
+        ;;
 esac
 
 
