@@ -200,7 +200,7 @@ def main() :
     dbg.info(HEADER, "In  main args=" + str(args))
 
     ## Create list of files
-    extAuth=[".jpg", ".JPG", ".jpeg", ".JPEG", ".tif", ".TIF", ".gif", ".GIF"]
+    extAuth=[".jpg", ".JPG", ".jpeg", ".JPEG", ".tif", ".TIF", ".gif", ".GIF", ".bmp", ".BMP"]
     (fileList, warnC) = listFromArgs(dbg, HEADER, args, extAuth)
 
     ## Verify if there is at least one file to convert
