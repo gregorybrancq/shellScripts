@@ -20,6 +20,7 @@ alias ls='ls --classify --tabsize=0 --literal --color=auto --show-control-chars 
 alias l='ls -l'
 alias la='ls -a'
 alias ll='ls -la'
+alias lt='ls -rtalFh'
 alias lS='ls -rtalFhS'
 
 # Demande confirmation avant d'écraser un fichier
