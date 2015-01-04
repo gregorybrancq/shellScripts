@@ -13,6 +13,8 @@ PATTERN_RESULTAT_DEPOT="The document has moved"
 PATTERN_SUIVI_DEPOT_TERMINE='proc&eacute;dure termin&eacute;e avec succ&egrave;s'
 PATTERN_SUIVI_DEPOT_EN_COURS='Envoi en cours'
 PATTERN_SUIVI_DEPOT_EN_ATTENTE='En attente de traitement'
+PATTERN_SUIVI_DEPOT_CONTROLE='Calcul de la somme de contr&ocirc;le...'
+PATTERN_SUIVI_DEPOT_MISE_EN_LIGNE='Mise en ligne du fichier'
 PATTERN_SUIVI_DEPOT_ANTIVIRUS='Test antivirus'
 PATTERN_FICHIER_DEPOSE="${PATTERN_SUIVI_DEPOT_TERMINE}"
 PATTERN_DEMANDE_SUPPRESSION="${PATTERN_SUIVI_DEPOT_TERMINE}"
@@ -41,10 +43,12 @@ if [ -z "${URI_DEPOT}" ]; then
   echo "Echec lors de la recuperation d'un identifiant - URI de depot vide"
   exit 1
 fi
-#echo "URI_DEPOT : ${URI_DEPOT}"
+echo "URI_DEPOT : ${URI_DEPOT}"
+echo "URL_DEPOT : ${URL_FREE}${URI_DEPOT}"
 
 echo "Etape 2 - depot du fichier ${FICHIER} sur ${URL_FREE}${URI_DEPOT}"
 FICHIER_RESULTAT_UPLOAD=$(mktemp)
+echo "FICHIER_RESULTAT_UPLOAD : ${FICHIER_RESULTAT_UPLOAD}"
 curl -A "${USER_AGENT}" -e "${REFERER}" -H "${ENTETE_ACCEPT}" -H "${ENTETE_ACCEPT_LANGUAGE}" -H "${ENTETE_ACCEPT_CHARSET}" -F "ufile=@${FICHIER};filename=${FICHIER};type=application/octet-stream" -F mail1="" -F mail2="" -F mail3="" -F mail4="" -F message="" -F password="" "${URL_FREE}${URI_DEPOT}" 1>"${FICHIER_RESULTAT_UPLOAD}" 2>"${FICHIER_RESULTAT_UPLOAD}.err"
 if [ $? -ne 0 ]; then
   echo "Echec lors du depot du fichier"
@@ -55,11 +59,12 @@ if [ -z "${URL_SUIVI_DEPOT}" ]; then
   echo "Echec lors du depot du fichier - URL de suivi vide"
   exit 1
 fi
-#echo "URL_SUIVI_DEPOT : ${URL_SUIVI_DEPOT}"
+echo "URL_SUIVI_DEPOT : ${URL_SUIVI_DEPOT}"
 
 echo "Etape 3 - suivi du depot du fichier ${FICHIER} via l'URL ${URL_SUIVI_DEPOT}"
 sleep 5
 FICHIER_RESULTAT_SUIVI=$(mktemp)
+echo "FICHIER_RESULTAT_SUIVI : ${FICHIER_RESULTAT_SUIVI}"
 iteration=1
 while true
 do
@@ -71,7 +76,7 @@ do
   fi
   if [ $(grep -c "${PATTERN_SUIVI_DEPOT_TERMINE}" ${FICHIER_RESULTAT_SUIVI}) -eq 1 ]; then
     break
-  elif [ $(grep -c -E "(${PATTERN_SUIVI_DEPOT_EN_COURS}|${PATTERN_SUIVI_DEPOT_EN_ATTENTE}|${PATTERN_SUIVI_DEPOT_ANTIVIRUS})" ${FICHIER_RESULTAT_SUIVI}) -eq 1 ]; then
+  elif [ $(grep -c -E "(${PATTERN_SUIVI_DEPOT_CONTROLE}|${PATTERN_SUIVI_DEPOT_MISE_EN_LIGNE}|${PATTERN_SUIVI_DEPOT_EN_COURS}|${PATTERN_SUIVI_DEPOT_EN_ATTENTE}|${PATTERN_SUIVI_DEPOT_ANTIVIRUS})" ${FICHIER_RESULTAT_SUIVI}) -eq 1 ]; then
     sleep 5
   else
     echo "Echec lors du suivi du depot - fichier ni traite ni en cours de traitement"
