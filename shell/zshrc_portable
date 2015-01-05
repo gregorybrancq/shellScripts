@@ -53,7 +53,7 @@ export DELL="1"
 
 # VIM
 export VIMRUNTIME="/usr/share/vim/vim74"
-export VIMRC="$HOME/Perso/work/env/vim"
+export VIMRC="/data/exports/users/gregory/Perso/work/env/vim"
 
 ## PATH
 for incr_path ( $HOME/Perso/work/bin )
