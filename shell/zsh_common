@@ -60,16 +60,16 @@ bindkey '\e^?'  backward-delete-word    # [Esc+Backspace]
 # Prise en charge des touches [début], [fin] et autres
 typeset -A key
 
-key[Home]=${terminfo[khome]}
-key[End]=${terminfo[kend]}
-key[Insert]=${terminfo[kich1]}
-key[Delete]=${terminfo[kdch1]}
-key[Up]=${terminfo[kcuu1]}
-key[Down]=${terminfo[kcud1]}
-key[Left]=${terminfo[kcub1]}
-key[Right]=${terminfo[kcuf1]}
-key[PageUp]=${terminfo[kpp]}
-key[PageDown]=${terminfo[knp]}
+#key[Home]=${terminfo[khome]}
+#key[End]=${terminfo[kend]}
+#key[Insert]=${terminfo[kich1]}
+#key[Delete]=${terminfo[kdch1]}
+#key[Up]=${terminfo[kcuu1]}
+#key[Down]=${terminfo[kcud1]}
+#key[Left]=${terminfo[kcub1]}
+#key[Right]=${terminfo[kcuf1]}
+#key[PageUp]=${terminfo[kpp]}
+#key[PageDown]=${terminfo[knp]}
 
 [[ -n "${key[Home]}"    ]]  && bindkey  "${key[Home]}"    beginning-of-line
 [[ -n "${key[End]}"     ]]  && bindkey  "${key[End]}"     end-of-line
@@ -82,7 +82,7 @@ key[PageDown]=${terminfo[knp]}
 
 # by default: export WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 # we take out the slash, period, angle brackets, dash here.
-export WORDCHARS='*?_[]~=&;!#$%^(){}'
+export WORDCHARS='*?_[]~=&;!#$%^(){}.'
 
 # Titre de la fenêtre d'un xterm
 case $TERM in
@@ -258,6 +258,35 @@ zstyle ':completion:*:cp:*' ignore-line yes
 
 autoload -Uz compinit
 compinit
+
+
+###############
+# Environment #
+###############
+
+# Viewer/Editeur par defaut (pour Crontab, CVS,...)
+export VISUAL=vim
+export EDITOR=vim
+
+# Permissions rw-r--r-- pour les fichiers crées
+# et rwxr-xr-x pour les répertoires crées
+umask 022
+
+# Proxy HTTP / FTP sans mot de passe
+#export http_proxy="http://proxy.exemple.org:8080"
+#export ftp_proxy="ftp://proxy.exemple.org:8080"
+
+# Proxy HTTP / FTP avec mot de passe
+#export http_proxy="http://login:password@proxy.exemple.org:8080"
+#export ftp_proxy="ftp://login:password@proxy.exemple.org:8080"
+
+# Ne pas passer par le proxy pour les domaines locaux
+#export no_proxy="exemple.org"
+
+# De la couleur pour grep
+export GREP_OPTIONS='--color=auto'
+
+
 
 # Le logiciel autojump <https://github.com/joelthelion/autojump> fournit un
 # moyen d'accéder rapidement aux répertoires fréquemment visités, en tapant
