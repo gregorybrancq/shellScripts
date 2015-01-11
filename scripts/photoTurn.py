@@ -63,8 +63,7 @@ parser.add_option(
 
 t = str(datetime.datetime.today().isoformat("_"))
 logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
-lockFile = os.path.join(logDir, HEADER + ".lock")
-warnC = 0
+errC = 0
 
 ###############################################
 
@@ -80,7 +79,7 @@ warnC = 0
 
 def exifConvert(photoList) :
     global dbg
-    global warnC
+    global errC
     dbg.info(HEADER, "In  exifConvert")
 
     oldDir = os.getcwd()
@@ -94,12 +93,11 @@ def exifConvert(photoList) :
         procPopen = subprocess.Popen('exifautotran "' + photoN + photoE + '"', shell=True, stderr=subprocess.STDOUT)
         procPopen.wait()
         if (procPopen.returncode != 0) :
-            warnC += 1
+            errC += 1
             dbg.warn(HEADER, "In  exifConvert file " + str(os.path.join(photoD, photoN + photoE)) + " was not turned.")
 
         if (photoD != "") :
             os.chdir(oldDir)
-
 
     dbg.info(HEADER, "Out exifConvert")
 
@@ -121,7 +119,7 @@ def exifConvert(photoList) :
 
 def main() :
     global dbg
-    global warnC
+    warnC = 0
     dbg.info(HEADER, "In  main")
 
     photoList = list()
@@ -139,18 +137,11 @@ def main() :
     else :
         dbg.info(HEADER, "In  main photo to convert = " + str(len(photoList)))
 
-    ## Avoid another same program to run
-    verify_lock_file(lockFile)
-    create_lock_file(lockFile)
-
     ## Convert them
     exifConvert(photoList)
 
     ## End dialog
     dialog_end(warnC, errC, logFile, "Pivoter les images", "\nJob fini : " + str(len(photoList)) + " images converties.")
-    
-    ## Remove lock file
-    remove_lock_file(lockFile)
     
     dbg.info(HEADER, "Out main")
 
