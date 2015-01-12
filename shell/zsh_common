@@ -208,22 +208,29 @@ setopt hist_ignore_all_dups
 setopt sharehistory
 setopt hist_ignore_dups
 
-# Supprime les  répétitions dans le fichier  d'historique, ne conservant
-# que la dernière occurrence ajoutée
-#setopt hist_ignore_all_dups
-
-# Supprime les  répétitions dans l'historique lorsqu'il  est plein, mais
+# Supprime les répétitions dans l'historique lorsqu'il est plein, mais
 # pas avant
 setopt hist_expire_dups_first
 
 # N'enregistre  pas plus d'une fois  une même ligne, quelles  que soient
 # les options fixées pour la session courante
-#setopt hist_save_no_dups
+setopt hist_save_no_dups
 
 # La recherche dans  l'historique avec l'éditeur de commandes  de zsh ne
 # montre  pas  une même  ligne  plus  d'une fois,  même  si  elle a  été
 # enregistrée
 setopt hist_find_no_dups
+
+# fix zsh annoying history behavior
+autoload -Uz up-line-or-beginning-search
+autoload -Uz down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '\eOA' up-line-or-beginning-search
+bindkey '\e[A' up-line-or-beginning-search
+bindkey '\eOB' down-line-or-beginning-search
+bindkey '\e[B' down-line-or-beginning-search
+
 
 
 ########################################
