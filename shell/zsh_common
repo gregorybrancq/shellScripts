@@ -8,7 +8,7 @@
 # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 if [ "`id -u`" -eq 0 ]; then
     # ROOT
-    export PS1="%{[34;1m%}[%D{%d-%m} %*] %{[32m%}%n%{[32m%}@%{[32m%}%m %{[36m%}%~ %{[33m%}>%{[0m%} "
+    export PS1="%{[34;1m%}[%D{%d-%m} %*] %{[33m%}%n%{[33m%}@%{[33m%}%m %{[36m%}%~ %{[33m%}>%{[0m%} "
 else
     # USER
     export PS1="%{[34;1m%}[%D{%d-%m} %*] %{[35m%}%n%{[35m%}@%{[35m%}%m %{[36m%}%~ %{[33m%}>%{[0m%} "
@@ -18,6 +18,19 @@ autoload -Uz promptinit
 promptinit
 #prompt adam1
 
+
+##################################
+# Titre de la fenêtre d'un xterm #
+##################################
+
+case $TERM in
+    xterm*)
+        if [ -z "$SEQUANS_VPN" ]
+        then
+            precmd () {print -Pn "\e]0;%n@%m: %~\a"}
+        fi
+        ;;
+esac
 
 
 ##########################
@@ -83,16 +96,6 @@ typeset -A key
 # by default: export WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 # we take out the slash, period, angle brackets, dash here.
 export WORDCHARS='*?_[]~=&;!#$%^(){}.'
-
-# Titre de la fenêtre d'un xterm
-case $TERM in
-    xterm*)
-        if [ -z "$SEQUANS_VPN" ]
-        then
-            precmd () {print -Pn "\e]0;%n@%m: %~\a"}
-        fi
-        ;;
-esac
 
 
 ########################################
@@ -253,8 +256,8 @@ zstyle ':completion:*:*:killall:*' menu yes select
 
 # Pour éviter de proposer un élément déjà présent lors d'un cp, mv ou rm
 zstyle ':completion:*:rm:*' ignore-line yes
-zstyle ':completion:*:mv:*' ignore-line yes
-zstyle ':completion:*:cp:*' ignore-line yes
+#zstyle ':completion:*:mv:*' ignore-line yes
+#zstyle ':completion:*:cp:*' ignore-line yes
 
 autoload -Uz compinit
 compinit

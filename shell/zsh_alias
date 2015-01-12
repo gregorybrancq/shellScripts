@@ -1,3 +1,4 @@
+# echo "** In  .zsh_alias **"
 
 # Gestion de la couleur pour 'ls' (exportation de LS_COLORS)
 if [ -x /usr/bin/dircolors ]
@@ -66,6 +67,7 @@ alias tkg='git tkdiff \!*'
 alias tkgc='git tkdiffc \!*'
 alias it='install_tools \!*'
 alias webex='setenv LD_LIBRARY_PATH "/opt/java/jre-8u25_i586/lib/i386:/opt/java/jre-8u25_i586/lib/i386/client"; linux32 firefox'
+alias ce='soffice /home/gregory/perso/ce/ce-activity.ods &'
 
 # Git
 alias gsta='git status \!*'
@@ -81,4 +83,6 @@ alias ssk='ssh -X gregory@kenny'
 alias ssz='ssh -X gregory@mazis'
 alias ssf='ssh -Y fpga@kenny'
 alias sse='ssh -Y edatools@kenny'
+
+#echo "** Out .zsh_alias **"
 
