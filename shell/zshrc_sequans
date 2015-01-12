@@ -1,0 +1,114 @@
+#!/usr/bin/env zsh
+#   _________  _   _ ____   ____ 
+#  |__  / ___|| | | |  _ \ / ___|
+#    / /\___ \| |_| | |_) | |    
+# _ / /_ ___) |  _  |  _ <| |___ 
+#(_)____|____/|_| |_|_| \_\\____|
+#
+ 
+# /etc/zsh/zshrc ou ~/.zshrc
+# Fichier de configuration principal de zsh, lu au lancement des shells interactifs
+# (et non des shells d'interprétation de fichier)
+# Formation Debian GNU/Linux par Alexis de Lattre
+# http://formation-debian.via.ecp.fr/
+
+#echo "** In  .zshrc **"
+
+
+#############
+# Les alias #
+#############
+
+if [ -r ~/.zsh_alias ]
+then
+    source ~/.zsh_alias
+fi
+
+
+####################################
+# Prompt et définition des touches #
+####################################
+
+if [ -r ~/.zsh_common ]
+then
+    source ~/.zsh_common
+fi
+
+
+#######
+# Git #
+#######
+
+# if [ -r ~/.git-completion.zsh ]
+# then
+#     source ~/.git-completion.zsh    
+# fi
+
+
+###########
+# Sequans #
+###########
+
+# VIM
+export VIMRUNTIME="/usr/share/vim/vim73"
+export VIMRC="$HOME/.vim"
+
+## PATH
+for incr_path ( $HOME/nobackup/tools/bin/ )
+do
+    if [ -d $incr_path ]
+    then
+        if [ ! -z "$PATH" ]
+        then
+            path_status=`echo $PATH | grep "$incr_path"` >> /dev/null
+            if [ -z "$path_status" ]
+            then
+                export PATH=${incr_path}:"${PATH}"
+            fi
+        else
+            export PATH="${incr_path}"
+        fi
+    fi
+    unset path_status
+done
+
+
+##
+## TOOLS PART
+##
+
+export NEWT="1"
+
+if ! [ -z $NEWT ]
+then
+    if ! [ -z $VERTOOLS ]
+    then
+        export VERTOOLS="mongoose"
+    fi
+    # be careful for grid engine
+    export VERTOOLS="mongoose"
+    export RELTOOLS="latest2"
+    #export RELTOOLS="draftTools"
+
+    if [ -f /tools/tools_env/$RELTOOLS/source_tools.sh ]
+    then
+        source /tools/tools_env/$RELTOOLS/source_tools.sh
+    fi
+
+else
+    if ! [ -z $VERTOOLS ]
+    then
+        export VERTOOLS="mongoose"
+    fi
+    export RELTOOLS="latest"
+
+    if [ -f /delivery/tools_env/$RELTOOLS/source_tools.sh ]
+    then
+        source /delivery/tools_env/$RELTOOLS/source_tools.sh
+    fi
+
+fi
+
+
+#echo "** Out .zshrc **"
+
