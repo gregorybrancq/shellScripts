@@ -66,7 +66,7 @@ alias tk='tkdiff \!*'
 alias tkg='git tkdiff \!*'
 alias tkgc='git tkdiffc \!*'
 alias it='install_tools \!*'
-alias webex='setenv LD_LIBRARY_PATH "/opt/java/jre-8u25_i586/lib/i386:/opt/java/jre-8u25_i586/lib/i386/client"; linux32 firefox'
+alias webex='export LD_LIBRARY_PATH="/opt/java/jre-8u25_i586/lib/i386:/opt/java/jre-8u25_i586/lib/i386/client"; linux32 firefox'
 alias ce='soffice /home/gregory/perso/ce/ce-activity.ods &'
 
 # Git
