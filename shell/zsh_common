@@ -8,10 +8,10 @@
 # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 if [ "`id -u`" -eq 0 ]; then
     # ROOT
-    export PS1="%{[34;1m%}[%D{%d-%m} %*] %{[33m%}%n%{[33m%}@%{[33m%}%m %{[36m%}%~ %{[33m%}>%{[0m%} "
+    export PS1="%{[34;1m%}[%D{%d-%m} %*] %{[31m%}%n%{[31m%}@%{[31m%}%m %{[36m%}%~ %{[34m%}>%{[0m%} "
 else
     # USER
-    export PS1="%{[34;1m%}[%D{%d-%m} %*] %{[35m%}%n%{[35m%}@%{[35m%}%m %{[36m%}%~ %{[33m%}>%{[0m%} "
+    export PS1="%{[34;1m%}[%D{%d-%m} %*] %{[35m%}%n%{[35m%}@%{[35m%}%m %{[36m%}%~ %{[34m%}>%{[0m%} "
 fi
 # Set up the prompt
 autoload -Uz promptinit
