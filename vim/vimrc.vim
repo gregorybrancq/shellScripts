@@ -340,6 +340,8 @@ endif " gui_running
     :imap <F2> <ESC>:w<CR>
     :map <C-S> :w<CR>
     :imap <C-S> <ESC>:w<CR>
+    :map <C-S-S> :wall<CR>
+    :imap <C-S-S> <ESC>:wall<CR>
     :map <F3> :wall<CR>
     :imap <F3> <ESC>:wall<CR>
 
