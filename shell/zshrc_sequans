@@ -14,6 +14,10 @@
 
 #echo "** In  .zshrc **"
 
+# Debian issue... to force to have the cursor at the end of line in history
+unsetopt global_rcs
+
+
 
 #############
 # Les alias #
@@ -48,6 +52,8 @@ fi
 ###########
 # Sequans #
 ###########
+
+# OWN
 
 # VIM
 export VIMRUNTIME="/usr/share/vim/vim73"
