@@ -49,6 +49,9 @@ fi
 # Home #
 ########
 
+# OWN
+## see /etc/environment for CHROOT_WORKDIR="/home/greg/Greg/work/sequans/chroot"
+
 # VIM
 export VIMRUNTIME="/usr/share/vim/vim74"
 export VIMRC="$HOME/Greg/work/env/vim"

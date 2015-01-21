@@ -49,7 +49,9 @@ fi
 # Portable #
 ############
 
+# OWN
 export DELL="1"
+## see etc_environment for CHROOT_WORKDIR="/data/exports/users/gregory/Perso/work/sequans/chroot"
 
 # VIM
 export VIMRUNTIME="/usr/share/vim/vim74"
