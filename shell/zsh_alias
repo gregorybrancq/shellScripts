@@ -49,6 +49,13 @@ alias appppppp='cd ../../../../../../..;pwd'
 alias apppppppp='cd ../../../../../../../..;pwd'
 alias appppppppp='cd ../../../../../../../../..;pwd'
 
+if [ -z "$DELL" ]
+then
+    alias work='cd $HOME/Greg/work'
+else
+    alias work='cd $HOME/Perso/work'
+fi
+
 alias so='source'
 alias xx='exit'
 alias ki='kill -9 \!*'
@@ -58,7 +65,7 @@ alias pss='ps -edf | grep greg | more'
 alias pst='pss | grep firefox | grep -v grep; pss | grep thunder | grep -v grep; pss | grep skype | grep -v grep'
 alias psnx='pss | grep nx | grep -v grep'
 
-# Programmes
+# Programs
 alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
 alias fr='setxkbmap fr'
 alias v='vim -g -geom 100x50 \!*'
