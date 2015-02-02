@@ -15,36 +15,6 @@
 #echo "** In  .zshrc **"
 
 
-#############
-# Les alias #
-#############
-
-if [ -r ~/.zsh_alias ]
-then
-    source ~/.zsh_alias
-fi
-
-
-####################################
-# Prompt et définition des touches #
-####################################
-
-if [ -r ~/.zsh_common ]
-then
-    source ~/.zsh_common
-fi
-
-
-#######
-# Git #
-#######
-
-# if [ -r ~/.git-completion.zsh ]
-# then
-#     source ~/.git-completion.zsh    
-# fi
-
-
 ############
 # Portable #
 ############
@@ -75,5 +45,35 @@ do
     fi
     unset path_status
 done
+
+
+#############
+# Les alias #
+#############
+
+if [ -r ~/.zsh_alias ]
+then
+    source ~/.zsh_alias
+fi
+
+
+####################################
+# Prompt et définition des touches #
+####################################
+
+if [ -r ~/.zsh_common ]
+then
+    source ~/.zsh_common
+fi
+
+
+#######
+# Git #
+#######
+
+# if [ -r ~/.git-completion.zsh ]
+# then
+#     source ~/.git-completion.zsh    
+# fi
 
 #echo "** Out .zshrc **"
