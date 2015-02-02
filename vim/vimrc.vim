@@ -471,7 +471,7 @@ endif " gui_running
 "    source $VIMRC/plugin/BlockComment.vim
 "    " Utilise les fonctions grep
 "    source $VIMRC/plugin/grep.vim
-    "source $VIMRC/plugin/utils.vim
+    source $VIMRC/plugin/utils.vim
     "source $VIMRC/plugin/fexplore.vim
     "source $VIMRC/plugin/minibufexpl.vim
 
