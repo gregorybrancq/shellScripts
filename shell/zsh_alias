@@ -59,6 +59,7 @@ fi
 alias so='source'
 alias xx='exit'
 alias ki='kill -9 \!*'
+alias rmswp='rm **/.*.swp'
 
 # Process
 alias pss='ps -edf | grep greg | more'
@@ -84,12 +85,12 @@ alias glog='git log --name-status \!*'
 
 # Machines
 alias ss='ssh -XY \!*'
-alias ssp='ssh -X gregory@portable'
-alias ssc='ssh -X gregory@chablis'
-alias ssk='ssh -X gregory@kenny'
-alias ssz='ssh -X gregory@mazis'
-alias ssf='ssh -Y fpga@kenny'
-alias sse='ssh -Y edatools@kenny'
+alias ssp='ssh -XY gregory@portable'
+alias ssc='ssh -XY gregory@chablis'
+alias ssk='ssh -XY gregory@kenny'
+alias ssz='ssh -XY gregory@mazis'
+alias ssf='ssh -XY fpga@kenny'
+alias sse='ssh -XY edatools@kenny'
 
 #echo "** Out .zsh_alias **"
 
