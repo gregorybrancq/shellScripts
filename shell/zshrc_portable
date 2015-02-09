@@ -28,7 +28,7 @@ export VIMRUNTIME="/usr/share/vim/vim74"
 export VIMRC="/data/exports/users/gregory/Perso/work/env/vim"
 
 ## PATH
-for incr_path ( $HOME/Perso/work/bin )
+for incr_path ( $HOME/Perso/work/env/bin )
 do
     if [ -d $incr_path ]
     then
