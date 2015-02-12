@@ -60,6 +60,7 @@ alias so='source'
 alias xx='exit'
 alias ki='kill -9 \!*'
 alias rmswp='rm **/.*.swp'
+alias rmpyc='rm **/*.pyc'
 
 # Process
 alias pss='ps -edf | grep greg | more'
