@@ -205,7 +205,8 @@ setopt inc_append_history
 # précédente
 setopt hist_ignore_space
 setopt hist_ignore_all_dups
-setopt sharehistory
+#setopt sharehistory
+setopt no_share_history
 setopt hist_ignore_dups
 
 # Supprime les répétitions dans l'historique lorsqu'il est plein, mais
