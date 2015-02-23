@@ -1,0 +1,79 @@
+#!/bin/sh
+
+# Reinitialise les regles
+iptables -F
+iptables -X
+
+# Bloque tout le trafic
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT # cette ligne que je souhaite passer en DROP !
+
+# Autorise les connexions deja etablies et localhost
+iptables -A INPUT  -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A INPUT  -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+
+# ICMP (Ping)
+iptables -A INPUT  -p icmp -j ACCEPT
+iptables -A OUTPUT -p icmp -j ACCEPT
+
+# ici je souhaite ajouter une regle pour ipredator mais je ne sais pas laquelle ??
+
+## SSH port (22)
+iptables -A OUTPUT -p tcp --dport ssh -j ACCEPT
+iptables -A INPUT  -p tcp --dport ssh -j ACCEPT
+
+## Samba
+#iptables -A OUTPUT -p tcp --dport 137 -j ACCEPT
+#iptables -A INPUT  -p tcp --dport 137 -j ACCEPT
+#iptables -A OUTPUT -p tcp --dport 138 -j ACCEPT
+#iptables -A INPUT  -p tcp --dport 138 -j ACCEPT
+#iptables -A OUTPUT -p tcp --dport 445 -j ACCEPT
+#iptables -A INPUT  -p tcp --dport 445 -j ACCEPT
+
+# HTTP
+iptables -A OUTPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT  -p tcp --dport 80 -j ACCEPT
+
+# HTTPS
+iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT
+iptables -A INPUT  -p tcp --dport 443 -j ACCEPT
+
+## OPENVPN Sequans
+iptables -A INPUT -p udp --dport 1194 -j ACCEPT
+iptables -A INPUT -i tap+ -j ACCEPT
+iptables -A FORWARD -i tap+ -j ACCEPT 
+#iptables -t nat -A POSTROUTING -s  10.1.0.0/24 -o eth0 -j MASQUERADE
+## OPENVPN Charly
+#iptables -A INPUT -p udp --dport 50156 -j ACCEPT
+#iptables -A INPUT -i tap+ -j ACCEPT
+#iptables -A FORWARD -i tap+ -j ACCEPT 
+
+# Mediatomb
+iptables -A INPUT -p tcp --dport 49152 -j ACCEPT
+iptables -A INPUT -p udp --dport 49152 -j ACCEPT
+iptables -A INPUT -p udp --dport 1900 -j ACCEPT
+
+# Freebox HD access hd1.freebox.fr
+iptables -A INPUT -s 212.27.40.254 -j ACCEPT
+
+## To allow incoming traffic for amule
+iptables -A INPUT -p tcp --dport 46627 -j ACCEPT
+iptables -A INPUT -p udp --dport 46727 -j ACCEPT
+
+# ## To allow incoming traffic for vuze
+# iptables -A INPUT -p tcp --dport 36321 -j ACCEPT
+# iptables -A INPUT -p udp --dport 36320 -j ACCEPT
+
+# Règles speciales ###
+# Ici on évite les requetes qui tentent de surcharger la machine fLOOD OU DENY DE SERVICE
+iptables -A FORWARD -p tcp --syn -m limit --limit 1/second -j ACCEPT
+iptables -A FORWARD -p udp -m limit --limit 1/second -j ACCEPT
+iptables -A FORWARD -p icmp --icmp-type echo-request -m limit --limit 1/second -j ACCEPT
+
+# evite les scans de ports
+iptables -A FORWARD -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s -j ACCEPT
+
+
