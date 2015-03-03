@@ -52,10 +52,10 @@ alias appppppppp='cd ../../../../../../../../..;pwd'
 if [ -z "$DELL" ]
 then
     alias work='cd $HOME/Greg/work'
-    alias suwiki='sudo find . -type d -exec chmod g+w {} \; && sudo chown -R www-data:www-data $HOME/Greg/work/dokuwiki'
+    alias suwiki='sudo find $HOME/Greg/work/dokuwiki -type d -exec chmod g+w {} \; && sudo chown -R www-data:www-data $HOME/Greg/work/dokuwiki'
 else
     alias work='cd $HOME/Perso/work'
-    alias suwiki='sudo find . -type d -exec chmod g+w {} \; && sudo chown -R www-data:www-data $HOME/Perso/work/dokuwiki'
+    alias suwiki='sudo find $HOME/Perso/work/dokuwiki -type d -exec chmod g+w {} \; && sudo chown -R www-data:www-data $HOME/Perso/work/dokuwiki'
 fi
 
 alias so='source'
