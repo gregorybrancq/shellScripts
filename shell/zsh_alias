@@ -84,7 +84,7 @@ alias ce='soffice /home/gregory/perso/ce/ce-activity.ods &'
 alias gsta='git status \!*'
 alias gst='git status -uno \!*'
 alias gci='git commit -m \!*'
-alias glog='git log --name-status \!*'
+alias glog='git log --name-status --full-history \!*'
 
 # Machines
 alias ss='ssh -XY \!*'
