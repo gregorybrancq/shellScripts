@@ -7,7 +7,7 @@ if ($#mntExist == "0") then
     sleep 1
     set mntExist=`ls /mnt/Portable/`
     if ($#mntExist != "0") then
-        unison-gtk -links false Portable &
+        unison-gtk -links false "Portable_samba" &
     endif
 else
     umount /mnt/Portable/
