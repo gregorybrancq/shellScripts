@@ -175,9 +175,9 @@ def getHomeDir():
 
 def getBinDir():
     if isDell() :
-        return os.path.join(getHomeDir(),"Perso/work/bin")
+        return os.path.join(getHomeDir(),"Perso/work/env/bin")
     else :
-        return os.path.join(getHomeDir(),"Greg/work/bin")
+        return os.path.join(getHomeDir(),"Greg/work/env/bin")
 
 def getEnvDir():
     if isDell() :
