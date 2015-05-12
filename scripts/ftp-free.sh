@@ -20,6 +20,10 @@ PATTERN_FICHIER_DEPOSE="${PATTERN_SUIVI_DEPOT_TERMINE}"
 PATTERN_DEMANDE_SUPPRESSION="${PATTERN_SUIVI_DEPOT_TERMINE}"
 PATTERN_DEMANDE_SUPPRESSION_EFFECTIVE='Si vous souhaitez r&eacute;element supprimer le fichier'
 
+PATTERN_ERREUR_INTERNE="Erreur 500 - Erreur interne du serveur"
+PATTERN_DEMANDE_SUPPRESSION_EFFECTIVE2="Vous pouvez supprimer le fichier lorsque vous le d&eacute;sirez via l'adresse suivante:  "
+
+
 usage() {
   echo "usage : $(basename $0) NomCompletFichier"
 }
@@ -88,20 +92,30 @@ URL_FICHIER_DEPOSE=$(grep "${PATTERN_FICHIER_DEPOSE}" ${FICHIER_RESULTAT_SUIVI} 
 URL_DEMANDE_SUPPRESSION=$(grep "${PATTERN_DEMANDE_SUPPRESSION}" ${FICHIER_RESULTAT_SUIVI} | awk ' BEGIN { FS="</*a[^>]*>" } { print $4 } ')
 if [ -z "${URL_DEMANDE_SUPPRESSION}" ]; then
   echo "Echec lors du depot du fichier - URL de demande de suppression du fichier vide"
-  exit 1
+  #exit 1
 fi
 
 echo "Etape 4 - recuperation URL de suppression effective du fichier depose"
 FICHIER_RESULTAT_DEMANDE_SUPPRESSION=$(mktemp)
+echo "FICHIER_RESULTAT_DEMANDE_SUPPRESSION : ${FICHIER_RESULTAT_DEMANDE_SUPPRESSION}"
 curl -A "${USER_AGENT}" -e "${REFERER}" -H "${ENTETE_ACCEPT}" -H "${ENTETE_ACCEPT_LANGUAGE}" -H "${ENTETE_ACCEPT_CHARSET}" "${URL_DEMANDE_SUPPRESSION}" 1>"${FICHIER_RESULTAT_DEMANDE_SUPPRESSION}" 2>"${FICHIER_RESULTAT_DEMANDE_SUPPRESSION}.err"
 if [ $? -ne 0 ]; then
   echo "Echec lors de la recuperation de l'URL suppression effective du fichier depose"
-  exit 1
+  #exit 1
 fi
-URL_SUPPRESSION_FICHIER_DEPOSE=$(grep "${PATTERN_DEMANDE_SUPPRESSION_EFFECTIVE}" ${FICHIER_RESULTAT_DEMANDE_SUPPRESSION} | awk ' BEGIN { FS="<a href=\"" } { print $2 } '| cut -d \" -f 1)
+
+TEST_SUPPRESSION_FICHIER_SERVEUR=$(grep "${PATTERN_ERREUR_INTERNE}" ${FICHIER_RESULTAT_DEMANDE_SUPPRESSION})
+echo "TEST_SUPPRESSION_FICHIER_SERVEUR=$TEST_SUPPRESSION_FICHIER_SERVEUR"
+if [ -z "${TEST_SUPPRESSION_FICHIER_SERVEUR}" ]; then
+    # Pas de pbme de serveur
+    URL_SUPPRESSION_FICHIER_DEPOSE=$(grep "${PATTERN_DEMANDE_SUPPRESSION_EFFECTIVE}" ${FICHIER_RESULTAT_DEMANDE_SUPPRESSION} | awk ' BEGIN { FS="<a href=\"" } { print $2 } '| cut -d \" -f 1)
+else
+    # Pbme de serveur
+    URL_SUPPRESSION_FICHIER_DEPOSE=$(grep "${PATTERN_DEMANDE_SUPPRESSION_EFFECTIVE2}" ${FICHIER_RESULTAT_SUIVI} | awk ' BEGIN { FS="<a class=\"underline\" href=\"" } { print $3 } ' | cut -d \" -f 1)
+fi
 if [ -z "${URL_SUPPRESSION_FICHIER_DEPOSE}" ]; then
-  echo "Echec lors de la recuperation de l'URL suppression effective du fichier depose - URL effective vide"
-  exit 1
+    echo "Echec lors de la recuperation de l'URL suppression effective du fichier depose - URL effective vide"
+    #exit 1
 fi
 
 echo "Etape 5 - resultats"
