@@ -52,7 +52,7 @@ STICKY 33 # dir with the sticky bit set (+t) and not other-writable
 # Couleur pour les fichiers selon leur extension
 
 # Fichiers de configuration
-.conf 01;33
+.conf 01;35
 # Fichiers exécutables
 .sh   01;31
 .pl   01;31
