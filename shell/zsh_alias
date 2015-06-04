@@ -91,9 +91,12 @@ alias glog='git log --name-status \!*'
 # Machines
 alias ss='ssh -XY \!*'
 alias ssp='ssh -XY gregory@portable'
-alias ssc='ssh -XY gregory@chablis'
+alias ssvpn='ssh -XY greg@10.13.0.1'
+
+# sequans machines
 alias ssk='ssh -XY gregory@kenny'
 alias ssz='ssh -XY gregory@mazis'
+alias ssx='ssh -XY gregory@fixin'
 alias ssf='ssh -XY fpga@kenny'
 alias sse='ssh -XY edatools@kenny'
 
