@@ -90,6 +90,7 @@ alias glog='git log --name-status \!*'
 
 # Machines
 alias ss='ssh -XY \!*'
+alias ssm='ssh -XY greg@home'
 alias ssp='ssh -XY gregory@portable'
 alias ssvpn='ssh -XY greg@10.13.0.1'
 
