@@ -14,14 +14,6 @@ import time
 import datetime
 import random
 
-# use for graphical interface
-import gobject
-import gtk
-import pygtk
-pygtk.require('2.0')
-gtk.gdk.threads_init()
-
-
 
 
 ###############################################
@@ -82,8 +74,18 @@ class LOGC(object):
 ###############################################
 ###############################################
 
+## Import GTK libraries
+def import_gtk() :
+    # use for graphical interface
+    import gobject
+    import gtk
+    import pygtk
+    pygtk.require('2.0')
+    gtk.gdk.threads_init()
+
 ## Dialog GUI
 def dialog_info(title,msg) :
+    import_gtk()
     dialog = gtk.MessageDialog(None,
         gtk.DIALOG_MODAL,
         gtk.MESSAGE_INFO,
@@ -95,6 +97,7 @@ def dialog_info(title,msg) :
 
 
 def dialog_error(title,msg) :
+    import_gtk()
     dialog = gtk.MessageDialog(None,
         gtk.DIALOG_MODAL,
         gtk.MESSAGE_ERROR,
@@ -106,6 +109,7 @@ def dialog_error(title,msg) :
 
 
 def dialog_ask(title,msg) :
+    import_gtk()
     dialog = gtk.MessageDialog(None,
         gtk.DIALOG_MODAL,
         gtk.MESSAGE_QUESTION,
