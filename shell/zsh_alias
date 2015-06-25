@@ -87,6 +87,7 @@ alias gsta='git status \!*'
 alias gst='git status -uno \!*'
 alias gci='git commit -m \!*'
 alias glog='git log --name-status \!*'
+alias gtag='git show -q --source `git tag -l`'
 
 # Machines
 alias ss='ssh -XY \!*'
