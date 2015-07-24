@@ -73,7 +73,7 @@ alias psnx='pss | grep nx | grep -v grep'
 
 # Programs
 alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
-alias fr='setxkbmap fr'
+alias keybfr='setxkbmap fr'
 alias v='vim -g -geom 100x50 \!*'
 alias tk='tkdiff \!*'
 alias tkg='git tkdiff \!*'
