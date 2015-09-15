@@ -70,7 +70,7 @@ t = str(datetime.datetime.today().isoformat("_"))
 logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 lockFile = os.path.join(logDir, HEADER + ".lock")
 
-fileBackupDir = os.path.join(homeDir, "Backup/Pondus")
+fileBackupDir = os.path.join(homeDir, "Greg/work/config/Backup/Pondus")
 fileBackupList = []
 fileBackupName = ""
 

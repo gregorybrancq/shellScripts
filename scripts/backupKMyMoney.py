@@ -74,8 +74,8 @@ fileBackupList = []
 fileBackupName = ""
 
 fileName = "comptes.kmy"
-fileBackupDir = os.path.join(homeDir, "Backup/KMyMoney")
-fileOriginal = os.path.join(homeDir, "Config/Money/KMyMoney", fileName)
+fileBackupDir = os.path.join(homeDir, "Greg/work/config/Backup/KMyMoney")
+fileOriginal = os.path.join(homeDir, "Greg/work/config/kmymoney", fileName)
 
 ###############################################
 
