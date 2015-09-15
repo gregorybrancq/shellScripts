@@ -87,13 +87,13 @@ def main() :
     dbg.info(HEADER, "In  main args=" + str(args))
 
     for arg in args :
-        arg.encode('latin1')
         dbg.info(HEADER, "In  main arg=" + str(arg))
         dbg.info(HEADER, "In  main cwd=" + str(os.getcwd()))
         if (os.path.isdir(arg)) :
             dirN = os.path.join(os.getcwd(), arg)
         else :
             dirN = os.getcwd()
+        break
 
     ## Launch the pyrenamer program
     cmdToLaunch='pyrenamer "' + str(dirN) + '"'
