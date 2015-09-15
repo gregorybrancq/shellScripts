@@ -51,23 +51,37 @@ esac
 # Use emacs keybindings even if our EDITOR is set to vi
 #bindkey -e
 
-# Correspondance touches-fonction
+## key bindings
 bindkey ''    beginning-of-line       # [Ctrl-A] Home
 bindkey "\e[1~" beginning-of-line       # [Esc
 bindkey "\e[H"  beginning-of-line
+bindkey "\e[7~" beginning-of-line       # for rxvt
+bindkey "\eOH"  beginning-of-line       # for non RH/Debian xterm, can't hurt for RH/DEbian xterm
+bindkey "\e[H"  beginning-of-line       # for freebsd console
 bindkey ''    end-of-line             # End
 bindkey "\e[4~" end-of-line
-bindkey "\e[F"  end-of-line
-bindkey ''    delete-char             # Del
+bindkey "\e[8~" end-of-line             # for rxvt
+bindkey "\eOF"  end-of-line             # for non RH/Debian xterm, can't hurt for RH/DEbian xterm
+bindkey "\e[F"  end-of-line             # for freebsd console
 bindkey '[2~' overwrite-mode          # Insert
+bindkey ''    delete-char             # Del
 bindkey '[3~' delete-char             # Suppr
+bindkey "\e[3~" delete-char
 bindkey '[5~' history-search-backward # PgUp
 bindkey '[6~' history-search-forward  # PgDn
 bindkey 'p'   history-search-backward # alt+p
 bindkey 'P'   history-search-forward  # alt+P
 bindkey 'b'   backward-word           # alt+b
+bindkey "\e[5D" backward-word
+bindkey "\ee[D" backward-word
 bindkey 'f'   forward-word            # alt+f
-
+bindkey "\e[5C" forward-word
+bindkey "\ee[C" forward-word
+bindkey "\e[5~" beginning-of-history
+bindkey "\e[6~" end-of-history
+bindkey "\e[2~" quoted-insert
+bindkey "\eOd"  emacs-backward-word
+bindkey "^H"    backward-delete-word
 bindkey '\e^?'  backward-delete-word    # [Esc+Backspace]
 
 # Prise en charge des touches [début], [fin] et autres
@@ -84,14 +98,14 @@ typeset -A key
 #key[PageUp]=${terminfo[kpp]}
 #key[PageDown]=${terminfo[knp]}
 
-[[ -n "${key[Home]}"    ]]  && bindkey  "${key[Home]}"    beginning-of-line
-[[ -n "${key[End]}"     ]]  && bindkey  "${key[End]}"     end-of-line
-[[ -n "${key[Insert]}"  ]]  && bindkey  "${key[Insert]}"  overwrite-mode
-[[ -n "${key[Delete]}"  ]]  && bindkey  "${key[Delete]}"  delete-char
-[[ -n "${key[Up]}"      ]]  && bindkey  "${key[Up]}"      up-line-or-history
-[[ -n "${key[Down]}"    ]]  && bindkey  "${key[Down]}"    down-line-or-history
-[[ -n "${key[Left]}"    ]]  && bindkey  "${key[Left]}"    backward-char
-[[ -n "${key[Right]}"   ]]  && bindkey  "${key[Right]}"   forward-char
+#[[ -n "${key[Home]}"    ]]  && bindkey  "${key[Home]}"    beginning-of-line
+#[[ -n "${key[End]}"     ]]  && bindkey  "${key[End]}"     end-of-line
+#[[ -n "${key[Insert]}"  ]]  && bindkey  "${key[Insert]}"  overwrite-mode
+#[[ -n "${key[Delete]}"  ]]  && bindkey  "${key[Delete]}"  delete-char
+#[[ -n "${key[Up]}"      ]]  && bindkey  "${key[Up]}"      up-line-or-history
+#[[ -n "${key[Down]}"    ]]  && bindkey  "${key[Down]}"    down-line-or-history
+#[[ -n "${key[Left]}"    ]]  && bindkey  "${key[Left]}"    backward-char
+#[[ -n "${key[Right]}"   ]]  && bindkey  "${key[Right]}"   forward-char
 
 # by default: export WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 # we take out the slash, period, angle brackets, dash here.
@@ -184,8 +198,8 @@ unsetopt hup
 ############################################
 
 # Nombre d'entrées dans l'historique
-export HISTORY=1000
-export SAVEHIST=1000
+export HISTSIZE=1000
+export SAVEHIST=10000
 
 # Fichier où est stocké l'historique
 export HISTFILE=$HOME/.zsh_history
@@ -237,6 +251,13 @@ bindkey '\e[B' down-line-or-beginning-search
 ########################################
 # Complétion des options des commandes #
 ########################################
+#
+# COMPLETION SETTINGS
+# add custom completion scripts
+#fpath=(~/.zsh_completion $fpath) 
+ 
+autoload -Uz compinit
+compinit
 
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
@@ -266,8 +287,6 @@ zstyle ':completion:*:rm:*' ignore-line yes
 #zstyle ':completion:*:mv:*' ignore-line yes
 #zstyle ':completion:*:cp:*' ignore-line yes
 
-autoload -Uz compinit
-compinit
 
 
 ###############
