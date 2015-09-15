@@ -30,7 +30,7 @@ alias mv='mv'
 alias rm='rm -f'
 
 # Quelques alias pratiques
-alias h='history'
+alias h='history -100'
 alias c='clear'
 alias less='less --quiet'
 alias s='cd ..'
@@ -52,11 +52,11 @@ alias appppppppp='cd ../../../../../../../../..;pwd'
 if [ -z "$DELL" ]
 then
     alias work='cd $HOME/Greg/work'
-    alias cf='cd $HOME/Greg/work/chronofree'
+    alias cf='cd $HOME/Greg/work/chronofree/chronofree'
     alias suwiki='sudo find $HOME/Greg/work/dokuwiki -type d -exec chmod g+w {} \; && sudo chown -R www-data:www-data $HOME/Greg/work/dokuwiki'
 else
     alias work='cd $HOME/Perso/work'
-    alias cf='cd $HOME/Perso/work/chronofree'
+    alias cf='cd $HOME/Perso/work/chronofree/chronofree'
     alias suwiki='sudo find $HOME/Perso/work/dokuwiki -type d -exec chmod g+w {} \; && sudo chown -R www-data:www-data $HOME/Perso/work/dokuwiki'
 fi
 
