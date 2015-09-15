@@ -20,7 +20,7 @@
 ########
 
 # OWN
-## see /etc/environment for CHROOT_WORKDIR="/home/greg/Greg/work/sequans/chroot"
+## see /etc/environment for CHROOT_WORKDIR="/home/greg/Greg/work/sequans/chroot/"
 
 # VIM
 export VIMRUNTIME="/usr/share/vim/vim74"
