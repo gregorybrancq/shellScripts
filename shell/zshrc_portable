@@ -21,14 +21,14 @@
 
 # OWN
 export DELL="1"
-## see etc_environment for CHROOT_WORKDIR="/data/exports/users/gregory/Perso/work/sequans/chroot"
+## see /etc/environment for CHROOT_WORKDIR="/data/exports/users/gregory/Greg/work/sequans/chroot"
 
 # VIM
 export VIMRUNTIME="/usr/share/vim/vim74"
-export VIMRC="/data/exports/users/gregory/Perso/work/env/vim"
+export VIMRC="/data/exports/users/gregory/Greg/work/env/vim"
 
 ## PATH
-for incr_path ( $HOME/Perso/work/env/bin )
+for incr_path ( $HOME/Greg/work/env/bin )
 do
     if [ -d $incr_path ]
     then
