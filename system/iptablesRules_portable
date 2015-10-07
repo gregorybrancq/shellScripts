@@ -1,7 +1,7 @@
 #!/bin/sh
 
-LANIF="eth1"
-WANIF="wlan1"
+LANIF="eth0"
+WANIF="wlan0"
 
 
 # Reinitialise les regles
