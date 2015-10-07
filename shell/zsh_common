@@ -120,9 +120,10 @@ export WORDCHARS='*?_[]~=&;!#$%^(){}.'
 unsetopt beep
 unsetopt hist_beep
 unsetopt list_beep
-# >| doit être utilisés pour pouvoir écraser un fichier déjà existant ;
+# >! doit être utilisés pour pouvoir écraser un fichier déjà existant ;
 # le fichier ne sera pas écrasé avec '>'
-unsetopt clobber
+#unsetopt clobber
+#setopt noclobber
 # Ctrl+D est équivalent à 'logout'
 unsetopt ignore_eof
 # Affiche le code de sortie si différent de '0'
