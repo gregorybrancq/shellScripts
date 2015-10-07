@@ -1,0 +1,57 @@
+#!/bin/sh
+
+LANIF="eth1"
+WANIF="wlan1"
+
+
+# Reinitialise les regles
+iptables -F
+iptables -X
+
+# Bloque tout le trafic
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT # cette ligne que je souhaite passer en DROP !
+
+# Autorise les connexions deja etablies et localhost
+iptables -A INPUT  -i lo -j ACCEPT
+iptables -A INPUT  -i $LANIF -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A INPUT  -i $WANIF -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+# ICMP (Ping)
+iptables -A INPUT  -p icmp -j ACCEPT
+
+# Enable incoming traffic for: SSH, SMTP, DNS(tcp), HTTP, HTTPS
+for i in 22 25 53 80 443
+do
+        iptables -A INPUT -i $LANIF -p tcp --dport $i -j ACCEPT
+        iptables -A INPUT -i $WANIF -p tcp --dport $i -j ACCEPT
+done
+
+## Samba
+#iptables -A INPUT  -p tcp --dport 135 -j ACCEPT
+#iptables -A OUTPUT -p tcp --dport 137 -j ACCEPT
+#iptables -A INPUT  -p tcp --dport 137 -j ACCEPT
+#iptables -A OUTPUT -p tcp --dport 138 -j ACCEPT
+#iptables -A INPUT  -p tcp --dport 138 -j ACCEPT
+#iptables -A OUTPUT -p tcp --dport 445 -j ACCEPT
+#iptables -A INPUT  -p tcp --dport 445 -j ACCEPT
+
+## OPENVPN Sequans
+iptables -A INPUT -p udp --dport 1194 -j ACCEPT
+iptables -A INPUT -i tap+ -j ACCEPT
+iptables -A FORWARD -i tap+ -j ACCEPT 
+#iptables -t nat -A POSTROUTING -s  10.1.0.0/24 -o eth0 -j MASQUERADE
+
+# Freebox HD access hd1.freebox.fr
+iptables -A INPUT -s 212.27.40.254 -j ACCEPT
+
+# Regles speciales ###
+# Ici on evite les requetes qui tentent de surcharger la machine fLOOD OU DENY DE SERVICE
+iptables -A FORWARD -p tcp --syn -m limit --limit 1/second -j ACCEPT
+iptables -A FORWARD -p udp -m limit --limit 1/second -j ACCEPT
+iptables -A FORWARD -p icmp --icmp-type echo-request -m limit --limit 1/second -j ACCEPT
+
+# evite les scans de ports
+iptables -A FORWARD -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s -j ACCEPT
+
