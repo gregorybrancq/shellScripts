@@ -28,20 +28,16 @@ do
         iptables -A INPUT -i $WANIF -p tcp --dport $i -j ACCEPT
 done
 
-## Samba
-#iptables -A INPUT  -p tcp --dport 135 -j ACCEPT
-#iptables -A OUTPUT -p tcp --dport 137 -j ACCEPT
-#iptables -A INPUT  -p tcp --dport 137 -j ACCEPT
-#iptables -A OUTPUT -p tcp --dport 138 -j ACCEPT
-#iptables -A INPUT  -p tcp --dport 138 -j ACCEPT
-#iptables -A OUTPUT -p tcp --dport 445 -j ACCEPT
-#iptables -A INPUT  -p tcp --dport 445 -j ACCEPT
-
 ## OPENVPN Sequans
 iptables -A INPUT -p udp --dport 1194 -j ACCEPT
 iptables -A INPUT -i tap+ -j ACCEPT
 iptables -A FORWARD -i tap+ -j ACCEPT 
 #iptables -t nat -A POSTROUTING -s  10.1.0.0/24 -o eth0 -j MASQUERADE
+
+## OPENVPN Home
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+iptables -A INPUT -i tun+ -j ACCEPT
+iptables -A FORWARD -i tun+ -j ACCEPT 
 
 # Freebox HD access hd1.freebox.fr
 iptables -A INPUT -s 212.27.40.254 -j ACCEPT
@@ -52,6 +48,6 @@ iptables -A FORWARD -p tcp --syn -m limit --limit 1/second -j ACCEPT
 iptables -A FORWARD -p udp -m limit --limit 1/second -j ACCEPT
 iptables -A FORWARD -p icmp --icmp-type echo-request -m limit --limit 1/second -j ACCEPT
 
-# evite les scans de ports
+# évite les scans de ports
 iptables -A FORWARD -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s -j ACCEPT
 

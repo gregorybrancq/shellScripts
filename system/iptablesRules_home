@@ -1,0 +1,91 @@
+#!/bin/sh
+
+EXTIF="eth0"
+PORTA="eth1"
+
+
+# Reinitialise les regles
+iptables -F
+iptables -X
+
+# Bloque tout le trafic
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT # cette ligne que je souhaite passer en DROP !
+
+# Autorise les connexions deja etablies et localhost
+iptables -A INPUT  -i lo -j ACCEPT
+iptables -A INPUT  -i $PORTA -j ACCEPT
+iptables -A INPUT  -i $EXTIF -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+# De et Vers le portable
+iptables -A FORWARD -i $EXTIF -o $PORTA -m state \
+                                 --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -i $PORTA -o $EXTIF -j ACCEPT
+
+
+# ICMP (Ping)
+iptables -A INPUT -p icmp -j ACCEPT
+
+# Enable incoming traffic for: SSH, SMTP, DNS(tcp), HTTP, HTTPS
+for i in 22 25 53 80 443
+do
+    iptables -A INPUT -i $EXTIF -p tcp --dport $i  -j ACCEPT
+done
+
+## Samba
+iptables -A INPUT  -p tcp --dport 135 -j ACCEPT  # Localisateur de services RPC
+iptables -A INPUT  -p udp --dport 135 -j ACCEPT
+iptables -A INPUT  -p tcp --dport 137 -j ACCEPT  # NetBIOS Name Service
+iptables -A INPUT  -p udp --dport 137 -j ACCEPT
+iptables -A INPUT  -p udp --dport 138 -j ACCEPT  # NetBIOS Datagram Service
+iptables -A INPUT  -p tcp --dport 139 -j ACCEPT  # NetBIOS Session Service
+iptables -A INPUT  -p tcp --dport 445 -j ACCEPT  # Microsoft Directory Service
+iptables -A INPUT  -p udp --dport 445 -j ACCEPT
+
+## OPENVPN Sequans
+iptables -A INPUT -p udp --dport 1193 -j ACCEPT
+iptables -A INPUT -i tun+ -j ACCEPT
+iptables -A FORWARD -i tun+ -j ACCEPT 
+#iptables -A INPUT  -i tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+## OPENVPN Home
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+iptables -A INPUT -i tun+ -j ACCEPT
+iptables -A FORWARD -i tun+ -j ACCEPT 
+
+# Mediatomb
+iptables -A INPUT -p tcp --dport 49152 -j ACCEPT
+iptables -A INPUT -p udp --dport 49152 -j ACCEPT
+iptables -A INPUT -p udp --dport 1900  -j ACCEPT
+
+# Remuco
+#iptables -A INPUT -p tcp --dport 34271 -j ACCEPT
+
+# Rhythmbox Android Remote
+iptables -A INPUT -p tcp --dport 8484 -j ACCEPT
+
+# Freebox HD access hd1.freebox.fr
+iptables -A INPUT -p udp -s 212.27.38.253 -j ACCEPT
+
+## To allow incoming traffic for amule
+#iptables -A INPUT -p tcp --dport 46627 -j ACCEPT
+#iptables -A INPUT -p udp --dport 46727 -j ACCEPT
+
+## To allow incoming traffic for vuze
+#iptables -A INPUT -p tcp --dport 36321 -j ACCEPT
+#iptables -A INPUT -p udp --dport 36320 -j ACCEPT
+
+## BigBlueButton
+#iptables -A INPUT -p tcp --dport 9123 -j ACCEPT  # desktop sharing
+#iptables -A INPUT -p tcp --dport 1935 -j ACCEPT  # rmtp
+
+# Regles speciales ###
+# Ici on evite les requetes qui tentent de surcharger la machine fLOOD OU DENY DE SERVICE
+iptables -A FORWARD -p tcp --syn -m limit --limit 1/second -j ACCEPT
+iptables -A FORWARD -p udp -m limit --limit 1/second -j ACCEPT
+iptables -A FORWARD -p icmp --icmp-type echo-request -m limit --limit 1/second -j ACCEPT
+
+# evite les scans de ports
+iptables -A FORWARD -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s -j ACCEPT
+
