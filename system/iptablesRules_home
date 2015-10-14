@@ -27,8 +27,8 @@ iptables -A FORWARD -i $PORTA -o $EXTIF -j ACCEPT
 # ICMP (Ping)
 iptables -A INPUT -p icmp -j ACCEPT
 
-# Enable incoming traffic for: SSH, SMTP, DNS(tcp), HTTP, HTTPS
-for i in 22 25 53 80 443
+# Enable incoming traffic for: SSH, SMTP, DNS(tcp), HTTP, IMAP, HTTPS
+for i in 22 25 53 80 143 443
 do
     iptables -A INPUT -i $EXTIF -p tcp --dport $i  -j ACCEPT
 done
