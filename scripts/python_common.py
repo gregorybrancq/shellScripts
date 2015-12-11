@@ -171,32 +171,14 @@ def getUserLogin() :
         print color_error + 'Cannot get the login user\n'
         sys.exit(-1)
 
-def isDell():
-    dell=0
-    if os.environ.get('DELL') :
-        dell=1
-    else :
-        # grep .cshrc to see if DELL is specified for graphic mode in Nemo
-        for line in open (os.path.join(getHomeDir(), ".cshrc")) :
-            if 'setenv DELL "1"' in line :
-                dell=1
-                break
-    return dell
-
 def getHomeDir():
     return expanduser("~")
 
 def getBinDir():
-    if isDell() :
-        return os.path.join(getHomeDir(),"Perso/work/env/bin")
-    else :
-        return os.path.join(getHomeDir(),"Greg/work/env/bin")
+    return os.path.join(getHomeDir(),"Greg/work/env/bin")
 
 def getEnvDir():
-    if isDell() :
-        return os.path.join(getHomeDir(),"Perso/work/env")
-    else :
-        return os.path.join(getHomeDir(),"Greg/work/env")
+    return os.path.join(getHomeDir(),"Greg/work/env")
 
 def getLogDir():
     return  os.path.join(getEnvDir(),"log")
