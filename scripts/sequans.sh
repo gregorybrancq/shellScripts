@@ -1,15 +1,8 @@
 #!/bin/sh -f
 
-if [ -z "$DELL" ]
-then
-    cd ~/Greg/work/env/vpn/sequans
-    more password
-    sudo ./connect-France.sh
-else
-    cd ~/Perso/work/env/vpn/sequans
-    more password
-    sudo ./connect-France.sh
-fi
+cd ~/Greg/work/env/config/vpn/sequans
+more password
+sudo ./connect-France.sh
 
 #set procPid=`ps -C openvpn -o pid=`
 #set status=$?
