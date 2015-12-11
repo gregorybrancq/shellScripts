@@ -50,8 +50,8 @@ alias apppppppp='cd ../../../../../../../..;pwd'
 alias appppppppp='cd ../../../../../../../../..;pwd'
 
 alias work='cd $HOME/Greg/work'
-alias cf='cd $HOME/Greg/work/chronofree/chronofree'
-alias suwiki='sudo find $HOME/Greg/work/dokuwiki -type d -exec chmod g+w {} \; && sudo chown -R www-data:www-data $HOME/Greg/work/dokuwiki'
+alias cf='cd $HOME/Greg/work/chronofree/web/chronofree'
+alias suwiki='sudo find $HOME/Greg/work/dokuwiki -type d | xargs chmod 775 && sudo find $HOME/Greg/work/dokuwiki -type f | xargs chmod 664 && sudo chown -R www-data:www-data $HOME/Greg/work/dokuwiki'
 
 alias so='source'
 alias xx='exit'
@@ -89,11 +89,11 @@ alias ssp='ssh -XY gregory@portable'
 alias ssvpn='ssh -XY greg@10.13.0.1'
 
 # sequans machines
-alias ssk='ssh -XY gregory@kenny'
-alias ssz='ssh -XY gregory@mazis'
-alias ssx='ssh -XY gregory@fixin'
-alias ssf='ssh -XY fpga@kenny'
-alias sse='ssh -XY edatools@kenny'
+alias ssk='ssh -XY gregory@kenny.fr.sequans.com'
+alias ssz='ssh -XY gregory@mazis.fr.sequans.com'
+alias ssx='ssh -XY gregory@fixin.fr.sequans.com'
+alias ssf='ssh -XY fpga@kenny.fr.sequans.com'
+alias sse='ssh -XY edatools@kenny.fr.sequans.com'
 
 #echo "** Out .zsh_alias **"
 
