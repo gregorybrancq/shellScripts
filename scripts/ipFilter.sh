@@ -1,4 +1,4 @@
-#!/bin/tcsh -f
+#!/bin/sh -f
 
 ####################################### 
 ###   MISE A JOUR DE ipfilter.dat   ###

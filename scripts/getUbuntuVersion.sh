@@ -1,4 +1,4 @@
-#!/bin/tcsh -f
+#!/bin/sh -f
 
 lsb_release -a
 

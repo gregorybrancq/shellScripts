@@ -1,4 +1,4 @@
-#!/bin/tcsh -f
+#!/bin/sh -f
 
 ####################################### 
 ###   MISE A JOUR DE ipfilter.dat   ###
@@ -6,7 +6,7 @@
 
 cd ~/.azureus/tmp
 
-# Téléchargement du fichier au format rar
+# T?l?chargement du fichier au format rar
 wget -N http://emulepawcio.sourceforge.net/ipfilter.rar
 
 # Extraction du fichier

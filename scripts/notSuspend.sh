@@ -1,4 +1,4 @@
-#/bin/tcsh -f
+#/bin/sh -f
 
 #gconftool-2 -s "/apps/gnome-power-manager/backlight/idle_dim_ac" False -t boolean 
 #gconftool-2 -s "/apps/gnome-power-manager/buttons/suspend" "suspend" -t string 
