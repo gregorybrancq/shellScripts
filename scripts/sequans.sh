@@ -1,6 +1,6 @@
 #!/bin/sh -f
 
-cd ~/Greg/work/env/config/vpn/sequans
+cd ~/Greg/work/config/vpn/sequans
 more password
 sudo ./connect-France.sh
 
