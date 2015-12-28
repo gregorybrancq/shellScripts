@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: latin1 -*-
 
 '''
 Send file(s) to DL FREE from nemo
@@ -124,10 +123,10 @@ def main() :
 
     ## Send email
     dbg.info(HEADER, "In  main send mail")
-    dbg.info(HEADER, "In  main send mail args[0].encode=" + str(args[0].encode('latin1')))
-    dbg.info(HEADER, "In  main send mail msg.encode=" + str(msg.encode('latin1')))
+    dbg.info(HEADER, "In  main send mail args[0]=" + str(args[0]))
+    dbg.info(HEADER, "In  main send mail msg=" + str(msg))
     try:
-        sendMail("gregory.brancq@free.fr", "gregory.brancq@free.fr", "", "Send to DL Free : " + str(args[0].encode('latin1')), msg.encode('latin1'));
+        sendMail("Greg <gregory.brancq@free.fr>", "gregory.brancq@free.fr", "", "Send to DL Free : " + str(args[0]), str(msg), "");
     except :
         dbg.error(HEADER, "In  main send mail issue ")
 
