@@ -308,7 +308,7 @@ def sendMail(From, To, Cc, Subject, MessageText, MessageHtml):
     
     # Send the message via our own SMTP server, but don't include the
     # envelope header.
-    s = smtplib.SMTP('smtp.free.fr')
+    s = smtplib.SMTP('localhost')
     s.sendmail(From, [To], io.getvalue())
     s.quit()
 
