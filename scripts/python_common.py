@@ -345,7 +345,7 @@ def listFromArgs(dbg, header, args, ext) :
 
     if (len(args) != 0) :
         for arg in args :
-            arg.encode('latin1')
+            #arg.encode('latin1')
             if (os.path.isdir(arg)) :
                 dirName = arg
                 dbg.info(header, "In  listFromArgs dir=" + str(arg))

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: latin1 -*-
+# -*- coding: utf-8 -*-
 
 '''
 Reduce the weight of the pdf files

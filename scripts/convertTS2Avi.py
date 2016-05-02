@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: latin1 -*-
+# -*- coding: utf-8 -*-
 
 '''
 Convert M2TS to AVI
