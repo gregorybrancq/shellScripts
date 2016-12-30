@@ -5,6 +5,6 @@
 #export SWT_GTK3=0
 # or --launcher.GTK_version 2 to the eclipse.ini file
 
-cd /opt/eclipse/eclipse-4.5.2/
+cd /opt/eclipse/eclipse-4.6.1/
 ./eclipse
 
