@@ -15,8 +15,8 @@ enable="1"
 
 # To have these informations :
 #   > xinput -list
-keyboardId="16"
-mouseId="11"
+keyboardId="10"
+mouseId="9"
 
 # Programs list
 prgs="totem vlc mplayer"
@@ -77,15 +77,15 @@ killPrgs() {
 
 blockKbMouse() {
     echo "Block keyboard & mouse"
-    xinput set-prop $keyboardId 'Device Enabled' 0
-    xinput set-prop $mouseId 'Device Enabled' 0
+    xinput disable $keyboardId
+    xinput disable $mouseId
 }
 
 
 unblockKbMouse() {
     echo "Unblock keyboard & mouse"
-    xinput set-prop $keyboardId 'Device Enabled' 1
-    xinput set-prop $mouseId 'Device Enabled' 1
+    xinput enable $keyboardId
+    xinput enable $mouseId
 }
 
 
