@@ -10,10 +10,11 @@
 # 
 
 # Log file
-logF="/home/greg/Greg/work/env/log/dodoJuju_`date +%Y-%m-%d:%H:%m:%S.%N`.log"
+logE=1
+logF="/home/greg/Greg/work/env/log/dodoJuju_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
 
 # Enable
-enable=1
+progEnable=1
 block=0
 unblock=0
 
@@ -23,13 +24,17 @@ keyboardId=10
 mouseId=9
 
 # Programs list
-prgs="totem vlc mplayer"
+prgs="totem vlc mplayer rhythmbox"
 
 # Day & Hour
 beginDay=1
 endDay=5
 beginHour=1
 endHour=6
+
+if [ $logE -eq 1 ]; then
+    echo " Main script $0\n" >> $logF
+fi
 
 
 
@@ -42,10 +47,16 @@ do
 case $i in
     -b|--block)
     block=1
+    if [ $logE -eq 1 ]; then
+        echo "Block option" >> $logF
+    fi
     shift # past argument=value
     ;;
     -u|--unblock)
     unblock=1
+    if [ $logE -eq 1 ]; then
+        echo "Unblock option" >> $logF
+    fi
     shift # past argument=value
     ;;
     -h|--help)
@@ -73,12 +84,17 @@ checkDateHour() {
     day=`date +%u`
     hour=`date +%H`
     min=`date +%M`
-    echo "Day=$day Hour=$hour Min=$min" >> $logF
+    if [ $logE -eq 1 ]; then
+        echo "`date`" >> $logF
+        echo "Day=$day Hour=$hour Min=$min" >> $logF
+    fi
 
     beginDayTmp=`expr $beginDay - 1`
     endDayTmp=`expr $endDay + 1`
     beginHourTmp=`expr $beginHour - 1`
-    echo "beginDay=$beginDayTmp endDay=$endDayTmp beginHour=$beginHourTmp endHour=$endHour" >> $logF
+    if [ $logE -eq 1 ]; then
+        echo "beginDay=$beginDayTmp endDay=$endDayTmp beginHour=$beginHourTmp endHour=$endHour" >> $logF
+    fi
 
     if [ $day -gt $beginDayTmp ] && [ $day -lt $endDayTmp ]; then
         if [ $hour -gt $beginHourTmp ] && [ $hour -lt $endHour ]; then
@@ -94,7 +110,9 @@ checkDateHour() {
 }
 
 killPrgs() {
-    echo "Kill progs" >> $logF
+    if [ $logE -eq 1 ]; then
+        echo "Kill progs" >> $logF
+    fi
     for prog in $prgs
     do
         # Get id
@@ -102,7 +120,9 @@ killPrgs() {
         
         # Kill it
         if [ "$proc" != "" ]; then
-            echo "Prog $prog with pid $proc has been killed." >> $logF
+            if [ $logE -eq 1 ]; then
+                echo "Prog $prog with pid $proc has been killed." >> $logF
+            fi
             kill -9 $proc        
         fi
     done
@@ -110,16 +130,30 @@ killPrgs() {
 
 
 blockKbMouse() {
-    echo "Block keyboard & mouse" >> $logF
+    if [ $logE -eq 1 ]; then
+        echo "Begin block keyboard & mouse" >> $logF
+    fi
     xinput disable $keyboardId
+    #xinput set-prop $keyboardId "Device Enabled" 0
     xinput disable $mouseId
+    #xinput set-prop $mouseId "Device Enabled" 0
+    if [ $logE -eq 1 ]; then
+        echo "End block keyboard & mouse" >> $logF
+    fi
 }
 
 
 unblockKbMouse() {
-    echo "Unblock keyboard & mouse" >> $logF
+    if [ $logE -eq 1 ]; then
+        echo "Begin unblock keyboard & mouse" >> $logF
+    fi
     xinput enable $keyboardId
+    #xinput set-prop $keyboardId "Device Enabled" 1
     xinput enable $mouseId
+    #xinput set-prop $mouseId "Device Enabled" 1
+    if [ $logE -eq 1 ]; then
+        echo "End unblock keyboard & mouse" >> $logF
+    fi
 }
 
 
@@ -128,32 +162,46 @@ unblockKbMouse() {
 # Main script
 #
 
-if [ $enable -eq 1 ]; then
-    echo " Main script $0 " >> $logF
+if [ $progEnable -eq 1 ]; then
 
     # Check if the date/hour allows to execute
     checkDateHour
     varDH=$?
-    echo "varDH = $varDH" >> $logF
-    if [ $varDH -eq 1 ] || [ $block -eq 1 ]; then
-        echo "Kill and block" >> $logF
+    if [ $logE -eq 1 ]; then
+        echo "varDH = $varDH" >> $logF
+    fi
 
-        if [ $varDH -eq 1 ]; then
-            # Kill the different programs
-            killPrgs
+    if [ $block -eq 1 ]; then
+        if [ $logE -eq 1 ]; then
+            echo "Block" >> $logF
         fi
 
         # Block keyboard and mouse
         blockKbMouse
 
     elif [ $varDH -eq 2 ] || [ $unblock -eq 1 ]; then
-        echo "Unblock" >> $logF
+        if [ $logE -eq 1 ]; then
+            echo "Unblock" >> $logF
+        fi
 
         # Unblock keyboard and mouse
         unblockKbMouse
 
+    elif [ $varDH -eq 1 ]; then
+        if [ $logE -eq 1 ]; then
+            echo "Kill and block" >> $logF
+        fi
+
+        # Kill the different programs
+        killPrgs
+
+        # Block keyboard and mouse
+        blockKbMouse
+
     else
-        echo "Do nothing" >> $logF
+        if [ $logE -eq 1 ]; then
+            echo "Do nothing" >> $logF
+        fi
 
     fi
 fi
