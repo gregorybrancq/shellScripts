@@ -11,7 +11,7 @@
 
 # Log file
 logE=1
-logF="/home/greg/Greg/work/env/log/dodoJuju_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
+logF="$HOME/Greg/work/env/log/dodoJuju_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
 
 # Enable
 progEnable=1
