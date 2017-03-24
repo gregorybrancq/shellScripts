@@ -62,9 +62,7 @@ detect() {
         return 1
     fi
 
-    zenity --info --text="No phone detected.\nCheck MTP mode is activated."
-    echo "no Android detected"
-    return 0
+    eexit "No Android detected.\nCheck if MTP mode is well activated."
 }
 
 
@@ -93,7 +91,15 @@ mount() {
 
     echo "Mount to $mountDir"
     jmtpfs $mountDir
-    
+
+    # Check if no error during mount
+    sleep 1
+    ls $mountDir | grep "error"
+    if [ $? -ne 1 ]; then
+        umount
+        eexit "Android mount error ($mountDir).\nCheck if MTP mode is well activated."
+    fi
+
 }
 
 
@@ -121,6 +127,7 @@ lock() {
 eexit() {
     local error_str="$@"
 
+    rm -f $lockFile
     echo $error_str
     zenity --info --text="$error_str"
     exit 1
@@ -137,16 +144,14 @@ main() {
         || eexit "Only one instance of $progName can run at one time."
     
     detect
-    varDetect=$?
-    
-    if [ $varDetect -eq 1 ]; then
+    if [ $? -eq 1 ]; then
         
         mount
         sync
         umount
     
         if [ "$res" != "" ]; then
-            zenity --info --text="Backup directory = $backupDir.\n\n$res"
+            zenity --info --text="Congratulations !!!\n\nBackup directory = $backupDir.\n\n$res"
         fi
     
     fi
