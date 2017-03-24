@@ -1,4 +1,4 @@
-#!/bin/sh -f
+#!/bin/bash -f
 
 # Program to backup Android phone directory
 
@@ -7,24 +7,31 @@
 # Sync directories
 # Umount phone
 
+progName=$(basename "$0")
+
 # Phone
 nexus4Name="Nexus4"
-nexus4Mtp="Nexus 4/5/7/10 (MTP), Google Inc (for LG Electronics/Samsung)"
+nexus4Mtp="Nexus 4/5/7/10 (.*), Google Inc (for LG Electronics/Samsung)"
 nexus4Mount="/media/nexus4"
 nexus4Sdcard="Espace de stockage interne partagé/"
-nexus4Backup="/home/greg/Greg/Informatique/Nexus4/Backup"
+nexus4Backup="$HOME/Greg/Informatique/Nexus4/Backup"
 
 idol3Name="Idol3"
-idol3Mtp=""
+idol3Mtp="OneTouch Idol 3 small (MTP)"
 idol3Mount="/media/idol3"
-idol3Backup="/home/greg/Greg/Informatique/Idol3/Backup"
+idol3Backup="$HOME/Greg/Informatique/Idol3/Backup"
 
 # Global variables
 androidName=""
 mountDir=""
 srcDir=""
 backupDir=""
+res=""
 
+# lock
+lockDir="/var/lock"
+lockFile=$lockDir/$progName.lock
+lockFd=200
 
 
 # 
@@ -55,31 +62,68 @@ detect() {
         return 1
     fi
 
+    zenity --info --text="No phone detected.\nCheck MTP mode is activated."
     echo "no Android detected"
     return 0
 }
 
+
+# Synchronisation
 sync() {
     echo "Sync src=$srcDir dest=$backupDir"
-    rsync -ra --stats "$srcDir" "$backupDir"
+    res=`rsync -ra --progress --stats "$srcDir" "$backupDir"`
 }
 
 
+# Mount android phone
 mount() {
     echo "Mount function"
 
-    echo "Kill automatic mtp mount point"
     ps aux | grep gvfsd-mtp | grep -v "grep"
-    pkill -9 gvfsd-mtp
+    if [ $? -eq 0 ]; then
+        echo "Kill automatic mtp mount point"
+        pkill -9 gvfsd-mtp
+    fi
+
+    # Check if the mount point is not already mounted
+    ls $mountDir
+    if [ -d "$srcDir" ]; then
+        umount
+    fi
 
     echo "Mount to $mountDir"
     jmtpfs $mountDir
     
 }
 
+
+# Umount android phone
 umount() {
     echo "Umount $mountDir"
+    sleep 1
     fusermount -u $mountDir
+}
+
+
+lock() {
+    local fd=${2:-$lockFd}
+
+    # create lock file
+    eval "exec $fd>$lockFile"
+
+    # acquire the lock
+    flock -n $fd \
+        && return 0 \
+        || return 1
+}
+
+
+eexit() {
+    local error_str="$@"
+
+    echo $error_str
+    zenity --info --text="$error_str"
+    exit 1
 }
 
 
@@ -87,14 +131,28 @@ umount() {
 # Main script
 #
 
-detect
-varDetect=$?
+main() {
+    exec 200>$lockFile
+    lock $progName \
+        || eexit "Only one instance of $progName can run at one time."
+    
+    detect
+    varDetect=$?
+    
+    if [ $varDetect -eq 1 ]; then
+        
+        mount
+        sync
+        umount
+    
+        if [ "$res" != "" ]; then
+            zenity --info --text="Backup directory = $backupDir.\n\n$res"
+        fi
+    
+    fi
 
-if [ $varDetect -eq 1 ]; then
+    rm -f $lockFile
+}
 
-    mount
-    sync
-    umount
-
-fi
+main
 
