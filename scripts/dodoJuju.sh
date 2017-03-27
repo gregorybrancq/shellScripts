@@ -9,9 +9,11 @@
 #   - Blocks keyboard and mouse
 # 
 
+progName=$(basename "$0")
+
 # Log file
 logE=1
-logF="$HOME/Greg/work/env/log/dodoJuju_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
+logF="$HOME/Greg/work/env/log/$progName_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
 
 # Enable
 progEnable=1
@@ -33,7 +35,7 @@ beginHour=1
 endHour=6
 
 if [ $logE -eq 1 ]; then
-    echo " Main script $0\n" >> $logF
+    echo " Main script $progName\n" > $logF
 fi
 
 
