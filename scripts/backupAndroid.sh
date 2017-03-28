@@ -164,17 +164,17 @@ eexit() {
 
 check() {  
     echo "Check $logF" |& tee -a $logF
-    grep "rsync error:" $logF
-    if [ $? -eq 1 ]; then
-        rsyncMsg=`grep "Number of " $logF``grep "Total " $logF`
-        zenity --info --text="Congratulations !!!\n\nBackup directory = $backupDir.\nLog file = $logF\n\nResume = $rsyncMsg."
+    grep "rsync: link_stat .* failed: Input/output error (5)" $logF
+    if [ $? -eq 0 ]; then
+        eexit "Error !!!\n\nAndroid mount error ($mountDir).\nCheck if MTP mode is well activated."
     else
-        error=`grep "rsync: link_stat * failed: Input/output error (5)" $logF`
+        grep "rsync error:" $logF
         if [ $? -eq 0 ]; then
-            eexit "Error !!!\n\nAndroid mount error ($mountDir).\nCheck if MTP mode is well activated."
-        else
             error=`grep "error" $logF`
             zenity --info --text="Error !!!\n\nSee log file = $logF\n\nError detected = \n$error"
+        else
+            rsyncMsg=`grep "Number of " $logF``grep "Total " $logF`
+            zenity --info --text="Congratulations !!!\n\nBackup directory = $backupDir.\nLog file = $logF\n\nResume = $rsyncMsg."
         fi
     fi
 }
