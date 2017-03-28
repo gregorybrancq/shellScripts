@@ -9,8 +9,9 @@
 
 progName=$(basename "$0")
 
-# Log file
+# Files
 logF="$HOME/Greg/work/env/log/${progName}_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
+filterF="$HOME/Greg/work/config/grsync/Android.filter"
 
 # Phone
 nexus4Name="Nexus4"
@@ -94,7 +95,7 @@ detect() {
 # Synchronisation
 syncDir() {
     echo "Sync src=$mountDir/$1 dest=$backupDir" |& tee -a $logF
-    rsync -rah --progress --stats "$mountDir/$1" "$backupDir" |& tee -a $logF
+    rsync -rah --progress --stats --filter ". $filterF" "$mountDir/$1" "$backupDir" |& tee -a $logF
 }
 
 sync() {
@@ -165,14 +166,11 @@ check() {
     echo "Check $logF" |& tee -a $logF
     grep "rsync error:" $logF
     if [ $? -eq 1 ]; then
-        ryncMsgG=`grep "Number of " $logF`
-        rsyncMsg=$rsyncMsgG
-        ryncMsgG=`grep "Number of " $logF`
-        rsyncMsg=$rsyncMsg $rsyncMsgG
+        rsyncMsg=`grep "Number of " $logF``grep "Total " $logF`
         zenity --info --text="Congratulations !!!\n\nBackup directory = $backupDir.\nLog file = $logF\n\nResume = $rsyncMsg."
     else
         error=`grep "rsync: link_stat * failed: Input/output error (5)" $logF`
-        if [ $? -eq 1 ]; then
+        if [ $? -eq 0 ]; then
             eexit "Error !!!\n\nAndroid mount error ($mountDir).\nCheck if MTP mode is well activated."
         else
             error=`grep "error" $logF`
