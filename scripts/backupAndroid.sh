@@ -17,7 +17,7 @@ nexus4Name="Nexus4"
 nexus4Mtp="Nexus 4/5/7/10 (.*), Google Inc (for LG Electronics/Samsung)"
 nexus4Mount="/media/nexus4"
 #nexus4Internal="Espace de stockage interne partagé"
-nexus4Internal="Mémoire de stockage interne/"
+nexus4Internal="Mémoire de stockage interne"
 nexus4Backup="$HOME/Greg/Informatique/Nexus4/Backup"
 
 idol3Name="Idol3"
@@ -94,7 +94,7 @@ detect() {
 # Synchronisation
 syncDir() {
     echo "Sync src=$mountDir/$1 dest=$backupDir" |& tee -a $logF
-    rsync -ra --progress --stats "$mountDir/$1" "$backupDir" |& tee -a $logF
+    rsync -rah --progress --stats "$mountDir/$1" "$backupDir" |& tee -a $logF
 }
 
 sync() {
@@ -126,14 +126,6 @@ mount() {
 
     echo "Mount jmtpfs -device=$busNum,$devNum $mountDir" |& tee -a $logF
     jmtpfs -device=$busNum,$devNum $mountDir
-
-    # Check if no error during mount
-    sleep 2
-    echo "Test $mountDir/$srcDirInternal"
-    if [ ! -d "$mountDir/$srcDirInternal" ]; then
-        umount
-        eexit "Android mount error ($mountDir).\nCheck if MTP mode is well activated."
-    fi
 
 }
 
@@ -169,6 +161,30 @@ eexit() {
 }
 
 
+check() {  
+    echo "Check $logF" |& tee -a $logF
+    grep "rsync error:" $logF
+    if [ $? -eq 1 ]; then
+        ryncMsgG=`grep "Number of " $logF`
+        rsyncMsg=$rsyncMsgG
+        ryncMsgG=`grep "Number of " $logF`
+        rsyncMsg=$rsyncMsg $rsyncMsgG
+        zenity --info --text="Congratulations !!!\n\nBackup directory = $backupDir.\nLog file = $logF\n\nResume = $rsyncMsg."
+    else
+        error=`grep "rsync: link_stat * failed: Input/output error (5)" $logF`
+        if [ $? -eq 1 ]; then
+            eexit "Error !!!\n\nAndroid mount error ($mountDir).\nCheck if MTP mode is well activated."
+        else
+            error=`grep "error" $logF`
+            zenity --info --text="Error !!!\n\nSee log file = $logF\n\nError detected = \n$error"
+        fi
+    fi
+}
+
+
+
+
+
 #
 # Main script
 #
@@ -186,11 +202,11 @@ main() {
         mount
         sync
         umount
-    
-        zenity --info --text="Congratulations !!!\n\nBackup directory = $backupDir.\nLog file = $logF"
+        check
     
     fi
 
+    echo "Delete lock file $lockFile" |& tee -a $logF
     rm -f $lockFile
 }
 
