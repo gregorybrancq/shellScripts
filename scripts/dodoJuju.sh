@@ -12,7 +12,7 @@
 progName=$(basename "$0")
 
 # Log file
-logE=1
+logE=0
 logF="$HOME/Greg/work/env/log/$progName_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
 
 # Enable
