@@ -17,7 +17,6 @@ filterF="$HOME/Greg/work/config/grsync/Android.filter"
 nexus4Name="Nexus4"
 nexus4Mtp="Nexus 4/5/7/10 (.*), Google Inc (for LG Electronics/Samsung)"
 nexus4Mount="/media/nexus4"
-#nexus4Internal="Espace de stockage interne partagé"
 nexus4Internal="Mémoire de stockage interne"
 nexus4Backup="$HOME/Greg/Informatique/Nexus4/Backup"
 
@@ -25,7 +24,7 @@ idol3Name="Idol3"
 idol3Mtp="OneTouch Idol 3 small (MTP)"
 idol3Mount="/media/idol3"
 idol3Internal="Mémoire de stockage interne"
-idol3SdCard="Carte SD"
+#idol3SdCard="Carte SD"
 idol3Backup="$HOME/Greg/Informatique/Idol3/Backup"
 
 # Global variables
@@ -35,7 +34,7 @@ devNum=""
 mountDir=""
 backupDir=""
 srcDirInternal=""
-srcDirSdCard=""
+#srcDirSdCard=""
 catchOut=""
 
 # lock
@@ -83,7 +82,7 @@ detect() {
         mountDir=$idol3Mount
         backupDir=$idol3Backup
         srcDirInternal=$idol3Internal
-        srcDirSdCard=$idol3SdCard
+        #srcDirSdCard=$idol3SdCard
         echo "$androidName detected with bus=$busNum and dev=$devNum" |& tee -a $logF
         return 1
     fi
@@ -102,9 +101,9 @@ sync() {
     if [ "$srcDirInternal" != "" ]; then
         syncDir "$srcDirInternal"
     fi
-    if [ "$srcDirSdCard" != "" ]; then
-        syncDir "$srcDirSdCard"
-    fi
+    #if [ "$srcDirSdCard" != "" ]; then
+    #    syncDir "$srcDirSdCard"
+    #fi
 }
 
 
@@ -164,7 +163,7 @@ eexit() {
 
 check() {  
     echo "Check $logF" |& tee -a $logF
-    grep "rsync: link_stat .* failed: Input/output error (5)" $logF
+    grep "rsync: link_stat .* failed: " $logF
     if [ $? -eq 0 ]; then
         eexit "Error !!!\n\nAndroid mount error ($mountDir).\nCheck if MTP mode is well activated."
     else
@@ -173,8 +172,8 @@ check() {
             error=`grep "error" $logF`
             zenity --info --text="Error !!!\n\nSee log file = $logF\n\nError detected = \n$error"
         else
-            rsyncMsg=`grep "Number of " $logF``grep "Total " $logF`
-            zenity --info --text="Congratulations !!!\n\nBackup directory = $backupDir.\nLog file = $logF\n\nResume = $rsyncMsg."
+            rsyncMsg=`grep "Number of " $logF`"\n\n"`grep "Total " $logF`
+            zenity --info --text="Congratulations !!!\n\nBackup directory = $backupDir.\nLog file = $logF\n\nResume = \n$rsyncMsg."
         fi
     fi
 }
