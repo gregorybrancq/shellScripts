@@ -18,14 +18,14 @@ nexus4Name="Nexus4"
 nexus4Mtp="Nexus 4/5/7/10 (.*), Google Inc (for LG Electronics/Samsung)"
 nexus4Mount="/media/nexus4"
 nexus4Internal="Mémoire de stockage interne"
-nexus4Backup="$HOME/Greg/Informatique/Nexus4/Backup"
+nexus4Backup="$HOME/Backup/Nexus4"
 
 idol3Name="Idol3"
 idol3Mtp="OneTouch Idol 3 small (MTP)"
 idol3Mount="/media/idol3"
 idol3Internal="Mémoire de stockage interne"
 #idol3SdCard="Carte SD"
-idol3Backup="$HOME/Greg/Informatique/Idol3/Backup"
+idol3Backup="$HOME/Backup/Idol3"
 
 # Global variables
 androidName=""
