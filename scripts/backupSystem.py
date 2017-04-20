@@ -8,6 +8,7 @@ Backup System files
     - /etc
     - /opt
     - /usr
+    - /run
     - /var
     - home configuration files
 
@@ -79,7 +80,7 @@ t = str(datetime.datetime.today().isoformat("_"))
 logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 lockFile = os.path.join(logDir, HEADER + ".lock")
 
-dirBackupList = ["/boot/grub", "/etc", "/opt", "/usr", "/var"]
+dirBackupList = ["/boot/grub", "/etc", "/opt", "/usr", "/run", "/var"]
 
 backupDirName = strftime("%Y_%m_%d", gmtime())
 backupBaseDir = "/mnt/backup/Backup/System"
