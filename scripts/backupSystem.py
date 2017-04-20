@@ -83,7 +83,7 @@ lockFile = os.path.join(logDir, HEADER + ".lock")
 dirBackupList = ["/boot/grub", "/etc", "/opt", "/usr", "/run", "/var"]
 
 backupDirName = strftime("%Y_%m_%d", gmtime())
-backupBaseDir = "/mnt/backup/Backup/System"
+backupBaseDir = "/home/greg/Backup/System"
 backupDir = os.path.join(backupBaseDir, backupDirName)
 
 
