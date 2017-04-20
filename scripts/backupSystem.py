@@ -109,7 +109,7 @@ def copyDir(src, dest) :
     try :
         shutil.copytree(src, dest, symlinks=True)
     except shutil.Error as e :
-        dbg.error(HEADER, "CopyDir copytree\n" + str(e))
+        dbg.warn(HEADER, "CopyDir copytree\n" + str(e))
 
 
 def copyFile(src, dest) :
@@ -117,7 +117,7 @@ def copyFile(src, dest) :
     try :
         shutil.copy(src, dest)
     except shutil.Error as e :
-        dbg.error(HEADER, "CopyFile copy\n" + str(e))
+        dbg.warn(HEADER, "CopyFile copy\n" + str(e))
 
 
 
