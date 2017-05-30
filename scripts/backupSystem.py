@@ -86,7 +86,13 @@ dirBackupList = ["/boot/grub", "/etc", "/opt", "/usr", "/run", "/var"]
 dirIgnoreDict = dict()
 # issue with /var/spool/postfix/dev/urandom
 dirIgnoreDict["/var"] = "postfix"
+dirIgnoreDict["/var"] = "cache"
 #dirIgnoreDict["/var"] = "postfix", "second_pattern_to_ignore"
+
+# variable to ignore pattern during copying for home
+nameIgnoreList = list()
+nameIgnoreList.append("/home/greg/.cache")
+nameIgnoreList.append("/home/greg/.thunderbird")
 
 backupDirName = strftime("%Y_%m_%d", gmtime())
 #backupDirName = "2017_04_20"
@@ -145,6 +151,7 @@ def backupToDo() :
         ignoreName = None
         if dirIgnoreDict.__contains__(dirToCopy) :
             ignoreName = dirIgnoreDict[dirToCopy]
+
         backupDest = backupDir + dirToCopy
         copyDir(dirToCopy, backupDest, ignoreName)
            
@@ -153,11 +160,12 @@ def backupToDo() :
     createDir(backupHomeDir)
     listHomeCfg = glob.glob(os.path.join(homeDir, '.*'))
     for homeCfg in listHomeCfg :
-        backupDest = backupHomeDir + re.sub(homeDir, "", homeCfg)
-        if os.path.isdir(homeCfg) :
-            copyDir(homeCfg, backupDest)
-        else :
-            copyFile(homeCfg, backupDest)
+        if not nameIgnoreList.__contains__(homeCfg) :
+            backupDest = backupHomeDir + re.sub(homeDir, "", homeCfg)
+            if os.path.isdir(homeCfg) :
+                copyDir(homeCfg, backupDest)
+            else :
+                copyFile(homeCfg, backupDest)
 
     dbg.info(HEADER, "Out backupToDo")
 
