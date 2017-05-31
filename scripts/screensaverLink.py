@@ -115,7 +115,7 @@ parser.add_option(
 
 class GuiC(gtk.Window) :
 
-    def __init__(self, self.logC) :
+    def __init__(self, logC) :
         self.log = logC
 
 
@@ -136,6 +136,10 @@ class GuiC(gtk.Window) :
     def createWin(self):
         self.log.info("In  createWin", HEADER)
 
+        #
+        # Main window
+        #
+
         gtk.Window.__init__(self)
         try :
             self.set_icon_from_file(progIcon)
@@ -145,99 +149,67 @@ class GuiC(gtk.Window) :
 
         self.set_title("Screensaver Images Tags")
         self.set_border_width(5)
-        self.set_default_size(800, 700)
+        self.set_default_size(400, 600)
 
 
         #
-        # Create the vertical box
-        #   the tag box & the buttons
+        # Vertical box = tag list + buttons
         #
-        vBoxLeft = gtk.VBox(False, 20)
-        vBoxLeft.set_border_width(5)
+        vTagBut = gtk.VBox(False, 15)
+        vTagBut.set_border_width(5)
+        self.add(vTagBut)
 
-        #
-        # Vertical box
-        #
-        frameConfig = gtk.Frame()
-        frameConfig.set_label("Configurations")
-        vBoxConfig = gtk.VBox(False, 15)
-        vBoxConfig.set_border_width(5)
 
-        #
-        # Create the tool's tab
+        # Tag list
         #
 
         # Create the scrolled windows
-        tools_sw = gtk.ScrolledWindow()
-        # tools_sw.set_policy(gtk.PolicyType.AUTOMATIC, gtk.PolicyType.AUTOMATIC)
-        tools_sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-        # tools_sw.set_shadow_type(Gtk.ShadowType.IN)
-        tools_sw.set_shadow_type(gtk.SHADOW_IN)
-        # tools_sw.set_min_content_height(150)
-        # tools_sw.set_min_content_width(350)
+        tagsSw = gtk.ScrolledWindow()
+        tagsSw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        tagsSw.set_shadow_type(gtk.SHADOW_IN)
 
-        # Create tools treeview
-        toolTV = self.winToolsC.create_tool_treeview()
-        tools_sw.add(toolTV)
+        # Create tags treeview
+        tagsTv = gtk.TreeView(gtk.TreeStore(gobject.TYPE_STRING))
+        tagsSw.add(tagsTv)
+
+        vTagBut.pack_start(tagsSw, True, True)
 
 
-        # Create the configuration scrolled windows
-        left_sw = gtk.ScrolledWindow()
-        # left_sw.set_min_content_height(100)
-        # left_sw.set_min_content_width(100)
-        left_sw.set_shadow_type(gtk.SHADOW_ETCHED_IN)
-        left_sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-        # with the config list inside
 
-        # Create the config treeview
-        configTV = self.winCfgsC.create_config_treeview()
-        left_sw.add(configTV)
-        vBoxConfig.pack_start(left_sw, True, True)
-
+        # Buttons
+        #
 
         # Create the buttons
-        tabButConf = gtk.Table(3, 3, True)
-        tabButConf.set_row_spacings(10)
-        tabButConf.set_col_spacings(10)
+        butTab = gtk.Table(2, 4, True)
+        butTab.set_row_spacings(10)
+        butTab.set_col_spacings(10)
 
-        # new
-        button_addC = gtk.Button(stock=gtk.STOCK_ADD)
-        button_addC.connect("clicked", self.winCfgsC.on_clicked_config_add)
-        tabButConf.attach(button_addC, 0, 1, 0, 1)
-        # copy
-        button_copyC = gtk.Button(stock=gtk.STOCK_COPY)
-        button_copyC.connect("clicked", self.winCfgsC.on_clicked_config_copy)
-        tabButConf.attach(button_copyC, 1, 2, 0, 1)
-        # delete
-        button_delC = gtk.Button(stock=gtk.STOCK_DELETE)
-        button_delC.connect("clicked", self.winCfgsC.on_clicked_config_delete)
-        tabButConf.attach(button_delC, 2, 3, 0, 1)
-        # use config
-        button_useC = gtk.Button("_Use", use_underline=True)
-        button_useC.connect("clicked", self.winCfgsC.on_clicked_config_use)
-        tabButConf.attach(button_useC, 0, 1, 1, 2)
-        # init config
-        button_initC = gtk.Button("_Init", use_underline=True)
-        button_initC.connect("clicked", self.winCfgsC.on_clicked_config_init)
-        tabButConf.attach(button_initC, 1, 2, 1, 2)
-        # apply
-        button_applyC = gtk.Button("Save", use_underline=True)
-        button_applyC.connect("clicked", self.winCfgsC.on_clicked_config_save)
-        tabButConf.attach(button_applyC, 2, 3, 1, 2)
+        # scan tags
+        gtk.stock_add([(gtk.STOCK_REFRESH, "Scan tags", 0, 0, "")])
+        scanBut = gtk.Button(stock=gtk.STOCK_REFRESH)
+        #scanBut.connect("clicked", self.winCfgsC.on_clicked_config_add)
+        butTab.attach(scanBut, 0, 2, 0, 1)
+        # create links
+        gtk.stock_add([(gtk.STOCK_EXECUTE, "Create links", 0, 0, "")])
+        exeBut = gtk.Button(stock=gtk.STOCK_EXECUTE)
+        #exeBut.connect("clicked", self.winCfgsC.on_clicked_config_save)
+        butTab.attach(exeBut, 2, 4, 0, 1)
         # quit
-        button_applyC = gtk.Button(stock=gtk.STOCK_CLOSE)
-        button_applyC.connect("clicked", self.on_destroy)
-        tabButConf.attach(button_applyC, 1, 2, 2, 3)
+        quitBut = gtk.Button(stock=gtk.STOCK_CLOSE)
+        quitBut.connect("clicked", self.on_destroy)
+        butTab.attach(quitBut, 1, 3, 1, 2)
 
-        vBoxConfig.pack_start(tabButConf, False, False, 0)
-        frameConfig.add(vBoxConfig)
-        vBoxLeft.pack_start(frameConfig, True, True, 0)
+        vTagBut.pack_start(butTab, False, False, 0)
 
 
         # Display the window
         self.show_all()
 
         self.log.info("Out createWin", HEADER)
+
+
+
+
 
 ###############################################
 
@@ -258,11 +230,12 @@ class GuiC(gtk.Window) :
 
 def main() :
     ## Create self.log class
-    log = self.logC(logFile, HEADER, parsedArgs.debug, parsedArgs.gui)
+    global log
+    log = LOGC(logFile, HEADER, parsedArgs.debug, parsedArgs.gui)
 
     ## Graphic interface
     gui = GuiC(log)
-    gui.init()
+    gui.run()
 
 
 
