@@ -57,14 +57,6 @@ parser.add_option(
     help    = "Display all debug information"
     )
 
-parser.add_option(
-    "--nogui",
-    action  = "store_false",
-    dest    = "gui",
-    default = True,
-    help    = "Print information in a shell"
-    )
-
 (parsedArgs , args) = parser.parse_args()
 
 ###############################################
@@ -199,7 +191,7 @@ def main() :
 if __name__ == '__main__':
  
     ## Create log class
-    dbg = LOGC(logFile, HEADER, parsedArgs.debug, parsedArgs.gui)
+    dbg = LOGC(logFile, HEADER, parsedArgs.debug)
 
     main()
 

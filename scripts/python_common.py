@@ -23,7 +23,7 @@ import random
 ###############################################
 
 class LOGC(object):
-    def __init__(self, file_name, prog_name, debug, gui):
+    def __init__(self, file_name, prog_name, debug, gui=False):
         self.fileName = file_name
         self.progName = prog_name
         self.dbg = debug
