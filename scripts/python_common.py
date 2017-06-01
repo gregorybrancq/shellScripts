@@ -41,7 +41,7 @@ class LOGC(object):
         except IOError, OSError:
             pass
 
-    def debug(self, msg):
+    def dbg(self, msg):
         mes = " [ debug ] " + str(datetime.datetime.today().isoformat("_")) + " == " + msg
         if self.dbg :
             print " DBG " + self.progName + " : " + str(mes)
