@@ -26,12 +26,12 @@ class LOGC(object):
     def __init__(self, file_name, prog_name, debug, gui=False):
         self.fileName = file_name
         self.progName = prog_name
-        self.dbg = debug
+        self.debug = debug
         self.gui = gui
 
     def writeLog(self, msg):
-        if self.dbg :
-            print " DBG " + self.progName + " : " + str(msg)
+        if self.debug :
+            print " DBG : " + str(msg)
         
         msg += "\n"
         try :
@@ -43,8 +43,8 @@ class LOGC(object):
 
     def dbg(self, msg):
         mes = " [ debug ] " + str(datetime.datetime.today().isoformat("_")) + " == " + msg
-        if self.dbg :
-            print " DBG " + self.progName + " : " + str(mes)
+        if self.debug :
+            print " DBG : " + self.progName + str(mes)
     def info(self, item, msg):
         mes = item + " [ info  ] " + str(datetime.datetime.today().isoformat("_")) + " == " + msg
         self.writeLog(mes)
@@ -56,7 +56,7 @@ class LOGC(object):
         self.writeLog(mes)
         print "  ERROR " + self.progName + " :   Code " + str(item) + "\n" + str(msg) + "\n"
     def exit(self, item, msg):
-        self.dbg = False
+        self.debug = False
         if self.gui :
             mes = "ERROR " + self.progName + " :   Exit code " + str(item) + "\n" + str(msg) + "\n"
             dialog_error("ERROR " + self.progName + " code " + str(item), msg)
@@ -321,25 +321,25 @@ def sendMail(From, To, Cc, Subject, MessageText, MessageHtml):
 ###############################################
 ###############################################
 
-def addFile(dbg, header, fileName, extAuth, typeList, warnNb) :
-    dbg.info(header, "In  addFile fileName=" + str(fileName))
+def addFile(log, header, fileName, extAuth, typeList, warnNb) :
+    log.info(header, "In  addFile fileName=" + str(fileName))
     dirN = os.path.dirname(fileName)
     dirN1=dirN.replace('(','\(')
     dirN2=dirN1.replace(')','\)')
     fileNameWoDir=re.sub(dirN2 + "\/", '', fileName)
     (fileN, extN) = os.path.splitext(fileNameWoDir)
     if extAuth.__contains__(extN) :
-        dbg.info(header, "In  addFile dirN=" + str(dirN) + ", fileN=" + str(fileN) + ", extN=" + str(extN))
+        log.info(header, "In  addFile dirN=" + str(dirN) + ", fileN=" + str(fileN) + ", extN=" + str(extN))
         typeList.append([dirN, fileN, extN])
         return (typeList, warnNb)
     else :
         warnNb += 1
-        dbg.warn(header, "In  addFile file " + str(fileNameWoDir) + " is not a good extension as " + str(extAuth))
+        log.warn(header, "In  addFile file " + str(fileNameWoDir) + " is not a good extension as " + str(extAuth))
         return (typeList, warnNb)
 
 
-def listFromArgs(dbg, header, args, ext) :
-    dbg.info(header, "In  listFromArgs")
+def listFromArgs(log, header, args, ext) :
+    log.info(header, "In  listFromArgs")
     typeList= list()
     warnNb = 0
 
@@ -348,16 +348,16 @@ def listFromArgs(dbg, header, args, ext) :
             #arg.encode('latin1')
             if (os.path.isdir(arg)) :
                 dirName = arg
-                dbg.info(header, "In  listFromArgs dir=" + str(arg))
+                log.info(header, "In  listFromArgs dir=" + str(arg))
                 for dirpath, dirnames, filenames in os.walk(arg) :
                     for filename in filenames :
-                        (typeList, warnNb) = addFile(dbg, header, os.path.join(dirpath, filename), ext, typeList, warnNb)
+                        (typeList, warnNb) = addFile(log, header, os.path.join(dirpath, filename), ext, typeList, warnNb)
 
             elif (os.path.isfile(arg)) :
-                dbg.info(header, "In  listFromArgs file=" + str(arg))
-                (typeList, warnNb) = addFile(dbg, header, arg, ext, typeList, warnNb)
+                log.info(header, "In  listFromArgs file=" + str(arg))
+                (typeList, warnNb) = addFile(log, header, arg, ext, typeList, warnNb)
 
-    dbg.info(header, "Out listFromArgs typeList=" + str(typeList))
+    log.info(header, "Out listFromArgs typeList=" + str(typeList))
     return (typeList, warnNb)
 
 
