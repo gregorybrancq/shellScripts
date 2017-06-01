@@ -74,9 +74,9 @@ warnC = 0
 
 
 def unpack(movieList) :
-    global dbg
+    global log
     global warnC
-    dbg.info(HEADER, "In  unpack")
+    log.info(HEADER, "In  unpack")
 
     oldDir = os.getcwd()
 
@@ -91,7 +91,7 @@ def unpack(movieList) :
 
     #if question :
     for (movieD, movieN, movieE) in movieList :
-        dbg.info(HEADER, "In  unpack directory " + str(movieD) + "  convert " + str(movieN) + str(movieE) + " to " + str(movieN) + " unpack" + str(movieE))
+        log.info(HEADER, "In  unpack directory " + str(movieD) + "  convert " + str(movieN) + str(movieE) + " to " + str(movieN) + " unpack" + str(movieE))
 
         if (movieD != "") :
             os.chdir(movieD)
@@ -101,22 +101,22 @@ def unpack(movieList) :
         procPopen.wait()
         if (procPopen.returncode != 0) :
             warnC += 1
-            dbg.warn(HEADER, "In  unpack file " + str(os.path.join(movieD, movieN + movieE)) + " was not unpacked.")
+            log.warn(HEADER, "In  unpack file " + str(os.path.join(movieD, movieN + movieE)) + " was not unpacked.")
 
         ## replace the original file
         if os.path.isfile(os.path.join(movieD, movieN + " unpack" + movieE)) :
             try :
-                dbg.info(HEADER, "In  unpack move the original file " + os.path.join(movieD, movieN + movieE) + " to " + os.path.join(homeDir, "Vidéos/Original", movieN + movieE))
+                log.info(HEADER, "In  unpack move the original file " + os.path.join(movieD, movieN + movieE) + " to " + os.path.join(homeDir, "Vidéos/Original", movieN + movieE))
                 os.rename(os.path.join(movieD, movieN + movieE), os.path.join(homeDir, "Vidéos/Original", movieN + movieE))
-                dbg.info(HEADER, "In  unpack rename the unpack file " + os.path.join(movieD, movieN + " unpack" + movieE) + " to " + os.path.join(movieD, movieN + movieE))
+                log.info(HEADER, "In  unpack rename the unpack file " + os.path.join(movieD, movieN + " unpack" + movieE) + " to " + os.path.join(movieD, movieN + movieE))
                 os.rename(os.path.join(movieD, movieN + " unpack" + movieE), os.path.join(movieD, movieN + movieE))
             except :
-                dbg.info(HEADER, "In  unpack impossible to replace the original file. Directory=" + str(movieD) + "  Name=" + str(movieN) + "  Extension=" + str(movieE))
+                log.info(HEADER, "In  unpack impossible to replace the original file. Directory=" + str(movieD) + "  Name=" + str(movieN) + "  Extension=" + str(movieE))
 
         if (movieD != "") :
             os.chdir(oldDir)
 
-    dbg.info(HEADER, "Out unpack")
+    log.info(HEADER, "Out unpack")
 
 ###############################################
 
@@ -135,21 +135,21 @@ def unpack(movieList) :
 
 
 def main() :
-    global dbg
+    global log
     global warnC
     movieList = list()
-    dbg.info(HEADER, "In  main")
+    log.info(HEADER, "In  main")
 
-    dbg.info(HEADER, "In  main parsedArgs=" + str(parsedArgs))
-    dbg.info(HEADER, "In  main args=" + str(args))
+    log.info(HEADER, "In  main parsedArgs=" + str(parsedArgs))
+    log.info(HEADER, "In  main args=" + str(args))
 
     ## Create list of files
     extAuth=[".avi", ".AVI"]
-    (movieList, warnC) = listFromArgs(dbg, HEADER, args, extAuth)
+    (movieList, warnC) = listFromArgs(log, HEADER, args, extAuth)
 
     ## Verify if there is at least one movie to unpack
     if (len(movieList) == 0) :
-        dbg.exit("1", "No movie has been found\n")
+        log.exit("1", "No movie has been found\n")
 
     ## Avoid another same program to run
     verify_lock_file(lockFile)
@@ -164,14 +164,14 @@ def main() :
     ## Remove lock file
     remove_lock_file(lockFile)
     
-    dbg.info(HEADER, "Out main")
+    log.info(HEADER, "Out main")
 
 
 
 if __name__ == '__main__':
  
     ## Create log class
-    dbg = LOGC(logFile, HEADER, parsedArgs.debug)
+    log = LOGC(logFile, HEADER, parsedArgs.debug)
 
     main()
 

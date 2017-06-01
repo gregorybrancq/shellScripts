@@ -71,42 +71,42 @@ errC = 0
 ###############################################
 
 def convertFile(fileList) :
-    global dbg
+    global log
     global errC
     fileListConvert = list()
 
-    dbg.info(HEADER, "In  convertFile")
+    log.info(HEADER, "In  convertFile")
 
     oldDir = os.getcwd()
 
     for (fileD, fileN, fileE) in fileList :
-        dbg.info(HEADER, "In  convertFile directory " + str(fileD) + "  convertFile " + fileN + fileE)
+        log.info(HEADER, "In  convertFile directory " + str(fileD) + "  convertFile " + fileN + fileE)
 
         if (fileD != "") :
             os.chdir(fileD)
 
         cmd='convert "' + fileN + fileE + '" "' + fileN + '.pdf"'
-        dbg.info(HEADER, "In  convertFile cmd=" + str(cmd))
+        log.info(HEADER, "In  convertFile cmd=" + str(cmd))
         procPopen = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT)
         procPopen.wait()
         if (procPopen.returncode != 0) :
             errC += 1
-            dbg.error(HEADER, "In  convertFile file: issue with " + str(os.path.join(fileD, fileN + fileE)))
+            log.error(HEADER, "In  convertFile file: issue with " + str(os.path.join(fileD, fileN + fileE)))
         else :
             fileListConvert.append([fileD, fileN, ".pdf"])
 
         if (fileD != "") :
             os.chdir(oldDir)
 
-    dbg.info(HEADER, "Out convertFile")
+    log.info(HEADER, "Out convertFile")
     return fileListConvert
 
 
 
 def concatFile(fileList) :
-    global dbg
+    global log
     global errC
-    dbg.info(HEADER, "In  concatFile")
+    log.info(HEADER, "In  concatFile")
 
     fileListStr = ""
     firstFileName = ""
@@ -129,22 +129,22 @@ def concatFile(fileList) :
             i += 1
 
     cmd='pdftk ' + fileListStr + ' cat output "' + outputName + '"'
-    dbg.info(HEADER, "In  concatFile cmd=" + str(cmd))
+    log.info(HEADER, "In  concatFile cmd=" + str(cmd))
     procPopen = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT)
     procPopen.wait()
     if (procPopen.returncode != 0) :
         errC += 1
-        dbg.error(HEADER, "In  concatFile file: issue with " + str(cmd))
+        log.error(HEADER, "In  concatFile file: issue with " + str(cmd))
 
-    dbg.info(HEADER, "Out concatFile")
+    log.info(HEADER, "Out concatFile")
     return (firstFileName, outputName)
 
 
 
 def cleanFiles(fileList, firstN, outputN) :
-    global dbg
+    global log
     global errC
-    dbg.info(HEADER, "In  cleanFiles")
+    log.info(HEADER, "In  cleanFiles")
 
     for (fileD, fileN, fileE) in fileList :
         if os.path.exists(os.path.join(fileD, fileN + fileE)):
@@ -153,7 +153,7 @@ def cleanFiles(fileList, firstN, outputN) :
     if os.path.exists(outputN) :
         os.rename(outputN, firstN + ".pdf")
 
-    dbg.info(HEADER, "Out cleanFiles")
+    log.info(HEADER, "Out cleanFiles")
 
 ###############################################
 
@@ -172,42 +172,42 @@ def cleanFiles(fileList, firstN, outputN) :
 
 
 def main() :
-    global dbg
+    global log
     warnC = 0
     firstN = str()
     outputN = str()
-    dbg.info(HEADER, "In  main")
+    log.info(HEADER, "In  main")
 
     fileList = list()
     fileListConvert = list()
 
-    dbg.info(HEADER, "In  main parsedArgs=" + str(parsedArgs))
-    dbg.info(HEADER, "In  main args=" + str(args))
+    log.info(HEADER, "In  main parsedArgs=" + str(parsedArgs))
+    log.info(HEADER, "In  main args=" + str(args))
 
     ## Create list of files
     extAuth=[".jpg", ".JPG", ".jpeg", ".JPEG", ".tif", ".TIF", ".gif", ".GIF", ".bmp", ".BMP"]
-    (fileList, warnC) = listFromArgs(dbg, HEADER, args, extAuth)
+    (fileList, warnC) = listFromArgs(log, HEADER, args, extAuth)
 
     ## Verify if there is at least one file to convert
     if (len(fileList) == 0) :
-        dbg.exit("Convert X JPG to 1 PDF", "No image has been found\n")
+        log.exit("Convert X JPG to 1 PDF", "No image has been found\n")
 
     ## Convert them
-    dbg.debug("fileList="+str(fileList))
+    log.log("fileList="+str(fileList))
     fileListConvert = convertFile(fileList)
 
     ## Concat them
-    dbg.debug("fileListConvert="+str(fileListConvert))
+    log.log("fileListConvert="+str(fileListConvert))
     (firstN, outputN) = concatFile(fileListConvert)
 
     ## Delete intermediary files
-    dbg.debug("fileListConvert="+str(fileListConvert))
+    log.log("fileListConvert="+str(fileListConvert))
     cleanFiles(fileListConvert, firstN, outputN)
 
     ## End dialog
     dialog_end(warnC, errC, logFile, "Convert images", "\nJob fini.")
     
-    dbg.info(HEADER, "Out main")
+    log.info(HEADER, "Out main")
 
 ###############################################
 
@@ -217,7 +217,7 @@ def main() :
 if __name__ == '__main__':
  
     ## Create log class
-    dbg = LOGC(logFile, HEADER, parsedArgs.debug)
+    log = LOGC(logFile, HEADER, parsedArgs.debug)
 
     main()
 

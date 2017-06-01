@@ -72,14 +72,14 @@ errC = 0
 ###############################################
 
 def reduceWeight(fileList) :
-    global dbg
+    global log
     global errC
-    dbg.info(HEADER, "In  reduceWeight")
+    log.info(HEADER, "In  reduceWeight")
 
     oldDir = os.getcwd()
 
     for (fileD, fileN, fileE) in fileList :
-        dbg.info(HEADER, "In  reduceWeight directory=" + str(fileD) + ", file=" + fileN + fileE)
+        log.info(HEADER, "In  reduceWeight directory=" + str(fileD) + ", file=" + fileN + fileE)
 
         if (fileD != "") :
             os.chdir(fileD)
@@ -89,7 +89,7 @@ def reduceWeight(fileList) :
         procPopen.wait()
         if (procPopen.returncode != 0) :
             errC += 1
-            dbg.error(HEADER, "In  reduceWeight file: issue with " + str(os.path.join(fileD, fileN + fileE)))
+            log.error(HEADER, "In  reduceWeight file: issue with " + str(os.path.join(fileD, fileN + fileE)))
         else :
             # is it worth to move the result?
             originalSize = os.path.getsize(fileN + fileE)
@@ -100,17 +100,17 @@ def reduceWeight(fileList) :
                 if os.path.exists(fileN + fileE):
                     os.remove(fileN + fileE)
                 shutil.move(fileN + ' reduced' + fileE, fileN + fileE)
-                dbg.info(HEADER, "In  reduceWeight copied file. Gain = " + str(humanSize(originalSize - reducedSize)) + ", original = " + str(humanSize(originalSize)) + ", reduced = " + str(humanSize(reducedSize)))
+                log.info(HEADER, "In  reduceWeight copied file. Gain = " + str(humanSize(originalSize - reducedSize)) + ", original = " + str(humanSize(originalSize)) + ", reduced = " + str(humanSize(reducedSize)))
             else :
                 # remove result file
                 if os.path.exists(fileN + ' reduced' + fileE):
                     os.remove(fileN + ' reduced' + fileE)
-                dbg.info(HEADER, "In  reduceWeight removed file. Original = " + str(humanSize(originalSize)) + ", reduced = " + str(humanSize(reducedSize)))
+                log.info(HEADER, "In  reduceWeight removed file. Original = " + str(humanSize(originalSize)) + ", reduced = " + str(humanSize(reducedSize)))
 
         if (fileD != "") :
             os.chdir(oldDir)
 
-    dbg.info(HEADER, "Out reduceWeight")
+    log.info(HEADER, "Out reduceWeight")
 
 ###############################################
 
@@ -129,24 +129,24 @@ def reduceWeight(fileList) :
 
 
 def main() :
-    global dbg
+    global log
     warnC = 0
-    dbg.info(HEADER, "In  main")
+    log.info(HEADER, "In  main")
 
     fileList = list()
 
-    dbg.info(HEADER, "In  main parsedArgs=" + str(parsedArgs))
-    dbg.info(HEADER, "In  main args=" + str(args))
+    log.info(HEADER, "In  main parsedArgs=" + str(parsedArgs))
+    log.info(HEADER, "In  main args=" + str(args))
 
     ## Create list of files
     extAuth=[".pdf", ".PDF"]
-    (fileList, warnC) = listFromArgs(dbg, HEADER, args, extAuth)
+    (fileList, warnC) = listFromArgs(log, HEADER, args, extAuth)
 
     ## Verify if there is at least one photo to reducePdfWeight
     if (len(fileList) == 0) :
         dialog_error("Reduce PDF weight", "\nNo pdf file has been found\n")
     else :
-        dbg.info(HEADER, "In  main reduce pdf weight = " + str(len(fileList)))
+        log.info(HEADER, "In  main reduce pdf weight = " + str(len(fileList)))
 
     ## Convert them
     reduceWeight(fileList)
@@ -154,7 +154,7 @@ def main() :
     ## End dialog
     dialog_end(warnC, errC, logFile, "Reduce PDF weight", "\nJob fini : " + str(len(fileList)) + " pdf reduced.")
     
-    dbg.info(HEADER, "Out main")
+    log.info(HEADER, "Out main")
 
 ###############################################
 
@@ -164,7 +164,7 @@ def main() :
 if __name__ == '__main__':
  
     ## Create log class
-    dbg = LOGC(logFile, HEADER, parsedArgs.debug)
+    log = LOGC(logFile, HEADER, parsedArgs.debug)
 
     main()
 

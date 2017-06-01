@@ -74,15 +74,15 @@ errC = 0
 
 
 def convert(pdfList) :
-    global dbg
+    global log
     global errC
-    dbg.info(HEADER, "In  convert")
+    log.info(HEADER, "In  convert")
 
     oldDir = os.getcwd()
 
     for (pdfDir, pdfName, pdfExt) in pdfList :
         run = True
-        dbg.info(HEADER, "In  convert directory '" + str(pdfDir) + "', convert '" + str(pdfName) + str(pdfExt) + "' to '" + str(pdfName) + "_k2pdfopt" + str(pdfExt) + "'")
+        log.info(HEADER, "In  convert directory '" + str(pdfDir) + "', convert '" + str(pdfName) + str(pdfExt) + "' to '" + str(pdfName) + "_k2pdfopt" + str(pdfExt) + "'")
 
         if (pdfDir != "") :
             os.chdir(pdfDir)
@@ -95,32 +95,32 @@ def convert(pdfList) :
 
             ## Run the job
             cmdToLaunch='k2pdfopt -w 958 -h 1320 -dpi 213 -idpi -2 -x -ui- -m 0,0,0,0 -ocr t -ocrhmax 1.5 -ocrvis s "' + str(pdfName) + str(pdfExt) + '"'
-            dbg.info(HEADER, "In  convert cmdToLaunch=" + str(cmdToLaunch))
+            log.info(HEADER, "In  convert cmdToLaunch=" + str(cmdToLaunch))
             procPopen = subprocess.Popen(cmdToLaunch, shell=True, stderr=subprocess.STDOUT)
             procPopen.wait()
             if (procPopen.returncode != 0) :
                 errC += 1
-                dbg.error(HEADER, "In  convert, file " + str(os.path.join(pdfDir, pdfName + pdfExt)) + " was not successful.")
+                log.error(HEADER, "In  convert, file " + str(os.path.join(pdfDir, pdfName + pdfExt)) + " was not successful.")
 
             ## replace the original file
             # if os.path.isfile(pdfName + "_k2opt" + pdfExt) :
             #     try :
-            #         dbg.info(HEADER, "In  convert, move the original file " + pdfName + pdfExt + " to " + pdfName + " original" + pdfExt)
+            #         log.info(HEADER, "In  convert, move the original file " + pdfName + pdfExt + " to " + pdfName + " original" + pdfExt)
             #         os.rename(pdfName + pdfExt, pdfName + " original" + pdfExt)
-            #         dbg.info(HEADER, "In  convert, rename the convert file " + pdfName + "_k2opt" + pdfExt + " to " + pdfName + pdfExt)
+            #         log.info(HEADER, "In  convert, rename the convert file " + pdfName + "_k2opt" + pdfExt + " to " + pdfName + pdfExt)
             #         os.rename(pdfName + "_k2opt" + pdfExt, pdfName + pdfExt)
             #     except :
-            #         dbg.info(HEADER, "In  convert impossible to replace the original file. Directory=" + str(pdfDir) + "  Name=" + str(pdfName) + "  Extension=" + str(pdfExt))
+            #         log.info(HEADER, "In  convert impossible to replace the original file. Directory=" + str(pdfDir) + "  Name=" + str(pdfName) + "  Extension=" + str(pdfExt))
             # else :
-            #     dbg.info(HEADER, "In  convert, file " + os.path.join(pdfDir, pdfName + pdfExt) + " doesn't exist")
+            #     log.info(HEADER, "In  convert, file " + os.path.join(pdfDir, pdfName + pdfExt) + " doesn't exist")
 
         else :
-            dbg.info(HEADER, "In  convert, file " + os.path.join(pdfDir, pdfName + pdfExt) + " already converted")
+            log.info(HEADER, "In  convert, file " + os.path.join(pdfDir, pdfName + pdfExt) + " already converted")
 
         if (pdfDir != "") :
             os.chdir(oldDir)
 
-    dbg.info(HEADER, "Out convert")
+    log.info(HEADER, "Out convert")
 
 ###############################################
 
@@ -139,37 +139,37 @@ def convert(pdfList) :
 
 
 def main() :
-    global dbg
+    global log
     global warnC
     pdfList = list()
-    dbg.info(HEADER, "In  main")
+    log.info(HEADER, "In  main")
 
-    dbg.info(HEADER, "In  main parsedArgs=" + str(parsedArgs))
-    dbg.info(HEADER, "In  main args=" + str(args))
+    log.info(HEADER, "In  main parsedArgs=" + str(parsedArgs))
+    log.info(HEADER, "In  main args=" + str(args))
 
     ## Create list of files
     extAuth=[".pdf", ".PDF"]
-    (pdfList, warnC) = listFromArgs(dbg, HEADER, args, extAuth)
+    (pdfList, warnC) = listFromArgs(log, HEADER, args, extAuth)
 
     ## Verify if there is at least one file to convert
     if (len(pdfList) == 0) :
-        dbg.exit("1", "No pdf file has been found\n")
+        log.exit("1", "No pdf file has been found\n")
 
     ## Convert them
-    dbg.info(HEADER, "Script will convert " + str(len(pdfList)) + " file(s)")
+    log.info(HEADER, "Script will convert " + str(len(pdfList)) + " file(s)")
     convert(pdfList)
 
     ## End dialog
     dialog_end(warnC, errC, logFile, "Convert Kobo", "\nJob fini : " + str(len(pdfList)) + " livres convertis.\nLivre : " + str(pdfList) + ".")
     
-    dbg.info(HEADER, "Out main")
+    log.info(HEADER, "Out main")
 
 
 
 if __name__ == '__main__':
  
     ## Create log class
-    dbg = LOGC(logFile, HEADER, parsedArgs.debug)
+    log = LOGC(logFile, HEADER, parsedArgs.debug)
 
     main()
 

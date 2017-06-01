@@ -74,11 +74,11 @@ logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 
 
 def main() :
-    global dbg
-    dbg.info(HEADER, "In  main")
+    global log
+    log.info(HEADER, "In  main")
 
-    dbg.info(HEADER, "In  main parsedArgs=" + str(parsedArgs))
-    dbg.info(HEADER, "In  main args=" + str(args))
+    log.info(HEADER, "In  main parsedArgs=" + str(parsedArgs))
+    log.info(HEADER, "In  main args=" + str(args))
 
     if args.__len__() != 1 :
         dialog_error("Send File to DL Free", "Only 1 file supported")
@@ -95,11 +95,11 @@ def main() :
     out = ""
     err = ""
     cmdToLaunch=getBinDir() + '/ftp-free "' + str(fileN) + '"'
-    dbg.info(HEADER, "In  main cmdToLaunch=" + str(cmdToLaunch))
+    log.info(HEADER, "In  main cmdToLaunch=" + str(cmdToLaunch))
     procPopen = Popen(cmdToLaunch, shell=True, stdout=PIPE, stderr=PIPE)
     out, err = procPopen.communicate()
-    dbg.info(HEADER, "In  main result out\n" + str(out))
-    dbg.info(HEADER, "In  main result err\n" + str(err))
+    log.info(HEADER, "In  main result out\n" + str(out))
+    log.info(HEADER, "In  main result err\n" + str(err))
 
     ## Print result
     msg = "Fichier envoyé : " + str(fileN) + "\n\n"
@@ -116,22 +116,22 @@ def main() :
         dialog_info("Send File to DL Free", msg)
 
     ## Send email
-    dbg.info(HEADER, "In  main send mail")
-    dbg.info(HEADER, "In  main send mail args[0]=" + str(args[0]))
-    dbg.info(HEADER, "In  main send mail msg=" + str(msg))
+    log.info(HEADER, "In  main send mail")
+    log.info(HEADER, "In  main send mail args[0]=" + str(args[0]))
+    log.info(HEADER, "In  main send mail msg=" + str(msg))
     try:
         sendMail("Greg <gregory.brancq@free.fr>", "gregory.brancq@free.fr", "", "Send to DL Free : " + str(args[0]), str(msg), "");
     except :
-        dbg.error(HEADER, "In  main send mail issue ")
+        log.error(HEADER, "In  main send mail issue ")
 
-    dbg.info(HEADER, "Out main")
+    log.info(HEADER, "Out main")
 
 
 
 if __name__ == '__main__':
  
     ## Create log class
-    dbg = LOGC(logFile, HEADER, parsedArgs.debug)
+    log = LOGC(logFile, HEADER, parsedArgs.debug)
 
     main()
 

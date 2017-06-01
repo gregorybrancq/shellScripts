@@ -71,14 +71,14 @@ errC = 0
 ###############################################
 
 def exifConvert(photoList) :
-    global dbg
+    global log
     global errC
-    dbg.info(HEADER, "In  exifConvert")
+    log.info(HEADER, "In  exifConvert")
 
     oldDir = os.getcwd()
 
     for (photoD, photoN, photoE) in photoList :
-        dbg.info(HEADER, "In  exifConvert directory " + str(photoD) + "  convert " + photoN + photoE)
+        log.info(HEADER, "In  exifConvert directory " + str(photoD) + "  convert " + photoN + photoE)
 
         if (photoD != "") :
             os.chdir(photoD)
@@ -87,12 +87,12 @@ def exifConvert(photoList) :
         procPopen.wait()
         if (procPopen.returncode != 0) :
             errC += 1
-            dbg.warn(HEADER, "In  exifConvert file " + str(os.path.join(photoD, photoN + photoE)) + " was not turned.")
+            log.warn(HEADER, "In  exifConvert file " + str(os.path.join(photoD, photoN + photoE)) + " was not turned.")
 
         if (photoD != "") :
             os.chdir(oldDir)
 
-    dbg.info(HEADER, "Out exifConvert")
+    log.info(HEADER, "Out exifConvert")
 
 ###############################################
 
@@ -111,24 +111,24 @@ def exifConvert(photoList) :
 
 
 def main() :
-    global dbg
+    global log
     warnC = 0
-    dbg.info(HEADER, "In  main")
+    log.info(HEADER, "In  main")
 
     photoList = list()
 
-    dbg.info(HEADER, "In  main parsedArgs=" + str(parsedArgs))
-    dbg.info(HEADER, "In  main args=" + str(args))
+    log.info(HEADER, "In  main parsedArgs=" + str(parsedArgs))
+    log.info(HEADER, "In  main args=" + str(args))
 
     ## Create list of files
     extAuth=[".JPG", ".jpg", ".JPEG", ".jpeg"]
-    (photoList, warnC) = listFromArgs(dbg, HEADER, args, extAuth)
+    (photoList, warnC) = listFromArgs(log, HEADER, args, extAuth)
 
     ## Verify if there is at least one photo to unpack
     if (len(photoList) == 0) :
         dialog_error("Pivoter les images", "\nNo photo has been found\n")
     else :
-        dbg.info(HEADER, "In  main photo to convert = " + str(len(photoList)))
+        log.info(HEADER, "In  main photo to convert = " + str(len(photoList)))
 
     ## Convert them
     exifConvert(photoList)
@@ -136,7 +136,7 @@ def main() :
     ## End dialog
     dialog_end(warnC, errC, logFile, "Pivoter les images", "\nJob fini : " + str(len(photoList)) + " images converties.")
     
-    dbg.info(HEADER, "Out main")
+    log.info(HEADER, "Out main")
 
 ###############################################
 
@@ -146,7 +146,7 @@ def main() :
 if __name__ == '__main__':
  
     ## Create log class
-    dbg = LOGC(logFile, HEADER, parsedArgs.debug)
+    log = LOGC(logFile, HEADER, parsedArgs.debug)
 
     main()
 

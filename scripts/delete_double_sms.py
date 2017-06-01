@@ -88,10 +88,10 @@ errC = 0
 ###############################################
 
 def concatFile(fileList) :
-    global dbg
-    dbg.info(HEADER, "In  concatFile")
+    global log
+    log.info(HEADER, "In  concatFile")
 
-    dbg.info(HEADER, "Out concatFile")
+    log.info(HEADER, "Out concatFile")
 
 ###############################################
 
@@ -110,14 +110,14 @@ def concatFile(fileList) :
 
 
 def main() :
-    global dbg
-    dbg.info(HEADER, "In  main")
+    global log
+    log.info(HEADER, "In  main")
 
     # Open input file
     try :
         fdi = open(parsedArgs.inFile, 'r')
     except (IOError, OSError) as e:
-        dbg.exit(1, "Can't open file " + parsedArgs.inFile + "\n" + str(e), HEADER)
+        log.exit(1, "Can't open file " + parsedArgs.inFile + "\n" + str(e), HEADER)
 
     # Read it
     msg = str()
@@ -127,11 +127,11 @@ def main() :
         if re.search("sms protocol.*date=.*",line) :
             dateP = re.findall('date="(.*)"', line)[0]
             if not listD.__contains__(dateP) :
-                print "DBG 1 add dateP=" + str(dateP)
+                log.dbg("log 1 add dateP=" + str(dateP))
                 msg += line
                 listD.append(dateP)
             else :
-                print "DBG 2 remove double line="+str(line)
+                log.dbg("log 2 remove double line="+str(line))
         else :
             msg += line
         # Add line if needed
@@ -147,7 +147,7 @@ def main() :
 
 
 
-    dbg.info(HEADER, "Out main")
+    log.info(HEADER, "Out main")
 
 ###############################################
 
@@ -157,7 +157,7 @@ def main() :
 if __name__ == '__main__':
  
     ## Create log class
-    dbg = LOGC(logFile, HEADER, parsedArgs.debug, False)
+    log = LOGC(logFile, HEADER, parsedArgs.debug, False)
 
     main()
 

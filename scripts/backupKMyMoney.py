@@ -81,17 +81,17 @@ fileOriginal = os.path.join(homeDir, "Greg/work/config/kmymoney", fileName)
 ###############################################
 
 def findBackupFiles() :
-    global dbg
+    global log
     global fileBackupList
-    dbg.info(HEADER, "In  findBackupFiles")
+    log.info(HEADER, "In  findBackupFiles")
     fileBackupList = [ f for f in os.listdir(fileBackupDir) if (os.path.isfile(os.path.join(fileBackupDir,f))) ]
-    dbg.info(HEADER, "Out findBackupFiles fileList=" + str(fileBackupList))
+    log.info(HEADER, "Out findBackupFiles fileList=" + str(fileBackupList))
 
 
 def backupToDo() :
-    global dbg
+    global log
     global fileBackupName
-    dbg.info(HEADER, "In  backupToDo")
+    log.info(HEADER, "In  backupToDo")
 
     # find the last backup file name
     findBackupFiles()
@@ -99,10 +99,10 @@ def backupToDo() :
     ## Look if it's necessary to backup
     didBackup = False
     for f in fileBackupList :
-        dbg.info(HEADER, "In  backupToDo fileBackup=" + str(f))
+        log.info(HEADER, "In  backupToDo fileBackup=" + str(f))
         comp = filecmp.cmp(fileOriginal, os.path.join(fileBackupDir, f))
         if comp :
-            dbg.info(HEADER, "In  backupToDo fileBackup find")
+            log.info(HEADER, "In  backupToDo fileBackup find")
             didBackup = True
             break
 
@@ -110,10 +110,10 @@ def backupToDo() :
         now = datetime.datetime.now()
         (fileN, extN) = os.path.splitext(fileName)
         newName = fileN + "_" + str(now.strftime("%Y-%m-%d") + extN)
-        dbg.info(HEADER, "In  backupToDo copy newName=" + str(newName))
+        log.info(HEADER, "In  backupToDo copy newName=" + str(newName))
         shutil.copy2(fileOriginal, os.path.join(fileBackupDir, newName))
 
-    dbg.info(HEADER, "Out backupToDo")
+    log.info(HEADER, "Out backupToDo")
 
 ###############################################
 
@@ -132,20 +132,20 @@ def backupToDo() :
 
 
 def main() :
-    global dbg
-    dbg.info(HEADER, "In  main")
+    global log
+    log.info(HEADER, "In  main")
 
     ## Backup file
     backupToDo()
     
-    dbg.info(HEADER, "Out main")
+    log.info(HEADER, "Out main")
 
 
 
 if __name__ == '__main__':
  
     ## Create log class
-    dbg = LOGC(logFile, HEADER, parsedArgs.debug)
+    log = LOGC(logFile, HEADER, parsedArgs.debug)
 
     main()
 

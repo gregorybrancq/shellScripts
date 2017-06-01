@@ -104,36 +104,39 @@ backupDir = os.path.join(backupBaseDir, backupDirName)
 ###############################################
 
 def createDir(dirName) :
+    global log
     if os.path.exists(dirName) :
         shutil.rmtree(dirName)
     os.makedirs(dirName)
-    dbg.info(HEADER, "CreateDir created dir=" + dirName)
+    log.info(HEADER, "CreateDir created dir=" + dirName)
 
 
 def copyDir(src, dest, ignoreName=None) :
-    dbg.info(HEADER, "CopyDir src=" + src + ", dest=" + dest)
+    global log
+    log.info(HEADER, "CopyDir src=" + src + ", dest=" + dest)
     try :
         if ignoreName is not None :
             shutil.copytree(src, dest, symlinks=True, ignore=shutil.ignore_patterns(ignoreName))
         else :
             shutil.copytree(src, dest, symlinks=True)
     except shutil.Error as e :
-        dbg.warn(HEADER, "CopyDir copytree\n" + str(e))
+        log.warn(HEADER, "CopyDir copytree\n" + str(e))
 
 
 def copyFile(src, dest) :
-    dbg.info(HEADER, "CopyFile src=" + src + ", dest=" + dest)
+    global log
+    log.info(HEADER, "CopyFile src=" + src + ", dest=" + dest)
     try :
         shutil.copy(src, dest)
     except shutil.Error as e :
-        dbg.warn(HEADER, "CopyFile copy\n" + str(e))
+        log.warn(HEADER, "CopyFile copy\n" + str(e))
 
 
 
 def backupToDo() :
-    global dbg
+    global log
     global fileBackupName
-    dbg.info(HEADER, "In  backupToDo")
+    log.info(HEADER, "In  backupToDo")
 
     # create backup directory
     createDir(backupDir)
@@ -159,7 +162,7 @@ def backupToDo() :
             else :
                 copyFile(homeCfg, backupDest)
 
-    dbg.info(HEADER, "Out backupToDo")
+    log.info(HEADER, "Out backupToDo")
 
 ###############################################
 
@@ -178,20 +181,20 @@ def backupToDo() :
 
 
 def main() :
-    global dbg
-    dbg.info(HEADER, "In  main")
+    global log
+    log.info(HEADER, "In  main")
 
     ## Backup file
     backupToDo()
     
-    dbg.info(HEADER, "Out main")
+    log.info(HEADER, "Out main")
 
 
 
 if __name__ == '__main__':
  
     ## Create log class
-    dbg = LOGC(logFile, HEADER, parsedArgs.debug)
+    log = LOGC(logFile, HEADER, parsedArgs.debug)
 
     main()
 

@@ -73,15 +73,15 @@ logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 
 
 def main() :
-    global dbg
-    dbg.info(HEADER, "In  main")
+    global log
+    log.info(HEADER, "In  main")
 
-    dbg.info(HEADER, "In  main parsedArgs=" + str(parsedArgs))
-    dbg.info(HEADER, "In  main args=" + str(args))
+    log.info(HEADER, "In  main parsedArgs=" + str(parsedArgs))
+    log.info(HEADER, "In  main args=" + str(args))
 
     for arg in args :
-        dbg.info(HEADER, "In  main arg=" + str(arg))
-        dbg.info(HEADER, "In  main cwd=" + str(os.getcwd()))
+        log.info(HEADER, "In  main arg=" + str(arg))
+        log.info(HEADER, "In  main cwd=" + str(os.getcwd()))
         if (os.path.isdir(arg)) :
             dirN = os.path.join(os.getcwd(), arg)
         else :
@@ -90,18 +90,18 @@ def main() :
 
     ## Launch the pyrenamer program
     cmdToLaunch='fslint-gui "' + str(dirN) + '"'
-    dbg.info(HEADER, "In  main cmdToLaunch=" + str(cmdToLaunch))
+    log.info(HEADER, "In  main cmdToLaunch=" + str(cmdToLaunch))
     procPopen = subprocess.Popen(cmdToLaunch, shell=True, stderr=subprocess.STDOUT)
     procPopen.wait()
 
-    dbg.info(HEADER, "Out main")
+    log.info(HEADER, "Out main")
 
 
 
 if __name__ == '__main__':
  
     ## Create log class
-    dbg = LOGC(logFile, HEADER, parsedArgs.debug)
+    log = LOGC(logFile, HEADER, parsedArgs.debug)
 
     main()
 

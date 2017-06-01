@@ -71,30 +71,30 @@ errC = 0
 ###############################################
 
 def convertFile(fileList) :
-    global dbg
+    global log
     global errC
-    dbg.info(HEADER, "In  convertFile")
+    log.info(HEADER, "In  convertFile")
 
     oldDir = os.getcwd()
 
     for (fileD, fileN, fileE) in fileList :
-        dbg.info(HEADER, "In  convertFile directory " + str(fileD) + "  convertFile " + fileN + fileE)
+        log.info(HEADER, "In  convertFile directory " + str(fileD) + "  convertFile " + fileN + fileE)
 
         if (fileD != "") :
             os.chdir(fileD)
 
         cmd='convert -density 248x248 "' + fileN + fileE + '" "' + fileN + '.jpg"'
-        dbg.info(HEADER, "In  convertFile cmd=" + str(cmd))
+        log.info(HEADER, "In  convertFile cmd=" + str(cmd))
         procPopen = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT)
         procPopen.wait()
         if (procPopen.returncode != 0) :
             errC += 1
-            dbg.error(HEADER, "In  convertFile file: issue with " + str(os.path.join(fileD, fileN + fileE)))
+            log.error(HEADER, "In  convertFile file: issue with " + str(os.path.join(fileD, fileN + fileE)))
 
         if (fileD != "") :
             os.chdir(oldDir)
 
-    dbg.info(HEADER, "Out convertFile")
+    log.info(HEADER, "Out convertFile")
 
 ###############################################
 
@@ -113,24 +113,24 @@ def convertFile(fileList) :
 
 
 def main() :
-    global dbg
+    global log
     warnC = 0
-    dbg.info(HEADER, "In  main")
+    log.info(HEADER, "In  main")
 
     fileList = list()
 
-    dbg.info(HEADER, "In  main parsedArgs=" + str(parsedArgs))
-    dbg.info(HEADER, "In  main args=" + str(args))
+    log.info(HEADER, "In  main parsedArgs=" + str(parsedArgs))
+    log.info(HEADER, "In  main args=" + str(args))
 
     ## Create list of files
     extAuth=[".pdf", ".PDF"]
-    (fileList, warnC) = listFromArgs(dbg, HEADER, args, extAuth)
+    (fileList, warnC) = listFromArgs(log, HEADER, args, extAuth)
 
     ## Verify if there is at least one file to convert
     if (len(fileList) == 0) :
         dialog_error("Convert images", "\nNo image has been found\n")
     else :
-        dbg.info(HEADER, "In  main images to convert = " + str(len(fileList)))
+        log.info(HEADER, "In  main images to convert = " + str(len(fileList)))
 
     ## Convert them
     convertFile(fileList)
@@ -138,7 +138,7 @@ def main() :
     ## End dialog
     dialog_end(warnC, errC, logFile, "Convert images", "\nJob fini : " + str(len(fileList)) + " images converties.")
     
-    dbg.info(HEADER, "Out main")
+    log.info(HEADER, "Out main")
 
 ###############################################
 
@@ -148,7 +148,7 @@ def main() :
 if __name__ == '__main__':
  
     ## Create log class
-    dbg = LOGC(logFile, HEADER, parsedArgs.debug)
+    log = LOGC(logFile, HEADER, parsedArgs.debug)
 
     main()
 
