@@ -41,6 +41,7 @@ from gtk import RESPONSE_YES, RESPONSE_NO
 # default system
 import os, os.path
 import re
+import shutil
 from optparse import OptionParser
 
 # tags for image
@@ -72,7 +73,7 @@ lockFile = os.path.join(logDir, HEADER + ".lock")
 
 progIcon = "screensaverLink.png"
 imagesDir = os.path.join(homeDir, "Test")
-linkDir = os.path.join(homeDir, ".screensaverLink")
+linkDir = os.path.join(homeDir, "Greg", "work", "config", "screensaverLink", "images")
 
 
 ## Tag Columns
@@ -134,68 +135,64 @@ parser.add_option(
 ###############################################
 
 
+class ConfigTagC() :
+
+    def __init__(self, logC) :
+        self.log = logC
+
+
+
+
+
 class TagC() :
 
     def __init__(self, logC) :
         self.log = logC
-        self.enable = 0
-        self.fileList = list()
+        self.tagDict = dict() # [tagName] = Enable
+        self.fileDict = dict() # [fileName] = tagList
 
 
     def __str__(self) :
-        res = str();
-        res += "  enable = " + str(self.enable) + "\n"
-        for fileN in self.fileList :
-            res += "  file   = " + str(fileN) + "\n"
-        return res
-
-
-    def addFile(self, fileN) :
-        if not self.fileList.__contains__(fileN) :
-            self.log.dbg("In  addFile " + str(fileN))
-            self.fileList.append(fileN)
-
-
-    def enableTag(self) :
-        self.enable = 1
-
-
-    def disableTag(self) :
-        self.enable = 0
-
-
-
-
-
-
-
-class ComputeTagC() :
-
-    def __init__(self, logC) :
-        self.log = logC
-        self.tagDict = dict() # tagName = Tag
-
-
-    def printTagDict(self) :
         res = "\n"
         tagNSort = self.tagDict.keys()
         tagNSort.sort()
+        res += "#-----------------\n"
+        res += "# Tags\n"
+        res += "#-----------------\n"
         for tagN in tagNSort :
-            res += str(tagN) + "\n"
-            res += str(self.tagDict[tagN])
+            res += str(tagN) + " : " + str(self.tagDict[tagN]) + "\n"
+        res += "\n\n"
+        fileNSort = self.fileDict.keys()
+        fileNSort.sort()
+        res += "#-----------------\n"
+        res += "# Files\n"
+        res += "#-----------------\n"
+        for fileN in fileNSort :
+            res += str(fileN) + " : "
+            for tagN in self.fileDict[fileN] :
+                res += str(tagN) + ", "
+            res += "\n"
+        res += "\n"
+
         return res
 
 
-    def addTag(self, tagN, fileN) :
+    def addTagFile(self, tagN, fileN) :
         if not self.tagDict.has_key(tagN) :
-            self.log.dbg("In  addTag "+str(tagN)+" doesn't exist")
-            tagC = TagC(self.log)
-            tagC.addFile(fileN)
-            self.tagDict[tagN] = tagC
+            self.log.dbg("In  addTagFile tag "+str(tagN)+" doesn't exist")
+            self.tagDict[tagN] = True
+
+        if not self.fileDict.has_key(fileN) :
+            self.log.dbg("In  addTagFile file "+str(fileN)+" doesn't exist")
+            tagList = list()
+            tagList.append(tagN)
+            self.fileDict[fileN] = tagList
         else :
-            self.log.dbg("In  addTag "+str(tagN)+" already exist")
-            tagC = self.tagDict[tagN]
-            tagC.addFile(fileN)
+            self.log.dbg("In  addTagFile file "+str(fileN)+" already exist")
+            tagList = self.fileDict[fileN]
+            print str(tagList)
+            if not tagList.__contains__(tagN) :
+                tagList.append(tagN)
 
 
     def readTag(self, fileN) :
@@ -215,13 +212,38 @@ class ComputeTagC() :
                                     for levelSeq in levelTagsList :
                                         #print "levelSeq.tag=" + levelSeq.tag
                                         for levelLi in levelSeq :
-                                            self.addTag(levelLi.text, fileN)
+                                            self.addTagFile(levelLi.text, fileN)
                                             #(cat, val) = re.split("/", levelLi)
                                             #self.addCatVal(cat, val)
 
 
     def createLinks(self) :
         self.log.info(HEADER, "In  createLinks")
+        # delete link directory
+        if os.path.isdir(linkDir) :
+            shutil.rmtree(linkDir)
+        os.makedirs(linkDir)
+
+        for fileN in self.fileDict :
+            # should be install ?
+            install = True
+            tagList = self.fileDict[fileN]
+            for tagN in tagList :
+                if not self.tagDict[tagN] :
+                    install = False
+                    break
+
+            if install :
+                curDir = os.getcwd()
+                os.chdir(linkDir)
+
+                # create link name
+                linkN = re.sub(homeDir, "", fileN)
+                linkN = re.sub("/", "_", linkN)
+                linkN = re.sub("^_", "", linkN)
+                os.symlink(fileN, linkN)
+                self.log.dbg("In  createLinks file="+str(fileN)+" linkN="+str(linkN))
+        
         self.log.info(HEADER, "Out createLinks")
 
 
@@ -234,7 +256,6 @@ class ComputeTagC() :
                     for filename in filenames :
                         fileWithPath = os.path.join(dirpath, filename)
                         self.readTag(fileWithPath)
-        self.log.dbg(" tagDict\n" + self.printTagDict())
         self.log.info(HEADER, "Out scanTags")
 
 
@@ -248,14 +269,16 @@ class GuiC(gtk.Window) :
 
     def __init__(self, logC) :
         self.log = logC
-        self.compTagC = ComputeTagC(self.log)
-        self.tagGuiC = TagGuiC(self.compTagC, self.log)
+        self.tagC = TagC(self.log)
+        self.tagGuiC = TagGuiC(self.tagC, self.log)
 
 
     def run(self):
         self.log.info(HEADER, "In  run")
 
-        self.compTagC.scanTags()
+        self.tagC.scanTags()
+        print str(self.tagC)
+        self.tagC.createLinks()
 
         if parsedArgs.gui :
             # create the main window
@@ -323,12 +346,12 @@ class GuiC(gtk.Window) :
         # scan tags
         gtk.stock_add([(gtk.STOCK_REFRESH, "Scan tags", 0, 0, "")])
         scanBut = gtk.Button(stock=gtk.STOCK_REFRESH)
-        scanBut.connect("clicked", self.compTagC.scanTags)
+        scanBut.connect("clicked", self.tagC.scanTags)
         butTab.attach(scanBut, 0, 2, 0, 1)
         # create links
         gtk.stock_add([(gtk.STOCK_EXECUTE, "Create links", 0, 0, "")])
         exeBut = gtk.Button(stock=gtk.STOCK_EXECUTE)
-        exeBut.connect("clicked", self.compTagC.createLinks)
+        exeBut.connect("clicked", self.tagC.createLinks)
         butTab.attach(exeBut, 2, 4, 0, 1)
         # quit
         quitBut = gtk.Button(stock=gtk.STOCK_CLOSE)
@@ -347,9 +370,9 @@ class GuiC(gtk.Window) :
 
 class TagGuiC() :
 
-    def __init__(self, compTagC, logC) :
+    def __init__(self, tagC, logC) :
         self.log = logC
-        self.compTagC = compTagC
+        self.tagC = tagC
         self.model = self.initModel()
         self.treeselect = gtk.TreeView()
 
