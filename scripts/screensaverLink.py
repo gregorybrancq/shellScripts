@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*-coding:Latin-1 -*
+# -*- coding: utf-8 -*-
 
 '''
 Screensaver Link
@@ -73,7 +73,10 @@ lockFile = os.path.join(logDir, HEADER + ".lock")
 
 progIcon = "screensaverLink.png"
 imagesDir = os.path.join(homeDir, "Test")
-linkDir = os.path.join(homeDir, "Greg", "work", "config", "screensaverLink", "images")
+linkDir = os.path.join(homeDir, "Screensaver")
+configDir = os.path.join(homeDir, "Greg", "work", "config", "screensaverLink")
+configName = "config.xml"
+configN = os.path.join(configDir, configName)
 
 
 ## Tag Columns
@@ -154,7 +157,7 @@ class TagC() :
 
     def __str__(self) :
         res = "\n"
-        tagNSort = self.tagDict.keys()
+        tagNSort = self.getTags()
         tagNSort.sort()
         res += "#-----------------\n"
         res += "# Tags\n"
@@ -162,7 +165,7 @@ class TagC() :
         for tagN in tagNSort :
             res += str(tagN) + " : " + str(self.tagDict[tagN]) + "\n"
         res += "\n\n"
-        fileNSort = self.fileDict.keys()
+        fileNSort = self.getFiles()
         fileNSort.sort()
         res += "#-----------------\n"
         res += "# Files\n"
@@ -175,6 +178,79 @@ class TagC() :
         res += "\n"
 
         return res
+
+
+    def init(self) :
+        self.scanTags()
+        self.readConfig()
+        #self.createLinks()
+
+
+    def getTags(self) :
+        return self.tagDict.keys()
+
+
+    def getFiles(self) :
+        return self.fileDict.keys()
+
+
+    ## read tools configuration file
+    def readConfig(self) :
+        self.log.info(HEADER, "In  readConfig " + configN)
+
+        if not os.path.isfile(configN) :
+            self.log.info(HEADER, "In  readConfig config file doesn't exist.")
+            self.writeConfig()
+
+        else :
+            # Open config file
+            tree = ET.parse(configN).getroot()
+
+            for tagN in tree.iter("tag") :
+                tagName = None
+                tagEnable = None
+
+                # Get tag name
+                if "name" in tagN.attrib :
+                    tagName = tagN.attrib["name"]
+                # Get tag enable
+                if "enable" in tagN.attrib :
+                    tagEnable = tagN.attrib["enable"]
+                
+                self.updateTag(tagName, tagEnable)
+
+        self.log.info(HEADER, "Out readConfig")
+
+
+    ## write tools configuration file
+    def writeConfig(self) :
+        self.log.info(HEADER, "In  writeConfig " + configN)
+        
+        tagsTree = etree.Element("tags")
+        tagsTree.addprevious(etree.Comment("!!! Don't modify this file !!!"))
+        tagsTree.addprevious(etree.Comment("Managed by " + HEADER))
+            
+        tagsN = self.getTags()
+        for tagN in tagsN :
+            # Create the element tree
+            self.log.dbg("In  writeConfig tagN="+str(tagN)+" enable="+str(self.tagDict[tagN]))
+            tagTree = etree.SubElement(tagsTree, "tag")
+            tagTree.set("name", tagN)
+            tagTree.set("enable", str(self.tagDict[tagN]))
+        
+        # Save to XML file
+        doc = etree.ElementTree(tagsTree)
+        doc.write(configN, encoding='utf-8', method="xml", pretty_print=True, xml_declaration=True) 
+            
+        self.log.info(HEADER, "Out writeConfig " + self.varC.toolFile)
+
+
+    def updateTag(self, tagN, tagE) :
+        if self.tagDict.has_key(tagN) :
+            if tagE == 'True' :
+                self.tagDict[tagN] = True
+            elif tagE == 'False' :
+                self.tagDict[tagN] = False
 
 
     def addTagFile(self, tagN, fileN) :
@@ -190,7 +266,6 @@ class TagC() :
         else :
             self.log.dbg("In  addTagFile file "+str(fileN)+" already exist")
             tagList = self.fileDict[fileN]
-            print str(tagList)
             if not tagList.__contains__(tagN) :
                 tagList.append(tagN)
 
@@ -215,6 +290,18 @@ class TagC() :
                                             self.addTagFile(levelLi.text, fileN)
                                             #(cat, val) = re.split("/", levelLi)
                                             #self.addCatVal(cat, val)
+
+
+    def scanTags(self, button=None) :
+        self.log.info(HEADER, "In  scanTags")
+        if os.path.isdir(imagesDir) :
+            for dirpath, dirnames, filenames in os.walk(imagesDir) :  # @UnusedVariable
+                self.log.dbg("In  scanTags dirpath="+str(dirpath)+" dirnames="+str(dirnames)+" filenames="+str(filenames))
+                if filenames.__len__ != 0 :
+                    for filename in filenames :
+                        fileWithPath = os.path.join(dirpath, filename)
+                        self.readTag(fileWithPath)
+        self.log.info(HEADER, "Out scanTags")
 
 
     def createLinks(self) :
@@ -247,18 +334,6 @@ class TagC() :
         self.log.info(HEADER, "Out createLinks")
 
 
-    def scanTags(self, button=None) :
-        self.log.info(HEADER, "In  scanTags")
-        if os.path.isdir(imagesDir) :
-            for dirpath, dirnames, filenames in os.walk(imagesDir) :  # @UnusedVariable
-                self.log.dbg("In  scanTags dirpath="+str(dirpath)+" dirnames="+str(dirnames)+" filenames="+str(filenames))
-                if filenames.__len__ != 0 :
-                    for filename in filenames :
-                        fileWithPath = os.path.join(dirpath, filename)
-                        self.readTag(fileWithPath)
-        self.log.info(HEADER, "Out scanTags")
-
-
 
 
 
@@ -276,9 +351,8 @@ class GuiC(gtk.Window) :
     def run(self):
         self.log.info(HEADER, "In  run")
 
-        self.tagC.scanTags()
+        self.tagC.init()
         print str(self.tagC)
-        self.tagC.createLinks()
 
         if parsedArgs.gui :
             # create the main window
