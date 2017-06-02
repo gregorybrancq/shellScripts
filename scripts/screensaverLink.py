@@ -157,19 +157,19 @@ class TagC() :
 
     def __str__(self) :
         res = "\n"
-        tagNSort = self.getTags()
-        tagNSort.sort()
         res += "#-----------------\n"
         res += "# Tags\n"
         res += "#-----------------\n"
-        for tagN in tagNSort :
+        tagsN = self.getTags()
+        for tagN in tagsN :
             res += str(tagN) + " : " + str(self.tagDict[tagN]) + "\n"
         res += "\n\n"
-        fileNSort = self.getFiles()
-        fileNSort.sort()
+
         res += "#-----------------\n"
         res += "# Files\n"
         res += "#-----------------\n"
+        fileNSort = self.getFiles()
+        fileNSort.sort()
         for fileN in fileNSort :
             res += str(fileN) + " : "
             for tagN in self.fileDict[fileN] :
@@ -183,15 +183,20 @@ class TagC() :
     def init(self) :
         self.scanTags()
         self.readConfig()
-        #self.createLinks()
 
 
     def getTags(self) :
-        return self.tagDict.keys()
+        tagsNSort = self.tagDict.keys()
+        tagsNSort.sort()
+        return tagsNSort
 
 
     def getTagEn(self, tagN) :
         return self.tagDict[tagN]
+
+
+    def setTagEn(self, tagN, en) :
+        self.tagDict[tagN] = en
 
 
     def getFiles(self) :
@@ -276,7 +281,7 @@ class TagC() :
         doc = etree.ElementTree(tagsTree)
         doc.write(configN, encoding='utf-8', method="xml", pretty_print=True, xml_declaration=True) 
             
-        self.log.info(HEADER, "Out writeConfig " + self.varC.toolFile)
+        self.log.info(HEADER, "Out writeConfig " + configN)
 
 
     def updateTag(self, tagN, tagE) :
@@ -324,7 +329,7 @@ class TagC() :
                                             self.addTagFile(levelLi.text, fileN)
 
 
-    def scanTags(self, button=None) :
+    def scanTags(self) :
         self.log.info(HEADER, "In  scanTags")
         if os.path.isdir(imagesDir) :
             for dirpath, dirnames, filenames in os.walk(imagesDir) :  # @UnusedVariable
@@ -452,12 +457,12 @@ class GuiC(gtk.Window) :
         # scan tags
         gtk.stock_add([(gtk.STOCK_REFRESH, "Scan tags", 0, 0, "")])
         scanBut = gtk.Button(stock=gtk.STOCK_REFRESH)
-        scanBut.connect("clicked", self.tagC.scanTags)
+        scanBut.connect("clicked", self.onScan)
         butTab.attach(scanBut, 0, 2, 0, 1)
         # create links
         gtk.stock_add([(gtk.STOCK_EXECUTE, "Create links", 0, 0, "")])
         exeBut = gtk.Button(stock=gtk.STOCK_EXECUTE)
-        exeBut.connect("clicked", self.tagC.createLinks)
+        exeBut.connect("clicked", self.onExecute)
         butTab.attach(exeBut, 2, 4, 0, 1)
         # quit
         quitBut = gtk.Button(stock=gtk.STOCK_CLOSE)
@@ -472,6 +477,18 @@ class GuiC(gtk.Window) :
         self.log.info(HEADER, "Out createWin")
 
 
+    def onScan(self, button=None) :
+        self.tagC.scanTags()
+
+
+    def onExecute(self, button=None) :
+        self.tagC.writeConfig()
+        self.tagC.createLinks()
+
+
+
+
+
 
 
 class TagGuiC() :
@@ -481,6 +498,10 @@ class TagGuiC() :
         self.tagC = tagC
         self.model = self.initModel()
         self.treeselect = gtk.TreeView()
+        self.memColEn = "current"
+        self.selLvl1 = str()
+        self.selLvl2 = str()
+        self.selEn = bool()
 
 
     def initModel(self) :
@@ -559,15 +580,9 @@ class TagGuiC() :
 
         ## Add data to the tree store
         self.log.dbg("In  createModel topLvl="+str(topLvl))
-        print str(topLvl)
         for tag in topLvl :
             tagIter = self.model.append(None)
 
-            self.log.dbg("In  createModel tag="+str(tag))
-            self.log.dbg("In  createModel tag[COL_NAME]="+str(tag[COL_NAME]))
-            self.log.dbg("In  createModel tag[COL_ENABLE]="+str(tag[COL_ENABLE]))
-            self.log.dbg("In  createModel tag[COL_ENABLE_VISIBLE]="+str(tag[COL_ENABLE_VISIBLE]))
-            self.log.dbg("In  createModel tag[COL_ENABLE_ACTIVATABLE]="+str(tag[COL_ENABLE_ACTIVATABLE]))
             self.model.set(tagIter,
                 COL_NAME, tag[COL_NAME],
                 COL_ENABLE, tag[COL_ENABLE],
@@ -619,23 +634,20 @@ class TagGuiC() :
     def onColEnable(self, cell, model) :
         self.log.info(HEADER, "In  onColEnable")
 
-        if self.memory_change == "all" :
-            self.memory_change = "none"
-        elif self.memory_change == "none" :
-            self.memory_change = "current"
-        elif self.memory_change == "current" :
-            self.memory_change = "all"
+        if self.memColEn == "all" :
+            self.memColEn = "none"
+        elif self.memColEn == "none" :
+            self.memColEn = "current"
+        elif self.memColEn == "current" :
+            self.memColEn = "all"
 
-        # TODO
-        #for tool in curCfgC.cfgTools.toolDict :
-        #    curCfgC.cfgTools.toolDict[tool].modify_tool = True
-        #    if self.memory_change == "all" :
-        #        curCfgC.cfgTools.toolDict[tool].to_be_inst = True
-        #        curCfgC.cfgTools.toolDict[tool].install_version = curCfgC.cfgTools.toolDict[tool].getDefaultVersion()
-        #    elif self.memory_change == "none" :
-        #        curCfgC.cfgTools.toolDict[tool].to_be_inst = False
-        #    elif self.memory_change == "current" :
-        #        curCfgC.init_config()
+        for tagN in self.tagC.getTags() :
+            if self.memColEn == "all" :
+                self.tagC.setTagEn(tagN, True)
+            elif self.memColEn == "none" :
+                self.tagC.setTagEn(tagN, False)
+            elif self.memColEn == "current" :
+                self.tagC.readConfig()
 
         # update model
         self.createModel()
@@ -643,12 +655,9 @@ class TagGuiC() :
         self.log.info(HEADER, "Out onColEnable")
 
 
-    def onChanged(self) :
+    # each time selection changes, this function is called
+    def onChanged(self, selection) :
         self.log.info(HEADER, "In  onChanged")
-
-        self.selTool = str()
-        self.selPlat = str()
-        self.selVer = str()
 
         model, rows = selection.get_selected_rows()
 
@@ -657,177 +666,55 @@ class TagGuiC() :
             iterSel_has_child = model.iter_has_child(iterSel)
 
             if iterSel_has_child :
-                iterSelParent = model.iter_parent(iterSel)
-                # tool or platform
-                if iterSelParent :
-                    self.selTool = model.get_value(iterSelParent, COL_NAME)
-                    self.selPlat = model.get_value(iterSel, COL_NAME)
-                else :
-                    self.selTool = model.get_value(iterSel, COL_NAME)
+                self.selLvl1 = model.get_value(iterSel, COL_NAME)
+                self.selLvl2 = None
+                self.selEn = False
             elif not iterSel_has_child :
                 iterSelParent = model.iter_parent(iterSel)
-                # tool, platform or version
-                if iterSelParent :
-                    iterSelBigParent = model.iter_parent(iterSelParent)
-
-                    if iterSelBigParent :
-                        self.selTool = model.get_value(iterSelBigParent, COL_NAME)
-                        self.selPlat = model.get_value(iterSelParent, COL_NAME)
-                        self.selVer = model.get_value(iterSel, COL_NAME)
-                    else :
-                        self.selTool = model.get_value(iterSelParent, COL_NAME)
-                        self.selVer = model.get_value(iterSel, COL_NAME)
-                else :
-                    self.selTool = model.get_value(iterSel, COL_NAME)
+                self.selLvl1 = model.get_value(iterSelParent, COL_NAME)
+                self.selLvl2 = model.get_value(iterSel, COL_NAME)
+                self.selEn = model.get_value(iterSel, COL_ENABLE)
         
-        self.log.dbg(40, "selTool=" + str(self.selTool))
-        self.log.dbg(41, "selPlat=" + str(self.selPlat))
-        self.log.dbg(42, "selVer=" + str(self.selVer))
-                    
+        self.log.dbg("selLvl1=" + str(self.selLvl1))
+        self.log.dbg("selLvl2=" + str(self.selLvl2))
+        self.log.dbg("selEn=" + str(self.selEn))
         self.log.info(HEADER, "Out onChanged")
 
 
     # When user clicks on a box
-    # not available in manageTools (no box)
-    # so need to manage Config and Projects
     def onToggledItem(self, cell, path_str, model) :
         self.log.info(HEADER, "In  onToggledItem")
-        selIsTool = False
-        selIsPlat = False
-        selIsVer = False
-
-        curCfgC = self.varC.curCfgC
-
-        # notify that config has changed
-        self.varC.curCfgC.setModify(True)
 
         iterSel = model.get_iter_from_string(path_str)
         selIsTool = model.iter_has_child(iterSel)
         
         # Get enable column (before click)
         selEnable = model.get_value(iterSel, COL_ENABLE)
-        # Get selected name
-        selName = model.get_value(iterSel, COL_NAME)
-        self.log.dbg(20, "selName=" + str(selName))
-        self.log.dbg(21, "selEnable=" + str(selEnable))
-        
-        # TOOL part
-        if selIsTool :
-            iter_n_children = model.iter_n_children(iterSel)
-            tool_name = selName
-            self.log.dbg(22, "tool_name=" + str(tool_name))
+        # Get lvl2 name
+        selLvl2 = model.get_value(iterSel, COL_NAME)
+        # Get lvl1 name
+        iterSelParent = model.iter_parent(iterSel)
+        selLvl1 = model.get_value(iterSelParent, COL_NAME)
+        # Set tag name
+        selTagN = selLvl1 + "/" + selLvl2
 
-            # Disable
-            # From True to False (as value is before clicking)
-            if selEnable :
-                # set the tool not to be installed
-                curCfgC.cfgTools.toolDict[tool_name].to_be_inst = False
+        self.log.dbg("selLvl1=" + str(selLvl1))
+        self.log.dbg("selLvl2=" + str(selLvl2))
+        self.log.dbg("selEnable=" + str(selEnable))
 
-                # put all children items not enable
-                i = iter_n_children
-                while i > 0 :
-                    iter_version = model.iter_nth_child(iterSel, i-1)
-                    model.set(iter_version, COL_ENABLE, False)
-                    i -= 1
+        # Disable
+        # From True to False (as value is before clicking)
+        if selEnable :
+            self.tagC.setTagEn(selTagN, False)
+            model.set(iterSel, COL_ENABLE, False)
+            self.log.dbg("not install " + str(selTagN))
 
-                model.set(iterSel, COL_ENABLE, False)
-                self.log.dbg(23, "not install " + str(tool_name))
-
-
-            # Enable
-            # From False to True
-            else :
-                # set the tool to be installed
-                curCfgC.cfgTools.toolDict[tool_name].to_be_inst = True
-                if curCfgC.cfgTools.toolDict[tool_name].install_version == "" :
-                    version_name = curCfgC.cfgTools.toolDict[tool_name].getValidVersion()
-                    curCfgC.cfgTools.toolDict[tool_name].install_version = version_name 
-                    
-                # put all children items enable
-                i = iter_n_children
-                while i > 0 :
-                    iter_version = model.iter_nth_child(iterSel, i-1)
-                    version_name_tmp = re.sub(" \(not install anymore\)", "", model.get_value(iter_version, COL_NAME))
-
-                    if curCfgC.cfgDefault :
-                        # only default version is enabled (if exists)
-                        if curCfgC.cfgTools.toolDict[tool_name].getDefaultVersion() == version_name_tmp :
-                            if curCfgC.cfgTools.toolDict[tool_name].versionDict[version_name_tmp].version_exist :
-                                curCfgC.cfgTools.toolDict[tool_name].install_version = version_name_tmp
-                                model.set(iter_version, COL_ENABLE, True)
-                            else :
-                                model.set(iter_version, COL_ENABLE, False)
-                                # don't install tool if it doesn't exist
-                                curCfgC.cfgTools.toolDict[tool_name].to_be_inst = False
-                                curCfgC.cfgTools.toolDict[tool_name].install_version = ""
-
-                    else :
-                        # enable install version
-                        if curCfgC.cfgTools.toolDict[tool_name].install_version == version_name_tmp :
-                            if curCfgC.cfgTools.toolDict[tool_name].versionDict[version_name_tmp].version_exist :
-                                model.set(iter_version, COL_ENABLE, True)
-                            else :
-                                model.set(iter_version, COL_ENABLE, False)
-                                # don't install tool if it doesn't exist
-                                curCfgC.cfgTools.toolDict[tool_name].to_be_inst = False
-                                curCfgC.cfgTools.toolDict[tool_name].install_version = ""
-
-                    i -= 1
-
-                model.set(iterSel, COL_ENABLE, True)
-                self.log.dbg(24, "install " + str(tool_name) + " with " + str(curCfgC.cfgTools.toolDict[tool_name].install_version) + " is " + str(curCfgC.cfgTools.toolDict[tool_name].to_be_inst))
-
-        ## VERSION part
+        # Enable
+        # From False to True
         else :
-            iter_parent = model.iter_parent(iterSel)
-            iter_n_children = model.iter_n_children(iter_parent)
-            tool_name = model.get_value(iter_parent, COL_NAME)
-            self.log.dbg(25, "tool_name=" + str(tool_name))
-
-            # Disable
-            # From True to False (as value is before clicking)
-            if selEnable :
-                # set the tool not to be installed
-                curCfgC.cfgTools.toolDict[tool_name].to_be_inst = False
-
-                i = iter_n_children
-                while i > 0 :
-                    iter_version = model.iter_nth_child(iter_parent, i-1)
-                    version_name_tmp = re.sub(" \(not install anymore\)", "", model.get_value(iter_version, COL_NAME))
-
-                    # set all items to false
-                    model.set(iter_version, COL_ENABLE, False)
-
-                    i -= 1
-
-                model.set(iter_parent, COL_ENABLE, False)
-                self.log.dbg(26, "not install " + str(tool_name))
-
-
-            # Enable
-            # From False to True
-            else :
-                # set the tool to be installed
-                curCfgC.cfgTools.toolDict[tool_name].to_be_inst = True
-                if curCfgC.cfgTools.toolDict[tool_name].install_version == "" :
-                    curCfgC.cfgTools.toolDict[tool_name].install_version = curCfgC.cfgTools.toolDict[tool_name].getValidVersion()
-
-                i = iter_n_children
-                while i > 0 :
-                    iter_version = model.iter_nth_child(iter_parent, i-1)
-                    version_name_tmp = re.sub(" \(not install anymore\)", "", model.get_value(iter_version, COL_NAME))
-
-                    # set all items to false except selected one
-                    if selName == version_name_tmp :
-                        curCfgC.cfgTools.toolDict[tool_name].install_version = selName
-                        model.set(iter_version, COL_ENABLE, True)
-                    else :
-                        model.set(iter_version, COL_ENABLE, False)
-
-                    i -= 1
-
-                model.set(iter_parent, COL_ENABLE, True)
-                self.log.dbg(27, "install " + str(tool_name) + " with " + str(curCfgC.cfgTools.toolDict[tool_name].install_version) + " is " + str(curCfgC.cfgTools.toolDict[tool_name].to_be_inst))
+            self.tagC.setTagEn(selTagN, True)
+            model.set(iterSel, COL_ENABLE, True)
+            self.log.dbg("install " + str(selTagN))
 
         self.log.info(HEADER, "Out onToggledItem")
 
