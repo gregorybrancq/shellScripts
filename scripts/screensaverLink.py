@@ -190,8 +190,42 @@ class TagC() :
         return self.tagDict.keys()
 
 
+    def getTagEn(self, tagN) :
+        return self.tagDict[tagN]
+
+
     def getFiles(self) :
         return self.fileDict.keys()
+
+
+    # Return tags with a two-level ordered
+    def getTagsByHier(self) :
+        resDict = dict()
+        for tagN in self.getTags() :
+            (lvl1, lvl2) = re.split("/", tagN)
+            tagEn = self.getTagEn(tagN)
+            if not resDict.has_key(lvl1) :
+                #self.log.dbg("In  getTagsByHier add lvl1="+str(lvl1)+" lvl2="+str(lvl2)+" tagEn="+str(tagEn))
+                l = list()
+                l.append([lvl2, tagEn])
+                resDict[lvl1] = [[lvl2, tagEn]]
+                #self.log.dbg("In  getTagsByHier resDict="+str(resDict))
+            else :
+                tagList = resDict[lvl1]
+                find = False
+
+                #self.log.dbg("In  getTagsByHier tagList="+str(tagList))
+                for tagLvl2 in tagList :
+                    #self.log.dbg("In  getTagsByHier tagLvl2="+str(tagLvl2))
+                    if tagLvl2[0] == lvl2 :
+                        find = True
+                        break
+
+                if not find :
+                    tagList.append([lvl2, tagEn])
+
+        self.log.dbg("In  getTagsByHier res="+str(resDict))
+        return resDict
 
 
     ## read tools configuration file
@@ -288,8 +322,6 @@ class TagC() :
                                         #print "levelSeq.tag=" + levelSeq.tag
                                         for levelLi in levelSeq :
                                             self.addTagFile(levelLi.text, fileN)
-                                            #(cat, val) = re.split("/", levelLi)
-                                            #self.addCatVal(cat, val)
 
 
     def scanTags(self, button=None) :
@@ -352,7 +384,7 @@ class GuiC(gtk.Window) :
         self.log.info(HEADER, "In  run")
 
         self.tagC.init()
-        print str(self.tagC)
+        # DBGprint str(self.tagC)
 
         if parsedArgs.gui :
             # create the main window
@@ -456,6 +488,7 @@ class TagGuiC() :
         return gtk.TreeStore(
                     gobject.TYPE_STRING,
                     gobject.TYPE_BOOLEAN,
+                    gobject.TYPE_BOOLEAN,
                     gobject.TYPE_BOOLEAN)
 
 
@@ -463,7 +496,7 @@ class TagGuiC() :
         self.log.info(HEADER, "In  createTagTv")
 
         # create model
-        # TODO self.createModel()
+        self.createModel()
 
         # create tag treeview
         treeview = gtk.TreeView(self.model)
@@ -480,80 +513,76 @@ class TagGuiC() :
 
     def createModel(self) :
         self.log.info(HEADER, "In  createModel")
-        toplevel = []
+        topLvl = list()
         self.model.clear()
 
         # Construct list to put in model 
-        for tool in self.curTools.getTools() :
+        tagsDict = self.tagC.getTagsByHier()
+        for tag in tagsDict :
+            #self.log.dbg("In  createModel lvl1="+str(tag))
 
-            ## Version
-            version_info = list()
-            for version in self.curTools.toolDict[tool].getVersions() :
+            ## Level 2
+            lvl2L = list()
+            for lvl2 in tagsDict[tag] :
+                #self.log.dbg("In  createModel lvl2="+str(lvl2))
+                lvl2info = list()
+
                 # name
-                vinfo = list()
-                if not self.curTools.toolDict[tool].versionDict[version].version_exist :
-                    vinfo.append(version + " (not install anymore)")
-                else :
-                    vinfo.append(version)
+                lvl2info.append(lvl2[0])
+                # enable
+                lvl2info.append(lvl2[1])
+                # visible
+                lvl2info.append(True)
+                # activatable
+                lvl2info.append(True)
+                #self.log.dbg("In  createModel lvl2info="+str(lvl2info))
 
-                if self.manageConfigs :
-                    # enable version ?
-                    if not self.curTools.toolDict[tool].versionDict[version].version_exist :
-                        vinfo.append(False)
-                    elif self.curTools.toolDict[tool].to_be_inst and (self.curTools.toolDict[tool].install_version == version) :
-                        vinfo.append(True)
-                    else :
-                        vinfo.append(False)
-                    if not self.curTools.toolDict[tool].versionDict[version].version_exist :
-                        vinfo.append(False)
-                    elif self.varC.curCfgC.cfgDefault :
-                        if (self.curTools.toolDict[tool].getDefaultVersion() == version) :
-                            vinfo.append(True)
-                        else :
-                            vinfo.append(False)
-                    else :
-                        vinfo.append(True)
-                    if not self.curTools.toolDict[tool].versionDict[version].version_exist :
-                        vinfo.append(False)
-                    else :
-                        vinfo.append(True)
+                lvl2L.append(lvl2info)
 
-                    # default version ?
-                    if (self.curTools.toolDict[tool].getDefaultVersion() == version) :
-                        vinfo.append(True)
-                        vinfo.append(True)
-                    else :
-                        vinfo.append(False)
-                        vinfo.append(False)
-
-                version_info.append(vinfo)
-
-
-            ## Tool info
-            ##
-            tool_info = list()
-            if not self.curTools.toolDict[tool].tool_exist :
-                tool_info.append(tool + " (not install anymore)")
-            else :
-                tool_info.append(tool)
+            ## Level 1
+            lvl1L = list()
+            # name
+            lvl1L.append(tag)
+            # enable
+            lvl1L.append(False)
+            # visible
+            lvl1L.append(False)
+            # activatable
+            lvl1L.append(False)
+            #self.log.dbg("In  createModel lvl1L="+str(lvl1L))
 
             # Add Version
-            tool_info.append(version_info)
+            lvl1L.append(lvl2L)
 
-            toplevel.append(tool_info)
+            topLvl.append(lvl1L)
 
 
         ## Add data to the tree store
-        for tool in toplevel :
-            toolIter = self.model.append(None)
+        self.log.dbg("In  createModel topLvl="+str(topLvl))
+        print str(topLvl)
+        for tag in topLvl :
+            tagIter = self.model.append(None)
 
-            self.model.set(toolIter,
-                COL_NAME, tool[COL_NAME])
+            self.log.dbg("In  createModel tag="+str(tag))
+            self.log.dbg("In  createModel tag[COL_NAME]="+str(tag[COL_NAME]))
+            self.log.dbg("In  createModel tag[COL_ENABLE]="+str(tag[COL_ENABLE]))
+            self.log.dbg("In  createModel tag[COL_ENABLE_VISIBLE]="+str(tag[COL_ENABLE_VISIBLE]))
+            self.log.dbg("In  createModel tag[COL_ENABLE_ACTIVATABLE]="+str(tag[COL_ENABLE_ACTIVATABLE]))
+            self.model.set(tagIter,
+                COL_NAME, tag[COL_NAME],
+                COL_ENABLE, tag[COL_ENABLE],
+                COL_ENABLE_VISIBLE, tag[COL_ENABLE_VISIBLE],
+                COL_ENABLE_ACTIVATABLE, tag[COL_ENABLE_ACTIVATABLE]
+            )
 
-            for version in tool[COL_TOOL_CHILDREN] :
-                versionIter = self.model.append(toolIter)
+            for lvl2 in tag[COL_CHILDREN] :
+                versionIter = self.model.append(tagIter)
                 self.model.set(versionIter,
-                    COL_NAME, version[COL_NAME])
+                    COL_NAME, lvl2[COL_NAME],
+                    COL_ENABLE, lvl2[COL_ENABLE],
+                    COL_ENABLE_VISIBLE, lvl2[COL_ENABLE_VISIBLE],
+                    COL_ENABLE_ACTIVATABLE, lvl2[COL_ENABLE_ACTIVATABLE]
+                )
 
         self.log.info(HEADER, "Out createModel")
 
