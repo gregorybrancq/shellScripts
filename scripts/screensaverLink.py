@@ -71,8 +71,9 @@ t = str(datetime.datetime.today().isoformat("_"))
 logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 lockFile = os.path.join(logDir, HEADER + ".lock")
 
-progIcon = "screensaverLink.png"
-imagesDir = os.path.join(homeDir, "Test")
+progIcon = os.path.join(homeDir, "Greg", "work", "config", "icons", "screensaverLink.png")
+imagesDir = os.path.join(homeDir, "Images")
+#imagesDir = "/home/greg/Images/Evènement/"
 linkDir = os.path.join(homeDir, "Screensaver")
 configDir = os.path.join(homeDir, "Greg", "work", "config", "screensaverLink")
 configName = "config.xml"
@@ -181,7 +182,6 @@ class TagC() :
 
 
     def init(self) :
-        self.scanTags()
         self.readConfig()
 
 
@@ -285,48 +285,60 @@ class TagC() :
 
 
     def updateTag(self, tagN, tagE) :
-        if self.tagDict.has_key(tagN) :
-            if tagE == 'True' :
-                self.tagDict[tagN] = True
-            elif tagE == 'False' :
-                self.tagDict[tagN] = False
+        #if self.tagDict.has_key(tagN) :
+        if tagE == 'True' :
+            self.tagDict[tagN] = True
+        elif tagE == 'False' :
+            self.tagDict[tagN] = False
 
 
     def addTagFile(self, tagN, fileN) :
+        #self.log.info(HEADER, "In  addTagFile tag="+str(tagN)+", file="+str(fileN))
         if not self.tagDict.has_key(tagN) :
-            self.log.dbg("In  addTagFile tag "+str(tagN)+" doesn't exist")
+            #self.log.dbg("In  addTagFile tag "+str(tagN)+" doesn't exist")
             self.tagDict[tagN] = True
 
         if not self.fileDict.has_key(fileN) :
-            self.log.dbg("In  addTagFile file "+str(fileN)+" doesn't exist")
+            #self.log.dbg("In  addTagFile file "+str(fileN)+" doesn't exist")
             tagList = list()
             tagList.append(tagN)
             self.fileDict[fileN] = tagList
         else :
-            self.log.dbg("In  addTagFile file "+str(fileN)+" already exist")
+            #self.log.dbg("In  addTagFile file "+str(fileN)+" already exist")
             tagList = self.fileDict[fileN]
             if not tagList.__contains__(tagN) :
                 tagList.append(tagN)
 
 
     def readTag(self, fileN) :
-        with Image.open(fileN) as im:
-            for segment, content in im.applist:
-                marker, body = content.split('\x00', 1)
-                if segment == 'APP1' and marker == 'http://ns.adobe.com/xap/1.0/' :
-                    root = ET.fromstring(body)
+        im = Image.open(fileN)
+        attr = True
+        try :
+            imL = im.applist
+        except :
+            self.log.warn(HEADER, "In  readTag file="+str(fileN)+" has no tags")
+            attr = False
+        
+        if attr :
+            for segment, content in imL :
+                try :
+                    marker, body = content.split('\x00', 1)
+                    if segment == 'APP1' and marker == 'http://ns.adobe.com/xap/1.0/' :
+                        root = ET.fromstring(body)
 
-                    for levelRDF in root :
-                        #print "LevelRDF=" + levelRDF.tag
-                        for levelDescription in levelRDF :
-                            #print "levelDescription.tag=" + levelDescription.tag
-                            for levelTagsList in levelDescription :
-                                #print "levelTagsList.tag=" + levelTagsList.tag
-                                if levelTagsList.tag == "{http://www.digikam.org/ns/1.0/}TagsList" :
-                                    for levelSeq in levelTagsList :
-                                        #print "levelSeq.tag=" + levelSeq.tag
-                                        for levelLi in levelSeq :
-                                            self.addTagFile(levelLi.text, fileN)
+                        for levelRDF in root :
+                            #print "LevelRDF=" + levelRDF.tag
+                            for levelDescription in levelRDF :
+                                #print "levelDescription.tag=" + levelDescription.tag
+                                for levelTagsList in levelDescription :
+                                    #print "levelTagsList.tag=" + levelTagsList.tag
+                                    if levelTagsList.tag == "{http://www.digikam.org/ns/1.0/}TagsList" :
+                                        for levelSeq in levelTagsList :
+                                            #print "levelSeq.tag=" + levelSeq.tag
+                                            for levelLi in levelSeq :
+                                                self.addTagFile(levelLi.text, fileN)
+                except ValueError as err :
+                    self.log.warn(HEADER, "In  readTag fileN"+str(fileN)+"\n  error="+str(err))
 
 
     def scanTags(self) :
@@ -336,8 +348,11 @@ class TagC() :
                 self.log.dbg("In  scanTags dirpath="+str(dirpath)+" dirnames="+str(dirnames)+" filenames="+str(filenames))
                 if filenames.__len__ != 0 :
                     for filename in filenames :
-                        fileWithPath = os.path.join(dirpath, filename)
-                        self.readTag(fileWithPath)
+                        extAuth=[".jpg", ".JPG", ".jpeg", ".JPEG", ".tif", ".TIF", ".gif", ".GIF", ".bmp", ".BMP"]
+                        (fileN, extN) = os.path.splitext(filename)
+                        if extAuth.__contains__(extN) :
+                            fileWithPath = os.path.join(dirpath, filename)
+                            self.readTag(fileWithPath)
         self.log.info(HEADER, "Out scanTags")
 
 
@@ -389,7 +404,7 @@ class GuiC(gtk.Window) :
         self.log.info(HEADER, "In  run")
 
         self.tagC.init()
-        # DBGprint str(self.tagC)
+        #print str(self.tagC)
 
         if parsedArgs.gui :
             # create the main window
@@ -415,8 +430,8 @@ class GuiC(gtk.Window) :
         gtk.Window.__init__(self)
         try :
             self.set_icon_from_file(progIcon)
-        except gobject.GError :
-            pass
+        except gobject.GError as err :
+            self.log.warn(HEADER, "In  createWin progIcon="+str(progIcon)+"\n  error="+str(err))
         self.connect("destroy", self.on_destroy)
 
         self.set_title("Screensaver Images Tags")
@@ -479,6 +494,8 @@ class GuiC(gtk.Window) :
 
     def onScan(self, button=None) :
         self.tagC.scanTags()
+        # update model
+        self.tagGuiC.createModel()
 
 
     def onExecute(self, button=None) :
