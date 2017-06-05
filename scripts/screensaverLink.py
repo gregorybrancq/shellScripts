@@ -72,7 +72,8 @@ logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 lockFile = os.path.join(logDir, HEADER + ".lock")
 
 progIcon = os.path.join(homeDir, "Greg", "work", "config", "icons", "screensaverLink.png")
-imagesDir = os.path.join(homeDir, "Images")
+#imagesDir = os.path.join(homeDir, "Images")
+imagesDir = os.path.join(homeDir, "Test")
 #imagesDir = "/home/greg/Images/Evènement/"
 linkDir = os.path.join(homeDir, "Screensaver")
 configDir = os.path.join(homeDir, "Greg", "work", "config", "screensaverLink")
@@ -196,11 +197,40 @@ class TagC() :
 
 
     def setTagEn(self, tagN, en) :
-        self.tagDict[tagN] = en
+        self.tagDict[tagN.decode('utf8')] = en
 
 
     def getFiles(self) :
-        return self.fileDict.keys()
+        filesNSort = self.fileDict.keys()
+        filesNSort.sort()
+        return filesNSort
+
+
+    def getFileTagsL(self, fileN) :
+        return self.fileDict[fileN]
+
+
+    def updateTag(self, tagN, tagE) :
+        #self.log.dbg("In  updateTag tagN="+str(tagN)+" tagE="+str(tagE))
+        if tagE == 'True' :
+            #self.log.dbg("In  updateTag tagN="+str(tagN)+" tagE="+str(tagE))
+            self.setTagEn(tagN, True)
+        elif tagE == 'False' :
+            #self.log.dbg("In  updateTag tagN="+str(tagN)+" tagE="+str(tagE))
+            self.setTagEn(tagN, False)
+
+
+    def updateFile(self, fileN, tagN) :
+        fileNDec = fileN.decode('utf8')
+        tagNDec = tagN.decode('utf8')
+        if not self.fileDict.has_key(fileNDec) :
+            tagList = list()
+            tagList.append(tagNDec)
+            self.fileDict[fileNDec] = tagList
+        else :
+            tagList = self.fileDict[fileNDec]
+            if not tagList.__contains__(tagNDec) :
+                tagList.append(tagNDec)
 
 
     # Return tags with a two-level ordered
@@ -216,18 +246,18 @@ class TagC() :
                 resDict[lvl1] = [[lvl2, tagEn]]
                 #self.log.dbg("In  getTagsByHier resDict="+str(resDict))
             else :
-                tagList = resDict[lvl1]
+                tagsList = resDict[lvl1]
                 find = False
 
-                #self.log.dbg("In  getTagsByHier tagList="+str(tagList))
-                for tagLvl2 in tagList :
+                #self.log.dbg("In  getTagsByHier tagsList="+str(tagsList))
+                for tagLvl2 in tagsList :
                     #self.log.dbg("In  getTagsByHier tagLvl2="+str(tagLvl2))
                     if tagLvl2[0] == lvl2 :
                         find = True
                         break
 
                 if not find :
-                    tagList.append([lvl2, tagEn])
+                    tagsList.append([lvl2, tagEn])
 
         self.log.dbg("In  getTagsByHier res="+str(resDict))
         return resDict
@@ -245,18 +275,31 @@ class TagC() :
             # Open config file
             tree = ET.parse(configN).getroot()
 
-            for tagN in tree.iter("tag") :
+            # Tag part
+            for tagTree in tree.iter("tag") :
                 tagName = None
                 tagEnable = None
 
                 # Get tag name
-                if "name" in tagN.attrib :
-                    tagName = tagN.attrib["name"]
+                if "name" in tagTree.attrib :
+                    tagName = tagTree.attrib["name"]
                 # Get tag enable
-                if "enable" in tagN.attrib :
-                    tagEnable = tagN.attrib["enable"]
+                if "enable" in tagTree.attrib :
+                    tagEnable = tagTree.attrib["enable"]
                 
                 self.updateTag(tagName, tagEnable)
+
+            # File part
+            for fileTree in tree.iter("file") :
+                fileName = None
+                # Get file name
+                if "name" in fileTree.attrib :
+                    fileName = fileTree.attrib["name"]
+                # Find file tags
+                tagsL = list()
+                for tagTree in fileTree.iter("fileTag") :
+                    tagName = tagTree.text
+                    self.updateFile(fileName, tagName)
 
         self.log.info(HEADER, "Out readConfig")
 
@@ -265,49 +308,45 @@ class TagC() :
     def writeConfig(self) :
         self.log.info(HEADER, "In  writeConfig " + configN)
         
-        tagsTree = etree.Element("tags")
-        tagsTree.addprevious(etree.Comment("!!! Don't modify this file !!!"))
-        tagsTree.addprevious(etree.Comment("Managed by " + HEADER))
+        tagsAndFilesTree = etree.Element("TagsFiles")
+        tagsAndFilesTree.addprevious(etree.Comment("!!! Don't modify this file !!!"))
+        tagsAndFilesTree.addprevious(etree.Comment("Managed by " + HEADER))
             
+        # Tags part
+        tagsTree = etree.SubElement(tagsAndFilesTree, "tags")
         tagsN = self.getTags()
         for tagN in tagsN :
             # Create the element tree
-            self.log.dbg("In  writeConfig tagN="+str(tagN)+" enable="+str(self.tagDict[tagN]))
+            self.log.dbg("In  writeConfig tagN="+str(tagN)+" enable="+str(self.getTagEn(tagN)))
             tagTree = etree.SubElement(tagsTree, "tag")
             tagTree.set("name", tagN)
-            tagTree.set("enable", str(self.tagDict[tagN]))
-        
+            tagTree.set("enable", str(self.getTagEn(tagN)))
+          
+        # Files part
+        filesTree = etree.SubElement(tagsAndFilesTree, "files")
+        filesN = self.getFiles()
+        for fileN in self.fileDict :
+            # Create the element tree
+            self.log.dbg("In  writeConfig fileN="+str(fileN)+" tagsList="+str(self.getFileTagsL(fileN)))
+            tagsFTree = etree.SubElement(filesTree, "file")
+            tagsFTree.set("name", fileN)
+            for tag in self.getFileTagsL(fileN) :
+                etree.SubElement(tagsFTree, "fileTag").text = tag
+ 
         # Save to XML file
-        doc = etree.ElementTree(tagsTree)
+        doc = etree.ElementTree(tagsAndFilesTree)
         doc.write(configN, encoding='utf-8', method="xml", pretty_print=True, xml_declaration=True) 
             
         self.log.info(HEADER, "Out writeConfig " + configN)
 
 
-    def updateTag(self, tagN, tagE) :
-        #if self.tagDict.has_key(tagN) :
-        if tagE == 'True' :
-            self.tagDict[tagN] = True
-        elif tagE == 'False' :
-            self.tagDict[tagN] = False
-
-
     def addTagFile(self, tagN, fileN) :
-        #self.log.info(HEADER, "In  addTagFile tag="+str(tagN)+", file="+str(fileN))
+        self.log.info(HEADER, "In  addTagFile tag="+str(tagN)+", file="+str(fileN))
         if not self.tagDict.has_key(tagN) :
-            #self.log.dbg("In  addTagFile tag "+str(tagN)+" doesn't exist")
-            self.tagDict[tagN] = True
+            self.log.dbg("In  addTagFile tag "+str(tagN)+" doesn't exist")
+            self.updateTag(tagN, "True")
 
-        if not self.fileDict.has_key(fileN) :
-            #self.log.dbg("In  addTagFile file "+str(fileN)+" doesn't exist")
-            tagList = list()
-            tagList.append(tagN)
-            self.fileDict[fileN] = tagList
-        else :
-            #self.log.dbg("In  addTagFile file "+str(fileN)+" already exist")
-            tagList = self.fileDict[fileN]
-            if not tagList.__contains__(tagN) :
-                tagList.append(tagN)
+        self.updateFile(fileN, tagN)
 
 
     def readTag(self, fileN) :
@@ -363,11 +402,11 @@ class TagC() :
             shutil.rmtree(linkDir)
         os.makedirs(linkDir)
 
-        for fileN in self.fileDict :
+        for fileN in self.getFiles() :
             # should be install ?
             install = True
-            tagList = self.fileDict[fileN]
-            for tagN in tagList :
+            tagsList = self.getFileTagsL(fileN)
+            for tagN in tagsList :
                 if not self.tagDict[tagN] :
                     install = False
                     break
@@ -383,6 +422,8 @@ class TagC() :
                 os.symlink(fileN, linkN)
                 self.log.dbg("In  createLinks file="+str(fileN)+" linkN="+str(linkN))
         
+                os.chdir(curDir)
+
         self.log.info(HEADER, "Out createLinks")
 
 
