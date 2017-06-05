@@ -470,12 +470,12 @@ class GuiC(gtk.Window) :
         butTab.set_col_spacings(10)
 
         # scan tags
-        gtk.stock_add([(gtk.STOCK_REFRESH, "Scan tags", 0, 0, "")])
+        gtk.stock_add([(gtk.STOCK_REFRESH, "Lire les tags", 0, 0, "")])
         scanBut = gtk.Button(stock=gtk.STOCK_REFRESH)
         scanBut.connect("clicked", self.onScan)
         butTab.attach(scanBut, 0, 2, 0, 1)
         # create links
-        gtk.stock_add([(gtk.STOCK_EXECUTE, "Create links", 0, 0, "")])
+        gtk.stock_add([(gtk.STOCK_EXECUTE, "Créé les images", 0, 0, "")])
         exeBut = gtk.Button(stock=gtk.STOCK_EXECUTE)
         exeBut.connect("clicked", self.onExecute)
         butTab.attach(exeBut, 2, 4, 0, 1)
@@ -556,7 +556,9 @@ class TagGuiC() :
 
         # Construct list to put in model 
         tagsDict = self.tagC.getTagsByHier()
-        for tag in tagsDict :
+        tagsDictSort = tagsDict.keys()
+        tagsDictSort.sort()
+        for tag in tagsDictSort :
             #self.log.dbg("In  createModel lvl1="+str(tag))
 
             ## Level 2
@@ -627,11 +629,11 @@ class TagGuiC() :
         renderer = gtk.CellRendererToggle()
         renderer.set_property("xalign", 0.0)
         renderer.connect("toggled", self.onToggledItem, model)
-        column = gtk.TreeViewColumn("Enable", renderer, active=COL_ENABLE,
+        column = gtk.TreeViewColumn("Sélection", renderer, active=COL_ENABLE,
                                     visible=COL_ENABLE_VISIBLE, activatable=COL_ENABLE_ACTIVATABLE)
         column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
         column.set_clickable(True)
-        column.set_fixed_width(60)
+        column.set_fixed_width(80)
         column.connect("clicked", self.onColEnable, model)
 
         treeview.append_column(column)
@@ -639,7 +641,7 @@ class TagGuiC() :
         # Column for tag's name
         renderer = gtk.CellRendererText()
         renderer.set_property("xalign", 0.0)
-        column = gtk.TreeViewColumn("Name", renderer, text=COL_NAME)
+        column = gtk.TreeViewColumn("Nom des tags", renderer, text=COL_NAME)
         column.set_clickable(False)
 
         treeview.append_column(column)
