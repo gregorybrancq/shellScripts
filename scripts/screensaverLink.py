@@ -8,8 +8,6 @@ program to scan image files to determine different tags,
 enable/disable whatever you want,
 and create link for the screensaver.
 
-see screensaverLink_body.xml to know xml format example.
-
 '''
 
 
@@ -140,20 +138,12 @@ parser.add_option(
 ###############################################
 
 
-class ConfigTagC() :
-
-    def __init__(self, logC) :
-        self.log = logC
-
-
-
-
-
 class TagC() :
 
     def __init__(self, logC) :
         self.log = logC
-        self.tagDict = dict() # [tagName] = Enable
+        self.tagDict = dict() # [tagName] = enable
+        self.tagMultiList = list() # [tagname, enable], [tagname, disable], ... ]
         self.fileDict = dict() # [fileName] = tagList
 
 
@@ -211,16 +201,15 @@ class TagC() :
 
 
     def updateTag(self, tagN, tagE) :
-        #self.log.dbg("In  updateTag tagN="+str(tagN)+" tagE="+str(tagE))
+        self.log.dbg("In  updateTag tagN="+str(tagN)+" tagE="+str(tagE))
         if tagE == 'True' :
-            #self.log.dbg("In  updateTag tagN="+str(tagN)+" tagE="+str(tagE))
             self.setTagEn(tagN, True)
         elif tagE == 'False' :
-            #self.log.dbg("In  updateTag tagN="+str(tagN)+" tagE="+str(tagE))
             self.setTagEn(tagN, False)
 
 
     def updateFile(self, fileN, tagN) :
+        self.log.dbg("In  updateFile fileN="+str(fileN)+ " tagN="+str(tagN))
         fileNDec = fileN.decode('utf8')
         tagNDec = tagN.decode('utf8')
         if not self.fileDict.has_key(fileNDec) :
@@ -343,9 +332,7 @@ class TagC() :
     def addTagFile(self, tagN, fileN) :
         self.log.info(HEADER, "In  addTagFile tag="+str(tagN)+", file="+str(fileN))
         if not self.tagDict.has_key(tagN) :
-            self.log.dbg("In  addTagFile tag "+str(tagN)+" doesn't exist")
             self.updateTag(tagN, "True")
-
         self.updateFile(fileN, tagN)
 
 
@@ -382,6 +369,8 @@ class TagC() :
 
     def scanTags(self) :
         self.log.info(HEADER, "In  scanTags")
+        self.tagDict = dict()
+        self.fileDict = dict()
         if os.path.isdir(imagesDir) :
             for dirpath, dirnames, filenames in os.walk(imagesDir) :  # @UnusedVariable
                 self.log.dbg("In  scanTags dirpath="+str(dirpath)+" dirnames="+str(dirnames)+" filenames="+str(filenames))
@@ -393,6 +382,21 @@ class TagC() :
                             fileWithPath = os.path.join(dirpath, filename)
                             self.readTag(fileWithPath)
         self.log.info(HEADER, "Out scanTags")
+
+
+    def copyTags(self) :
+        # TODO
+        self.log.info(HEADER, "In  copyTags")
+        for sel in self.multi :
+            tagName = sel[0] + "/" + sel[1]
+            tagEn = sel[2]
+        self.log.info(HEADER, "Out copyTags")
+
+
+    def delTags(self) :
+        # TODO
+        self.log.info(HEADER, "In  delTags")
+        self.log.info(HEADER, "Out delTags")
 
 
     def createLinks(self) :
@@ -477,35 +481,77 @@ class GuiC(gtk.Window) :
 
         self.set_title("Screensaver Images Tags")
         self.set_border_width(5)
-        self.set_default_size(400, 600)
+        self.set_default_size(600, 600)
 
 
         #
-        # Vertical box = tag list + buttons
+        # Vertical box = tag lists + buttons
         #
-        vTagBut = gtk.VBox(False, 15)
-        vTagBut.set_border_width(5)
+        vTagBut = gtk.VBox(False, 5)
+        #vTagBut.set_border_width(5)
         self.add(vTagBut)
 
 
-        # Tag list
+        # Tag lists
         #
 
+        # Horizontal box = tag list simple + buttons + multiple
+        #
+        hSimpleButMultiple = gtk.HBox(False, 5)
+        hSimpleButMultiple.set_border_width(10)
+
+
+        # Simple list
+        #
         # Create the scrolled windows
-        tagsSw = gtk.ScrolledWindow()
-        tagsSw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-        tagsSw.set_shadow_type(gtk.SHADOW_IN)
-
+        simpleTagSW = gtk.ScrolledWindow()
+        simpleTagSW.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        simpleTagSW.set_shadow_type(gtk.SHADOW_IN)
         # Create tags treeview
-        tagsSw.add(self.tagGuiC.createTagTv())
+        simpleTagSW.add(self.tagGuiC.createTagTv(multi=False))
 
-        vTagBut.pack_start(tagsSw, True, True)
+        hSimpleButMultiple.pack_start(simpleTagSW, True, True)
+
+
+        # Create buttons
+        #
+        tagButTab = gtk.Table(1, 2, False)
+        #tagButTab.set_row_spacings(50)
+        #tagButTab.set_col_spacings(50)
+
+        # copy multiple selection
+        gtk.stock_add([(gtk.STOCK_GO_FORWARD, "", 0, 0, "")])
+        copyBut = gtk.Button(stock=gtk.STOCK_GO_FORWARD)
+        copyBut.connect("clicked", self.onCopy)
+        tagButTab.attach(copyBut, 0, 1, 0, 1, gtk.EXPAND, gtk.EXPAND, 10, 10)
+        # remove multiple selection
+        gtk.stock_add([(gtk.STOCK_GO_BACK, "", 0, 0, "")])
+        delBut = gtk.Button(stock=gtk.STOCK_GO_BACK)
+        delBut.connect("clicked", self.onDelete)
+        tagButTab.attach(delBut, 0, 1, 1, 2, gtk.EXPAND, gtk.EXPAND, 10, 10)
+
+        hSimpleButMultiple.pack_start(tagButTab, False, False)
+
+
+        # Multiple list
+        #
+        # Create the scrolled windows
+        multiTagSW = gtk.ScrolledWindow()
+        multiTagSW.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        multiTagSW.set_shadow_type(gtk.SHADOW_IN)
+        # Create tags treeview
+        multiTagSW.add(self.tagGuiC.createTagTv(multi=True))
+
+        hSimpleButMultiple.pack_start(multiTagSW, True, True)
+
+        vTagBut.add(hSimpleButMultiple)
+
 
 
         # Buttons
         #
 
-        # Create the buttons
+        # Create buttons
         butTab = gtk.Table(2, 4, True)
         butTab.set_row_spacings(10)
         butTab.set_col_spacings(10)
@@ -514,18 +560,18 @@ class GuiC(gtk.Window) :
         gtk.stock_add([(gtk.STOCK_REFRESH, "Lire les tags", 0, 0, "")])
         scanBut = gtk.Button(stock=gtk.STOCK_REFRESH)
         scanBut.connect("clicked", self.onScan)
-        butTab.attach(scanBut, 0, 2, 0, 1)
+        butTab.attach(scanBut, 0, 2, 0, 1, gtk.EXPAND, gtk.EXPAND, 0, 0)
         # create links
         gtk.stock_add([(gtk.STOCK_EXECUTE, "Créé les images", 0, 0, "")])
         exeBut = gtk.Button(stock=gtk.STOCK_EXECUTE)
         exeBut.connect("clicked", self.onExecute)
-        butTab.attach(exeBut, 2, 4, 0, 1)
+        butTab.attach(exeBut, 2, 4, 0, 1, gtk.EXPAND, gtk.EXPAND, 0, 0)
         # quit
-        quitBut = gtk.Button(stock=gtk.STOCK_CLOSE)
+        quitBut = gtk.Button(stock=gtk.STOCK_QUIT)
         quitBut.connect("clicked", self.on_destroy)
-        butTab.attach(quitBut, 1, 3, 1, 2)
+        butTab.attach(quitBut, 1, 3, 1, 2, gtk.EXPAND, gtk.EXPAND, 0, 0)
 
-        vTagBut.pack_start(butTab, False, False, 0)
+        vTagBut.pack_start(butTab, False, False)
 
         # Display the window
         self.show_all()
@@ -533,9 +579,18 @@ class GuiC(gtk.Window) :
         self.log.info(HEADER, "Out createWin")
 
 
+    def onCopy(self, button=None) :
+        self.tagC.copyTags()
+        self.tagGuiC.createModel()
+
+
+    def onDelete(self, button=None) :
+        self.tagC.delTags()
+        self.tagGuiC.createModel()
+
+
     def onScan(self, button=None) :
         self.tagC.scanTags()
-        # update model
         self.tagGuiC.createModel()
 
 
@@ -555,11 +610,13 @@ class TagGuiC() :
         self.log = logC
         self.tagC = tagC
         self.model = self.initModel()
-        self.treeselect = gtk.TreeView()
+        self.multi = False # tag list left (single) or right (multiple)
+
         self.memColEn = "current"
         self.selLvl1 = str()
         self.selLvl2 = str()
         self.selEn = bool()
+        self.selMulti = list() # [lvl1, lvl2, enable]
 
 
     def initModel(self) :
@@ -571,8 +628,9 @@ class TagGuiC() :
                     gobject.TYPE_BOOLEAN)
 
 
-    def createTagTv(self) :
+    def createTagTv(self, multi=False) :
         self.log.info(HEADER, "In  createTagTv")
+        self.multi = multi
 
         # create model
         self.createModel()
@@ -582,9 +640,12 @@ class TagGuiC() :
         treeview.set_rules_hint(True)
         treeview = self.addCol(treeview)
 
-        self.treeselect = treeview.get_selection()
-        self.treeselect.set_mode(gtk.SELECTION_SINGLE)
-        self.treeselect.connect('changed', self.onChanged)
+        treeselect = treeview.get_selection()
+        if multi :
+            treeselect.set_mode(gtk.SELECTION_SINGLE)
+        else :
+            treeselect.set_mode(gtk.SELECTION_MULTIPLE)
+        treeselect.connect('changed', self.onChanged)
 
         self.log.info(HEADER, "Out createTagTv")
         return treeview
@@ -721,6 +782,7 @@ class TagGuiC() :
 
         model, rows = selection.get_selected_rows()
 
+        self.selMulti = list()
         for row in rows :
             iterSel = model.get_iter(row)
             iterSel_has_child = model.iter_has_child(iterSel)
@@ -734,10 +796,12 @@ class TagGuiC() :
                 self.selLvl1 = model.get_value(iterSelParent, COL_NAME)
                 self.selLvl2 = model.get_value(iterSel, COL_NAME)
                 self.selEn = model.get_value(iterSel, COL_ENABLE)
+                self.selMulti.append([self.selLvl1, self.selLvl2, self.selEn])
         
         self.log.dbg("selLvl1=" + str(self.selLvl1))
         self.log.dbg("selLvl2=" + str(self.selLvl2))
         self.log.dbg("selEn=" + str(self.selEn))
+        self.log.dbg("selMulti=" + str(self.selMulti))
         self.log.info(HEADER, "Out onChanged")
 
 
