@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 '''
 Screensaver Link
@@ -143,18 +143,30 @@ class TagC() :
     def __init__(self, logC) :
         self.log = logC
         self.tagDict = dict() # [tagName] = enable
-        self.tagMultiList = list() # [tagname, enable], [tagname, disable], ... ]
+        self.tagMultiList = list() # [tagname0, enable0], [tagname1, disable1], enable ]
         self.fileDict = dict() # [fileName] = tagList
 
 
     def __str__(self) :
         res = "\n"
         res += "#-----------------\n"
-        res += "# Tags\n"
+        res += "# Simple Tags\n"
         res += "#-----------------\n"
-        tagsN = self.getTags()
+        tagsN = self.getSimpleTags()
         for tagN in tagsN :
             res += str(tagN) + " : " + str(self.tagDict[tagN]) + "\n"
+        res += "\n\n"
+
+        res += "#-----------------\n"
+        res += "# Multiple Tags\n"
+        res += "#-----------------\n"
+        i = 1
+        for tagsEnM in self.tagMultiList :
+            res += "Tags " + str(i) + " enable=" + str(tagsEnM[1])  + "\n  "
+            for tagM in tagsEnM[0] :
+                res += str(tagM[0]) + " : " + str(tagM[1]) + ", "
+            res += "\n"
+            i += 1
         res += "\n\n"
 
         res += "#-----------------\n"
@@ -172,22 +184,29 @@ class TagC() :
         return res
 
 
-    def init(self) :
-        self.readConfig()
+    def convertStrToBool(self, pattern) :
+        # be sure string is a boolean
+        if isinstance(pattern, str) :
+            if pattern == 'True' :
+                pattern = True
+            else :
+                pattern = False
+        return pattern
 
 
-    def getTags(self) :
+    def getSimpleTags(self) :
         tagsNSort = self.tagDict.keys()
         tagsNSort.sort()
         return tagsNSort
 
 
-    def getTagEn(self, tagN) :
+    def getSimpleTagEn(self, tagN) :
         return self.tagDict[tagN]
 
 
-    def setTagEn(self, tagN, en) :
-        self.tagDict[tagN.decode('utf8')] = en
+    def setSimpleTagEn(self, tagN, tagEn) :
+        self.tagDict[tagN.decode('utf-8')] = tagEn
+        #self.log.dbg("Out setSimpleTagEn tagDict="+str(self.tagDict))
 
 
     def getFiles(self) :
@@ -197,21 +216,116 @@ class TagC() :
 
 
     def getFileTagsL(self, fileN) :
-        return self.fileDict[fileN]
+        tagsL = self.fileDict[fileN]
+        tagsL.sort()
+        return tagsL
 
 
-    def updateTag(self, tagN, tagE) :
-        self.log.dbg("In  updateTag tagN="+str(tagN)+" tagE="+str(tagE))
-        if tagE == 'True' :
-            self.setTagEn(tagN, True)
-        elif tagE == 'False' :
-            self.setTagEn(tagN, False)
+    def addSimpleTag(self, tagN, tagEn) :
+        self.log.dbg("In  addSimpleTag tagN="+str(tagN)+" tagEn="+str(tagEn))
+        tagEn = self.convertStrToBool(tagEn)
+        self.setSimpleTagEn(tagN, tagEn)
+        self.log.dbg("In  addSimpleTag tagDict="+str(self.tagDict))
 
 
-    def updateFile(self, fileN, tagN) :
-        self.log.dbg("In  updateFile fileN="+str(fileN)+ " tagN="+str(tagN))
-        fileNDec = fileN.decode('utf8')
-        tagNDec = tagN.decode('utf8')
+    def isAlreadyInMultiTag(self, tagMulti) :
+        self.log.info(HEADER, "In  isAlreadyInMultiTag tagMulti="+str(tagMulti))
+        found = False
+
+        # Sort it
+        tagMulti.sort()
+        
+        # Find
+        for tagsEnM in self.tagMultiList :
+            #self.log.dbg("In  isAlreadyInMultiTag tagsEnM="+str(tagsEnM))
+            i = 0
+            tagsM = tagsEnM[0]
+            #self.log.dbg("In  isAlreadyInMultiTag tagsM="+str(tagsM))
+            if tagsM.__len__() == tagMulti.__len__() :
+                #self.log.dbg("In  isAlreadyInMultiTag same length tagsM="+str(tagsM))
+                for tagM in tagsM :
+                    #self.log.dbg("In  isAlreadyInMultiTag tagM="+str(tagM))
+                    if tagM[0] == tagMulti[i][0] :
+                        i += 1
+                        #self.log.dbg("In  isAlreadyInMultiTag i="+str(i))
+                    else :
+                        i = 0
+                        #self.log.dbg("In  isAlreadyInMultiTag i="+str(i))
+                        break
+
+            #self.log.dbg("In  isAlreadyInMultiTag i="+str(i))
+            if (i == tagMulti.__len__()) :
+                found = True
+                break
+
+        self.log.info(HEADER, "Out isAlreadyInMultiTag found=" + str(found))
+        return found
+
+
+    # With a tag name (included with + and -), 
+    # it will return the element or None
+    def findElt(self, tagName) :
+        self.log.dbg("In  findElt tagMultiList=" + str(self.tagMultiList))
+        foundElt = None
+        for tagsEnM in self.tagMultiList :
+            self.log.dbg("In  findElt tagsEnM=" + str(tagsEnM))
+            newTagN = tagName
+            for tagM in tagsEnM[0] :
+                self.log.dbg("In  findElt tagM=" + str(tagM))
+                self.log.dbg("In  findElt tagM[0]=" + str(tagM[0]))
+                self.log.dbg("In  findElt newTagN=" + str(newTagN))
+                if re.search(tagM[0], newTagN) :
+                    self.log.dbg("In  findElt 1 newTagN=" + str(newTagN))
+                    newTagN = re.sub(tagM[0], "", newTagN)
+                    self.log.dbg("In  findElt 2 newTagN=" + str(newTagN))
+                else :
+                    break
+            self.log.dbg("In  findElt 3 newTagN=" + str(newTagN))
+
+            newTagN = re.sub("\+|\-| ", "", newTagN)
+            if newTagN == "" :
+                self.log.dbg("In  findElt tagsEnM=" + str(tagsEnM))
+                foundElt = tagsEnM
+                break
+        
+        self.log.dbg("In  findElt tagsEnM=" + str(tagsEnM))
+        return foundElt
+
+
+    # With a tag name (included with + and -), 
+    # it will set enable/disable value
+    def setEnOnMulti(self, tagName, tagEn) :
+        self.log.dbg("In  setEnOnMulti tagName=" + str(tagName) + ", tagEn=" + str(tagEn))
+        foundElt = self.findElt(tagName)
+        if foundElt is not None :
+            self.tagMultiList.remove(foundElt)
+            self.addMultiTag(foundElt[0], tagEn)
+
+
+    def addMultiTag(self, tagL, tagEn) :
+        self.log.dbg("In  addMultiTag tagL="+str(tagL)+", tagEn="+str(tagEn))
+        # be sure tagEn is a boolean
+        tagEn = self.convertStrToBool(tagEn)
+
+        # Decode name
+        newTagL = list()
+        for tag in tagL :
+            self.log.dbg("In  addMultiTag tag="+str(tag))
+            tag[1] = self.convertStrToBool(tag[1])
+            newTagL.append([tag[0].decode('utf-8'), tag[1]])
+        self.log.dbg("In  addMultiTag newTagL="+str(newTagL))
+
+        # Already exists ?
+        if not self.isAlreadyInMultiTag(newTagL) :
+            self.log.dbg("In  addMultiTag tagEn="+str(tagEn))
+            self.tagMultiList.append([newTagL, tagEn])
+            self.tagMultiList.sort()
+
+
+    def addFileAndTags(self, fileN, tagN) :
+        self.log.dbg("In  addFileAndTags fileN="+str(fileN)+ " tagN="+str(tagN))
+        fileNDec = fileN.decode('utf-8')
+        tagNDec = tagN.decode('utf-8')
         if not self.fileDict.has_key(fileNDec) :
             tagList = list()
             tagList.append(tagNDec)
@@ -223,24 +337,24 @@ class TagC() :
 
 
     # Return tags with a two-level ordered
-    def getTagsByHier(self) :
+    def getSimpleTagsByHier(self) :
         resDict = dict()
-        for tagN in self.getTags() :
+        for tagN in self.getSimpleTags() :
             (lvl1, lvl2) = re.split("/", tagN)
-            tagEn = self.getTagEn(tagN)
+            tagEn = self.getSimpleTagEn(tagN)
             if not resDict.has_key(lvl1) :
-                #self.log.dbg("In  getTagsByHier add lvl1="+str(lvl1)+" lvl2="+str(lvl2)+" tagEn="+str(tagEn))
+                #self.log.dbg("In  getSimpleTagsByHier add lvl1="+str(lvl1)+" lvl2="+str(lvl2)+" tagEn="+str(tagEn))
                 l = list()
                 l.append([lvl2, tagEn])
                 resDict[lvl1] = [[lvl2, tagEn]]
-                #self.log.dbg("In  getTagsByHier resDict="+str(resDict))
+                #self.log.dbg("In  getSimpleTagsByHier resDict="+str(resDict))
             else :
                 tagsList = resDict[lvl1]
                 find = False
 
-                #self.log.dbg("In  getTagsByHier tagsList="+str(tagsList))
+                #self.log.dbg("In  getSimpleTagsByHier tagsList="+str(tagsList))
                 for tagLvl2 in tagsList :
-                    #self.log.dbg("In  getTagsByHier tagLvl2="+str(tagLvl2))
+                    #self.log.dbg("In  getSimpleTagsByHier tagLvl2="+str(tagLvl2))
                     if tagLvl2[0] == lvl2 :
                         find = True
                         break
@@ -248,7 +362,7 @@ class TagC() :
                 if not find :
                     tagsList.append([lvl2, tagEn])
 
-        self.log.dbg("In  getTagsByHier res="+str(resDict))
+        self.log.dbg("In  getSimpleTagsByHier res="+str(resDict))
         return resDict
 
 
@@ -264,31 +378,54 @@ class TagC() :
             # Open config file
             tree = ET.parse(configN).getroot()
 
-            # Tag part
-            for tagTree in tree.iter("tag") :
+            # Simple Tags part
+            for simpleTagTree in tree.iter("simpleTag") :
                 tagName = None
                 tagEnable = None
 
                 # Get tag name
-                if "name" in tagTree.attrib :
-                    tagName = tagTree.attrib["name"]
+                if "name" in simpleTagTree.attrib :
+                    tagName = simpleTagTree.attrib["name"]
                 # Get tag enable
-                if "enable" in tagTree.attrib :
-                    tagEnable = tagTree.attrib["enable"]
+                if "enable" in simpleTagTree.attrib :
+                    tagEnable = simpleTagTree.attrib["enable"]
                 
-                self.updateTag(tagName, tagEnable)
+                self.addSimpleTag(tagName, tagEnable)
 
-            # File part
+            # Multiple Tags part
+            for multiTagsTree in tree.iter("multiTags") :
+                tagsEnable = None
+
+                # Get tag enable
+                if "enable" in multiTagsTree.attrib :
+                    tagsEnable = multiTagsTree.attrib["enable"]
+
+                # Find multi tag
+                tagsL = list()
+                for multiTagTree in multiTagsTree.iter("multiTag") :
+                    tagName = None
+                    tagEnable = None
+
+                    # Get tag name
+                    if "name" in multiTagTree.attrib :
+                        tagName = multiTagTree.attrib["name"]
+                    # Get tag enable
+                    if "enable" in multiTagTree.attrib :
+                        tagEnable = multiTagTree.attrib["enable"]
+                    tagsL.append([tagName, tagEnable])
+                
+                self.addMultiTag(tagsL, tagsEnable)
+
+            # Files part
             for fileTree in tree.iter("file") :
                 fileName = None
                 # Get file name
                 if "name" in fileTree.attrib :
                     fileName = fileTree.attrib["name"]
                 # Find file tags
-                tagsL = list()
                 for tagTree in fileTree.iter("fileTag") :
                     tagName = tagTree.text
-                    self.updateFile(fileName, tagName)
+                    self.addFileAndTags(fileName, tagName)
 
         self.log.info(HEADER, "Out readConfig")
 
@@ -300,21 +437,35 @@ class TagC() :
         tagsAndFilesTree = etree.Element("TagsFiles")
         tagsAndFilesTree.addprevious(etree.Comment("!!! Don't modify this file !!!"))
         tagsAndFilesTree.addprevious(etree.Comment("Managed by " + HEADER))
-            
-        # Tags part
-        tagsTree = etree.SubElement(tagsAndFilesTree, "tags")
-        tagsN = self.getTags()
+
+        # Simple Tags part
+        simpleTagsTree = etree.SubElement(tagsAndFilesTree, "simpleTags")
+        tagsN = self.getSimpleTags()
+        self.log.dbg("In  writeConfig tagsN="+str(tagsN))
         for tagN in tagsN :
             # Create the element tree
-            self.log.dbg("In  writeConfig tagN="+str(tagN)+" enable="+str(self.getTagEn(tagN)))
-            tagTree = etree.SubElement(tagsTree, "tag")
+            self.log.dbg("In  writeConfig tagN="+str(tagN)+" enable="+str(self.getSimpleTagEn(tagN)))
+            tagTree = etree.SubElement(simpleTagsTree, "simpleTag")
             tagTree.set("name", tagN)
-            tagTree.set("enable", str(self.getTagEn(tagN)))
+            tagTree.set("enable", str(self.getSimpleTagEn(tagN)))
           
+        # Multiple Tags part
+        multiTagsTree = etree.SubElement(tagsAndFilesTree, "multiTagsTree")
+        for tagsEnM in self.tagMultiList :
+            self.log.dbg("In  writeConfig multiTag="+str(tagsEnM[0])+" enable="+str(tagsEnM[1]))
+            # Create the element tree
+            multiTagsT = etree.SubElement(multiTagsTree, "multiTags")
+            multiTagsT.set("enable", str(tagsEnM[1]))
+            for tagM in tagsEnM[0] :
+                self.log.dbg("In  writeConfig tagN="+str(tagM[0])+" enable="+str(tagM[1]))
+                multiTagT = etree.SubElement(multiTagsT, "multiTag")
+                multiTagT.set("name", str(tagM[0]))
+                multiTagT.set("enable", str(tagM[1]))
+
         # Files part
         filesTree = etree.SubElement(tagsAndFilesTree, "files")
         filesN = self.getFiles()
-        for fileN in self.fileDict :
+        for fileN in filesN :
             # Create the element tree
             self.log.dbg("In  writeConfig fileN="+str(fileN)+" tagsList="+str(self.getFileTagsL(fileN)))
             tagsFTree = etree.SubElement(filesTree, "file")
@@ -327,13 +478,6 @@ class TagC() :
         doc.write(configN, encoding='utf-8', method="xml", pretty_print=True, xml_declaration=True) 
             
         self.log.info(HEADER, "Out writeConfig " + configN)
-
-
-    def addTagFile(self, tagN, fileN) :
-        self.log.info(HEADER, "In  addTagFile tag="+str(tagN)+", file="+str(fileN))
-        if not self.tagDict.has_key(tagN) :
-            self.updateTag(tagN, "True")
-        self.updateFile(fileN, tagN)
 
 
     def readTag(self, fileN) :
@@ -362,14 +506,16 @@ class TagC() :
                                         for levelSeq in levelTagsList :
                                             #print "levelSeq.tag=" + levelSeq.tag
                                             for levelLi in levelSeq :
-                                                self.addTagFile(levelLi.text, fileN)
+                                                tagN = levelLi.text
+                                                if not self.tagDict.has_key(tagN) :
+                                                    self.addSimpleTag(tagN, "True")
+                                                self.addFileAndTags(fileN, tagN)
                 except ValueError as err :
                     self.log.warn(HEADER, "In  readTag fileN"+str(fileN)+"\n  error="+str(err))
 
 
     def scanTags(self) :
         self.log.info(HEADER, "In  scanTags")
-        self.tagDict = dict()
         self.fileDict = dict()
         if os.path.isdir(imagesDir) :
             for dirpath, dirnames, filenames in os.walk(imagesDir) :  # @UnusedVariable
@@ -384,18 +530,28 @@ class TagC() :
         self.log.info(HEADER, "Out scanTags")
 
 
-    def copyTags(self) :
-        # TODO
+    def copyTags(self, tagsToCopy) :
         self.log.info(HEADER, "In  copyTags")
-        for sel in self.multi :
-            tagName = sel[0] + "/" + sel[1]
-            tagEn = sel[2]
+        
+        # Create link
+        tagMulti = list()
+        for sel in tagsToCopy :
+            tagMulti.append([sel[0] + "/" + sel[1], sel[2]])
+        self.log.dbg("In  copyTags tagMulti="+str(tagMulti))
+
+        # Add it
+        self.addMultiTag(tagMulti, True)
+
         self.log.info(HEADER, "Out copyTags")
 
 
-    def delTags(self) :
-        # TODO
-        self.log.info(HEADER, "In  delTags")
+    # With a tag name (included with + and -), 
+    def delTags(self, tagsToDelete) :
+        self.log.info(HEADER, "In  delTags tagsToDelete=" + str(tagsToDelete))
+        for sel in tagsToDelete :
+            foundElt = self.findElt(sel[0])
+            if foundElt is not None :
+                self.tagMultiList.remove(foundElt)
         self.log.info(HEADER, "Out delTags")
 
 
@@ -407,14 +563,39 @@ class TagC() :
         os.makedirs(linkDir)
 
         for fileN in self.getFiles() :
-            # should be install ?
-            install = True
+            # filter with simple tags
+            installSimple = True
             tagsList = self.getFileTagsL(fileN)
             for tagN in tagsList :
                 if not self.tagDict[tagN] :
-                    install = False
+                    installSimple = False
                     break
 
+            # filter with multiple tags
+            tagsList = self.getFileTagsL(fileN)
+            installMulti = True
+            for tagsEnM in self.tagMultiList :
+                if tagsEnM[1] :
+                    for tagM in tagsEnM[0] :
+                        if tagM[1] :
+                            # for enable, the tag must be present
+                            for tagN in tagsList :
+                                if tagM[0] == tagN :
+                                    installMulti = True
+                        else :
+                            # for disable, the tag must not be present
+                            for tagN in tagsList :
+                                if tagM[0] == tagN :
+                                    installMulti = False
+
+            # installation priority
+            install = False
+            if installMulti :
+                install = True
+            elif installSimple :
+                install = True
+
+            # installation
             if install :
                 curDir = os.getcwd()
                 os.chdir(linkDir)
@@ -441,15 +622,12 @@ class GuiC(gtk.Window) :
 
     def __init__(self, logC) :
         self.log = logC
-        self.tagC = TagC(self.log)
-        self.tagGuiC = TagGuiC(self.tagC, self.log)
+        self.simpleGuiC = TagGuiC(self, False, self.log)
+        self.multiGuiC = TagGuiC(self, True, self.log)
 
 
     def run(self):
         self.log.info(HEADER, "In  run")
-
-        self.tagC.init()
-        #print str(self.tagC)
 
         if parsedArgs.gui :
             # create the main window
@@ -498,7 +676,7 @@ class GuiC(gtk.Window) :
         # Horizontal box = tag list simple + buttons + multiple
         #
         hSimpleButMultiple = gtk.HBox(False, 5)
-        hSimpleButMultiple.set_border_width(10)
+        hSimpleButMultiple.set_border_width(5)
 
 
         # Simple list
@@ -508,7 +686,7 @@ class GuiC(gtk.Window) :
         simpleTagSW.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
         simpleTagSW.set_shadow_type(gtk.SHADOW_IN)
         # Create tags treeview
-        simpleTagSW.add(self.tagGuiC.createTagTv(multi=False))
+        simpleTagSW.add(self.simpleGuiC.createTagTv())
 
         hSimpleButMultiple.pack_start(simpleTagSW, True, True)
 
@@ -516,19 +694,21 @@ class GuiC(gtk.Window) :
         # Create buttons
         #
         tagButTab = gtk.Table(1, 2, False)
-        #tagButTab.set_row_spacings(50)
-        #tagButTab.set_col_spacings(50)
+        #tagButTab.set_row_spacings(5)
+        #tagButTab.set_col_spacings(5)
 
         # copy multiple selection
         gtk.stock_add([(gtk.STOCK_GO_FORWARD, "", 0, 0, "")])
-        copyBut = gtk.Button(stock=gtk.STOCK_GO_FORWARD)
-        copyBut.connect("clicked", self.onCopy)
-        tagButTab.attach(copyBut, 0, 1, 0, 1, gtk.EXPAND, gtk.EXPAND, 10, 10)
+        self.copyBut = gtk.Button(stock=gtk.STOCK_GO_FORWARD)
+        self.copyBut.connect("clicked", self.onCopy)
+        self.copyBut.set_sensitive(False)
+        tagButTab.attach(self.copyBut, 0, 1, 0, 1, gtk.EXPAND, gtk.EXPAND, 10, 10)
         # remove multiple selection
         gtk.stock_add([(gtk.STOCK_GO_BACK, "", 0, 0, "")])
-        delBut = gtk.Button(stock=gtk.STOCK_GO_BACK)
-        delBut.connect("clicked", self.onDelete)
-        tagButTab.attach(delBut, 0, 1, 1, 2, gtk.EXPAND, gtk.EXPAND, 10, 10)
+        self.delBut = gtk.Button(stock=gtk.STOCK_GO_BACK)
+        self.delBut.connect("clicked", self.onDelete)
+        self.delBut.set_sensitive(False)
+        tagButTab.attach(self.delBut, 0, 1, 1, 2, gtk.EXPAND, gtk.EXPAND, 10, 10)
 
         hSimpleButMultiple.pack_start(tagButTab, False, False)
 
@@ -540,7 +720,9 @@ class GuiC(gtk.Window) :
         multiTagSW.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
         multiTagSW.set_shadow_type(gtk.SHADOW_IN)
         # Create tags treeview
-        multiTagSW.add(self.tagGuiC.createTagTv(multi=True))
+        # trick to copy 
+        self.multiGuiC.tagC.tagMultiList = self.simpleGuiC.tagC.tagMultiList
+        multiTagSW.add(self.multiGuiC.createTagTv())
 
         hSimpleButMultiple.pack_start(multiTagSW, True, True)
 
@@ -580,23 +762,27 @@ class GuiC(gtk.Window) :
 
 
     def onCopy(self, button=None) :
-        self.tagC.copyTags()
-        self.tagGuiC.createModel()
+        self.simpleGuiC.onCopyTags()
+        # copy data
+        self.multiGuiC.tagC.tagMultiList = self.simpleGuiC.tagC.tagMultiList
+        self.simpleGuiC.createModel()
+        self.multiGuiC.createModel()
 
 
     def onDelete(self, button=None) :
-        self.tagC.delTags()
-        self.tagGuiC.createModel()
+        self.multiGuiC.onDelTags()
+        self.multiGuiC.createModel()
 
 
     def onScan(self, button=None) :
-        self.tagC.scanTags()
-        self.tagGuiC.createModel()
+        self.simpleGuiC.onScanTags()
+        self.simpleGuiC.createModel()
 
 
     def onExecute(self, button=None) :
-        self.tagC.writeConfig()
-        self.tagC.createLinks()
+        # copy data
+        self.simpleGuiC.tagC.tagMultiList = self.multiGuiC.tagC.tagMultiList
+        self.simpleGuiC.onExeTags()
 
 
 
@@ -604,19 +790,32 @@ class GuiC(gtk.Window) :
 
 
 
-class TagGuiC() :
+class TagGuiC(gtk.Window) :
 
-    def __init__(self, tagC, logC) :
+    def __init__(self, parentW, multi, logC) :
+        # window parameter
+        self.mainWindow = parentW
+
         self.log = logC
-        self.tagC = tagC
+        self.tagC = TagC(self.log)
         self.model = self.initModel()
-        self.multi = False # tag list left (single) or right (multiple)
+        self.multi = multi  # false = tag list left (single)
+                            # true  = tag list right (multiple)
 
         self.memColEn = "current"
-        self.selLvl1 = str()
-        self.selLvl2 = str()
-        self.selEn = bool()
-        self.selMulti = list() # [lvl1, lvl2, enable]
+        if self.multi :
+            self.selName = str()
+            self.selEn = bool()
+        else :
+            self.selLvl1 = str()
+            self.selLvl2 = str()
+            self.selEn = bool()
+            self.selMulti = list()  # [lvl1, lvl2, enable] (single)
+                                    # [tagName, tagEnable] (multiple)
+
+        if not self.multi :
+            self.tagC.readConfig()
+            self.log.info(HEADER, "TagC = \n" + str(self.tagC))
 
 
     def initModel(self) :
@@ -628,9 +827,8 @@ class TagGuiC() :
                     gobject.TYPE_BOOLEAN)
 
 
-    def createTagTv(self, multi=False) :
+    def createTagTv(self) :
         self.log.info(HEADER, "In  createTagTv")
-        self.multi = multi
 
         # create model
         self.createModel()
@@ -641,10 +839,7 @@ class TagGuiC() :
         treeview = self.addCol(treeview)
 
         treeselect = treeview.get_selection()
-        if multi :
-            treeselect.set_mode(gtk.SELECTION_SINGLE)
-        else :
-            treeselect.set_mode(gtk.SELECTION_MULTIPLE)
+        treeselect.set_mode(gtk.SELECTION_MULTIPLE)
         treeselect.connect('changed', self.onChanged)
 
         self.log.info(HEADER, "Out createTagTv")
@@ -652,73 +847,103 @@ class TagGuiC() :
 
 
     def createModel(self) :
-        self.log.info(HEADER, "In  createModel")
+        self.log.info(HEADER, "In  createModel multi=" + str(self.multi))
         topLvl = list()
         self.model.clear()
 
-        # Construct list to put in model 
-        tagsDict = self.tagC.getTagsByHier()
-        tagsDictSort = tagsDict.keys()
-        tagsDictSort.sort()
-        for tag in tagsDictSort :
-            #self.log.dbg("In  createModel lvl1="+str(tag))
-
-            ## Level 2
-            lvl2L = list()
-            for lvl2 in tagsDict[tag] :
-                #self.log.dbg("In  createModel lvl2="+str(lvl2))
-                lvl2info = list()
+        ## For multiple tags
+        if self.multi :
+            for tagsEnM in self.tagC.tagMultiList :
+                tagLinfo = list()
+                tagEn = tagsEnM[1]
+                tagName = str()
+                for tagM in tagsEnM[0] :
+                    if tagM[1] :
+                        tagName += "+ "
+                    else :
+                        tagName += "- "
+                    tagName += tagM[0] + " "
+                tagName = re.sub(" $", "", tagName)
 
                 # name
-                lvl2info.append(lvl2[0])
+                tagLinfo.append(tagName)
                 # enable
-                lvl2info.append(lvl2[1])
+                tagLinfo.append(tagEn)
                 # visible
-                lvl2info.append(True)
+                tagLinfo.append(True)
                 # activatable
-                lvl2info.append(True)
-                #self.log.dbg("In  createModel lvl2info="+str(lvl2info))
+                tagLinfo.append(True)
 
-                lvl2L.append(lvl2info)
+                topLvl.append(tagLinfo)
 
-            ## Level 1
-            lvl1L = list()
-            # name
-            lvl1L.append(tag)
-            # enable
-            lvl1L.append(False)
-            # visible
-            lvl1L.append(False)
-            # activatable
-            lvl1L.append(False)
-            #self.log.dbg("In  createModel lvl1L="+str(lvl1L))
 
-            # Add Version
-            lvl1L.append(lvl2L)
+        ## For simple tags
+        else :
+            # Construct list to put in model 
+            tagsDict = self.tagC.getSimpleTagsByHier()
+            tagsDictSort = tagsDict.keys()
+            tagsDictSort.sort()
+            for tag in tagsDictSort :
+                #self.log.dbg("In  createModel lvl1="+str(tag))
 
-            topLvl.append(lvl1L)
+                ## Level 2
+                lvl2L = list()
+                for lvl2 in tagsDict[tag] :
+                    #self.log.dbg("In  createModel lvl2="+str(lvl2))
+                    lvl2info = list()
+
+                    # name
+                    lvl2info.append(lvl2[0])
+                    # enable
+                    lvl2info.append(lvl2[1])
+                    # visible
+                    lvl2info.append(True)
+                    # activatable
+                    lvl2info.append(True)
+                    #self.log.dbg("In  createModel lvl2info="+str(lvl2info))
+
+                    lvl2L.append(lvl2info)
+
+                ## Level 1
+                lvl1L = list()
+                # name
+                lvl1L.append(tag)
+                # enable
+                lvl1L.append(False)
+                # visible
+                lvl1L.append(False)
+                # activatable
+                lvl1L.append(False)
+                #self.log.dbg("In  createModel lvl1L="+str(lvl1L))
+
+                # Add level 2
+                lvl1L.append(lvl2L)
+
+                topLvl.append(lvl1L)
 
 
         ## Add data to the tree store
         self.log.dbg("In  createModel topLvl="+str(topLvl))
-        for tag in topLvl :
-            tagIter = self.model.append(None)
+        if topLvl :
+            for tag in topLvl :
+                tagIter = self.model.append(None)
 
-            self.model.set(tagIter,
-                COL_NAME, tag[COL_NAME],
-                COL_ENABLE, tag[COL_ENABLE],
-                COL_ENABLE_VISIBLE, tag[COL_ENABLE_VISIBLE],
-                COL_ENABLE_ACTIVATABLE, tag[COL_ENABLE_ACTIVATABLE]
-            )
-
-            for lvl2 in tag[COL_CHILDREN] :
-                versionIter = self.model.append(tagIter)
-                self.model.set(versionIter,
-                    COL_NAME, lvl2[COL_NAME],
-                    COL_ENABLE, lvl2[COL_ENABLE],
-                    COL_ENABLE_VISIBLE, lvl2[COL_ENABLE_VISIBLE],
-                    COL_ENABLE_ACTIVATABLE, lvl2[COL_ENABLE_ACTIVATABLE]
+                self.model.set(tagIter,
+                    COL_NAME, tag[COL_NAME],
+                    COL_ENABLE, tag[COL_ENABLE],
+                    COL_ENABLE_VISIBLE, tag[COL_ENABLE_VISIBLE],
+                    COL_ENABLE_ACTIVATABLE, tag[COL_ENABLE_ACTIVATABLE]
                 )
+
+                if not self.multi :
+                    for lvl2 in tag[COL_CHILDREN] :
+                        versionIter = self.model.append(tagIter)
+                        self.model.set(versionIter,
+                            COL_NAME, lvl2[COL_NAME],
+                            COL_ENABLE, lvl2[COL_ENABLE],
+                            COL_ENABLE_VISIBLE, lvl2[COL_ENABLE_VISIBLE],
+                            COL_ENABLE_ACTIVATABLE, lvl2[COL_ENABLE_ACTIVATABLE]
+                        )
 
         self.log.info(HEADER, "Out createModel")
 
@@ -762,13 +987,22 @@ class TagGuiC() :
         elif self.memColEn == "current" :
             self.memColEn = "all"
 
-        for tagN in self.tagC.getTags() :
-            if self.memColEn == "all" :
-                self.tagC.setTagEn(tagN, True)
-            elif self.memColEn == "none" :
-                self.tagC.setTagEn(tagN, False)
-            elif self.memColEn == "current" :
-                self.tagC.readConfig()
+        if self.multi :
+            for tagN in self.tagC.getSimpleTags() :
+                if self.memColEn == "all" :
+                    self.tagC.setEnOnMulti(tagN, True)
+                elif self.memColEn == "none" :
+                    self.tagC.setEnOnMulti(tagN, False)
+                elif self.memColEn == "current" :
+                    self.tagC.readConfig()
+        else :
+            for tagN in self.tagC.getSimpleTags() :
+                if self.memColEn == "all" :
+                    self.tagC.setSimpleTagEn(tagN, True)
+                elif self.memColEn == "none" :
+                    self.tagC.setSimpleTagEn(tagN, False)
+                elif self.memColEn == "current" :
+                    self.tagC.readConfig()
 
         # update model
         self.createModel()
@@ -785,23 +1019,45 @@ class TagGuiC() :
         self.selMulti = list()
         for row in rows :
             iterSel = model.get_iter(row)
-            iterSel_has_child = model.iter_has_child(iterSel)
-
-            if iterSel_has_child :
-                self.selLvl1 = model.get_value(iterSel, COL_NAME)
-                self.selLvl2 = None
-                self.selEn = False
-            elif not iterSel_has_child :
-                iterSelParent = model.iter_parent(iterSel)
-                self.selLvl1 = model.get_value(iterSelParent, COL_NAME)
-                self.selLvl2 = model.get_value(iterSel, COL_NAME)
+            
+            if self.multi :
+                self.selName = model.get_value(iterSel, COL_NAME)
                 self.selEn = model.get_value(iterSel, COL_ENABLE)
-                self.selMulti.append([self.selLvl1, self.selLvl2, self.selEn])
+                self.selMulti.append([self.selName, self.selEn])
+
+                self.log.dbg("selName=" + str(self.selName))
+                self.log.dbg("selEn=" + str(self.selEn))
+                self.log.dbg("selMulti=" + str(self.selMulti))
+ 
+                if self.selMulti.__len__() > 0 :
+                    self.mainWindow.delBut.set_sensitive(True)
+                else :
+                    self.mainWindow.delBut.set_sensitive(False)
+
+            else :
+                iterSel_has_child = model.iter_has_child(iterSel)
+
+                if iterSel_has_child :
+                    self.selLvl1 = model.get_value(iterSel, COL_NAME)
+                    self.selLvl2 = None
+                    self.selEn = False
+                elif not iterSel_has_child :
+                    iterSelParent = model.iter_parent(iterSel)
+                    self.selLvl1 = model.get_value(iterSelParent, COL_NAME)
+                    self.selLvl2 = model.get_value(iterSel, COL_NAME)
+                    self.selEn = model.get_value(iterSel, COL_ENABLE)
+                    self.selMulti.append([self.selLvl1, self.selLvl2, self.selEn])
         
-        self.log.dbg("selLvl1=" + str(self.selLvl1))
-        self.log.dbg("selLvl2=" + str(self.selLvl2))
-        self.log.dbg("selEn=" + str(self.selEn))
-        self.log.dbg("selMulti=" + str(self.selMulti))
+                if self.selMulti.__len__() > 1 :
+                    self.mainWindow.copyBut.set_sensitive(True)
+                else :
+                    self.mainWindow.copyBut.set_sensitive(False)
+
+                self.log.dbg("selLvl1=" + str(self.selLvl1))
+                self.log.dbg("selLvl2=" + str(self.selLvl2))
+                self.log.dbg("selEn=" + str(self.selEn))
+                self.log.dbg("selMulti=" + str(self.selMulti))
+
         self.log.info(HEADER, "Out onChanged")
 
 
@@ -810,37 +1066,77 @@ class TagGuiC() :
         self.log.info(HEADER, "In  onToggledItem")
 
         iterSel = model.get_iter_from_string(path_str)
-        selIsTool = model.iter_has_child(iterSel)
         
-        # Get enable column (before click)
-        selEnable = model.get_value(iterSel, COL_ENABLE)
-        # Get lvl2 name
-        selLvl2 = model.get_value(iterSel, COL_NAME)
-        # Get lvl1 name
-        iterSelParent = model.iter_parent(iterSel)
-        selLvl1 = model.get_value(iterSelParent, COL_NAME)
-        # Set tag name
-        selTagN = selLvl1 + "/" + selLvl2
+        if self.multi :
+            # Get name
+            selName = model.get_value(iterSel, COL_NAME)
+            # Get enable (before click)
+            selEnable = model.get_value(iterSel, COL_ENABLE)
 
-        self.log.dbg("selLvl1=" + str(selLvl1))
-        self.log.dbg("selLvl2=" + str(selLvl2))
-        self.log.dbg("selEnable=" + str(selEnable))
+            self.log.dbg("selName=" + str(selName))
+            self.log.dbg("selEnable=" + str(selEnable))
 
-        # Disable
-        # From True to False (as value is before clicking)
-        if selEnable :
-            self.tagC.setTagEn(selTagN, False)
-            model.set(iterSel, COL_ENABLE, False)
-            self.log.dbg("not install " + str(selTagN))
+            # Disable
+            # From True to False (as value is before clicking)
+            if selEnable :
+                self.tagC.setEnOnMulti(selName, False)
+                model.set(iterSel, COL_ENABLE, False)
 
-        # Enable
-        # From False to True
+            # Enable
+            # From False to True
+            else :
+                self.tagC.setEnOnMulti(selName, True)
+                model.set(iterSel, COL_ENABLE, True)
+
         else :
-            self.tagC.setTagEn(selTagN, True)
-            model.set(iterSel, COL_ENABLE, True)
-            self.log.dbg("install " + str(selTagN))
+            # Get enable (before click)
+            selEnable = model.get_value(iterSel, COL_ENABLE)
+            # Get lvl2 name
+            selLvl2 = model.get_value(iterSel, COL_NAME)
+            # Get lvl1 name
+            iterSelParent = model.iter_parent(iterSel)
+            selLvl1 = model.get_value(iterSelParent, COL_NAME)
+            # Set tag name
+            selTagN = selLvl1 + "/" + selLvl2
+
+            self.log.dbg("selLvl1=" + str(selLvl1))
+            self.log.dbg("selLvl2=" + str(selLvl2))
+            self.log.dbg("selEnable=" + str(selEnable))
+
+            # Disable
+            # From True to False (as value is before clicking)
+            if selEnable :
+                self.tagC.setSimpleTagEn(selTagN, False)
+                model.set(iterSel, COL_ENABLE, False)
+
+            # Enable
+            # From False to True
+            else :
+                self.tagC.setSimpleTagEn(selTagN, True)
+                model.set(iterSel, COL_ENABLE, True)
 
         self.log.info(HEADER, "Out onToggledItem")
+
+
+    # Create multiple tags
+    def onCopyTags(self) :
+        self.tagC.copyTags(self.selMulti)
+
+
+    # Delete multiple tags
+    def onDelTags(self) :
+        self.tagC.delTags(self.selMulti)
+
+
+    # Create multiple tags
+    def onScanTags(self) :
+        self.tagC.scanTags()
+
+
+    # Create links
+    def onExeTags(self) :
+        self.tagC.writeConfig()
+        self.tagC.createLinks()
 
 
 ###############################################
