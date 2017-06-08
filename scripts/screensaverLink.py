@@ -265,26 +265,26 @@ class TagC() :
     # With a tag name (included with + and -), 
     # it will return the element or None
     def findElt(self, tagName) :
-        self.log.dbg("In  findElt tagMultiList=" + str(self.tagMultiList))
+        #self.log.dbg("In  findElt tagMultiList=" + str(self.tagMultiList))
         foundElt = None
         for tagsEnM in self.tagMultiList :
-            self.log.dbg("In  findElt tagsEnM=" + str(tagsEnM))
+            #self.log.dbg("In  findElt tagsEnM=" + str(tagsEnM))
             newTagN = tagName
             for tagM in tagsEnM[0] :
-                self.log.dbg("In  findElt tagM=" + str(tagM))
-                self.log.dbg("In  findElt tagM[0]=" + str(tagM[0]))
-                self.log.dbg("In  findElt newTagN=" + str(newTagN))
+                #self.log.dbg("In  findElt tagM=" + str(tagM))
+                #self.log.dbg("In  findElt tagM[0]=" + str(tagM[0]))
+                #self.log.dbg("In  findElt newTagN=" + str(newTagN))
                 if re.search(tagM[0], newTagN) :
-                    self.log.dbg("In  findElt 1 newTagN=" + str(newTagN))
+                    #self.log.dbg("In  findElt 1 newTagN=" + str(newTagN))
                     newTagN = re.sub(tagM[0], "", newTagN)
-                    self.log.dbg("In  findElt 2 newTagN=" + str(newTagN))
+                    #self.log.dbg("In  findElt 2 newTagN=" + str(newTagN))
                 else :
                     break
-            self.log.dbg("In  findElt 3 newTagN=" + str(newTagN))
+            #self.log.dbg("In  findElt 3 newTagN=" + str(newTagN))
 
             newTagN = re.sub("\+|\-| ", "", newTagN)
             if newTagN == "" :
-                self.log.dbg("In  findElt tagsEnM=" + str(tagsEnM))
+                #self.log.dbg("In  findElt tagsEnM=" + str(tagsEnM))
                 foundElt = tagsEnM
                 break
         
@@ -310,14 +310,14 @@ class TagC() :
         # Decode name
         newTagL = list()
         for tag in tagL :
-            self.log.dbg("In  addMultiTag tag="+str(tag))
+            #self.log.dbg("In  addMultiTag tag="+str(tag))
             tag[1] = self.convertStrToBool(tag[1])
             newTagL.append([tag[0].decode('utf-8'), tag[1]])
-        self.log.dbg("In  addMultiTag newTagL="+str(newTagL))
+        #self.log.dbg("In  addMultiTag newTagL="+str(newTagL))
 
         # Already exists ?
         if not self.isAlreadyInMultiTag(newTagL) :
-            self.log.dbg("In  addMultiTag tagEn="+str(tagEn))
+            #self.log.dbg("In  addMultiTag tagEn="+str(tagEn))
             self.tagMultiList.append([newTagL, tagEn])
             self.tagMultiList.sort()
 
@@ -441,10 +441,10 @@ class TagC() :
         # Simple Tags part
         simpleTagsTree = etree.SubElement(tagsAndFilesTree, "simpleTags")
         tagsN = self.getSimpleTags()
-        self.log.dbg("In  writeConfig tagsN="+str(tagsN))
+        #self.log.dbg("In  writeConfig tagsN="+str(tagsN))
         for tagN in tagsN :
             # Create the element tree
-            self.log.dbg("In  writeConfig tagN="+str(tagN)+" enable="+str(self.getSimpleTagEn(tagN)))
+            #self.log.dbg("In  writeConfig tagN="+str(tagN)+" enable="+str(self.getSimpleTagEn(tagN)))
             tagTree = etree.SubElement(simpleTagsTree, "simpleTag")
             tagTree.set("name", tagN)
             tagTree.set("enable", str(self.getSimpleTagEn(tagN)))
@@ -452,12 +452,12 @@ class TagC() :
         # Multiple Tags part
         multiTagsTree = etree.SubElement(tagsAndFilesTree, "multiTagsTree")
         for tagsEnM in self.tagMultiList :
-            self.log.dbg("In  writeConfig multiTag="+str(tagsEnM[0])+" enable="+str(tagsEnM[1]))
+            #self.log.dbg("In  writeConfig multiTag="+str(tagsEnM[0])+" enable="+str(tagsEnM[1]))
             # Create the element tree
             multiTagsT = etree.SubElement(multiTagsTree, "multiTags")
             multiTagsT.set("enable", str(tagsEnM[1]))
             for tagM in tagsEnM[0] :
-                self.log.dbg("In  writeConfig tagN="+str(tagM[0])+" enable="+str(tagM[1]))
+                #self.log.dbg("In  writeConfig tagN="+str(tagM[0])+" enable="+str(tagM[1]))
                 multiTagT = etree.SubElement(multiTagsT, "multiTag")
                 multiTagT.set("name", tagM[0])
                 multiTagT.set("enable", str(tagM[1]))
@@ -467,7 +467,7 @@ class TagC() :
         filesN = self.getFiles()
         for fileN in filesN :
             # Create the element tree
-            self.log.dbg("In  writeConfig fileN="+str(fileN)+" tagsList="+str(self.getFileTagsL(fileN)))
+            #self.log.dbg("In  writeConfig fileN="+str(fileN)+" tagsList="+str(self.getFileTagsL(fileN)))
             tagsFTree = etree.SubElement(filesTree, "file")
             tagsFTree.set("name", fileN)
             for tag in self.getFileTagsL(fileN) :
@@ -563,16 +563,16 @@ class TagC() :
         os.makedirs(linkDir)
 
         for fileN in self.getFiles() :
-            self.log.dbg("In  createLinks fileN="+str(fileN))
+            #self.log.dbg("In  createLinks fileN="+str(fileN))
             tagsList = self.getFileTagsL(fileN)
-            self.log.dbg("In  createLinks tagsList="+str(tagsList))
+            #self.log.dbg("In  createLinks tagsList="+str(tagsList))
 
             # filter with simple tags
             installSimple = False
             for tagN in tagsList :
-                self.log.dbg("In  createLinks tagN="+str(tagN)+"  en="+str(self.tagDict[tagN]))
+                #self.log.dbg("In  createLinks tagN="+str(tagN)+"  en="+str(self.tagDict[tagN]))
                 if self.tagDict[tagN] :
-                    self.log.dbg("In  createLinks installSimple tagN="+str(tagN)+"  en="+str(self.tagDict[tagN]))
+                    #self.log.dbg("In  createLinks installSimple tagN="+str(tagN)+"  en="+str(self.tagDict[tagN]))
                     installSimple = True
                     break
 
