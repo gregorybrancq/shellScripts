@@ -459,7 +459,7 @@ class TagC() :
             for tagM in tagsEnM[0] :
                 self.log.dbg("In  writeConfig tagN="+str(tagM[0])+" enable="+str(tagM[1]))
                 multiTagT = etree.SubElement(multiTagsT, "multiTag")
-                multiTagT.set("name", str(tagM[0]))
+                multiTagT.set("name", tagM[0])
                 multiTagT.set("enable", str(tagM[1]))
 
         # Files part
@@ -803,15 +803,8 @@ class TagGuiC(gtk.Window) :
                             # true  = tag list right (multiple)
 
         self.memColEn = "current"
-        if self.multi :
-            self.selName = str()
-            self.selEn = bool()
-        else :
-            self.selLvl1 = str()
-            self.selLvl2 = str()
-            self.selEn = bool()
-            self.selMulti = list()  # [lvl1, lvl2, enable] (single)
-                                    # [tagName, tagEnable] (multiple)
+        self.selMulti = list()  # [lvl1, lvl2, enable] (single)
+                                # [tagName, tagEnable] (multiple)
 
         if not self.multi :
             self.tagC.readConfig()
@@ -1021,14 +1014,10 @@ class TagGuiC(gtk.Window) :
             iterSel = model.get_iter(row)
             
             if self.multi :
-                self.selName = model.get_value(iterSel, COL_NAME)
-                self.selEn = model.get_value(iterSel, COL_ENABLE)
-                self.selMulti.append([self.selName, self.selEn])
+                selName = model.get_value(iterSel, COL_NAME)
+                selEn = model.get_value(iterSel, COL_ENABLE)
+                self.selMulti.append([selName.decode('utf-8'), selEn])
 
-                self.log.dbg("selName=" + str(self.selName))
-                self.log.dbg("selEn=" + str(self.selEn))
-                self.log.dbg("selMulti=" + str(self.selMulti))
- 
                 if self.selMulti.__len__() > 0 :
                     self.mainWindow.delBut.set_sensitive(True)
                 else :
@@ -1038,25 +1027,22 @@ class TagGuiC(gtk.Window) :
                 iterSel_has_child = model.iter_has_child(iterSel)
 
                 if iterSel_has_child :
-                    self.selLvl1 = model.get_value(iterSel, COL_NAME)
-                    self.selLvl2 = None
-                    self.selEn = False
+                    selLvl1 = model.get_value(iterSel, COL_NAME)
+                    selLvl2 = None
+                    selEn = False
                 elif not iterSel_has_child :
                     iterSelParent = model.iter_parent(iterSel)
-                    self.selLvl1 = model.get_value(iterSelParent, COL_NAME)
-                    self.selLvl2 = model.get_value(iterSel, COL_NAME)
-                    self.selEn = model.get_value(iterSel, COL_ENABLE)
-                    self.selMulti.append([self.selLvl1, self.selLvl2, self.selEn])
+                    selLvl1 = model.get_value(iterSelParent, COL_NAME)
+                    selLvl2 = model.get_value(iterSel, COL_NAME)
+                    selEn = model.get_value(iterSel, COL_ENABLE)
+                    self.selMulti.append([selLvl1.decode('utf-8'), selLvl2.decode('utf-8'), selEn])
         
                 if self.selMulti.__len__() > 1 :
                     self.mainWindow.copyBut.set_sensitive(True)
                 else :
                     self.mainWindow.copyBut.set_sensitive(False)
 
-                self.log.dbg("selLvl1=" + str(self.selLvl1))
-                self.log.dbg("selLvl2=" + str(self.selLvl2))
-                self.log.dbg("selEn=" + str(self.selEn))
-                self.log.dbg("selMulti=" + str(self.selMulti))
+            self.log.dbg("selMulti=" + str(self.selMulti))
 
         self.log.info(HEADER, "Out onChanged")
 
