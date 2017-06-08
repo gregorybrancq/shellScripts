@@ -70,8 +70,8 @@ logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 lockFile = os.path.join(logDir, HEADER + ".lock")
 
 progIcon = os.path.join(homeDir, "Greg", "work", "config", "icons", "screensaverLink.png")
-#imagesDir = os.path.join(homeDir, "Images")
-imagesDir = os.path.join(homeDir, "Test")
+imagesDir = os.path.join(homeDir, "Images")
+#imagesDir = os.path.join(homeDir, "Test")
 #imagesDir = "/home/greg/Images/Evènement/"
 linkDir = os.path.join(homeDir, "Screensaver")
 configDir = os.path.join(homeDir, "Greg", "work", "config", "screensaverLink")
