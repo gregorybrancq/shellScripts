@@ -563,39 +563,61 @@ class TagC() :
         os.makedirs(linkDir)
 
         for fileN in self.getFiles() :
-            # filter with simple tags
-            installSimple = True
+            self.log.dbg("In  createLinks fileN="+str(fileN))
             tagsList = self.getFileTagsL(fileN)
+            self.log.dbg("In  createLinks tagsList="+str(tagsList))
+
+            # filter with simple tags
+            installSimple = False
             for tagN in tagsList :
-                if not self.tagDict[tagN] :
-                    installSimple = False
+                self.log.dbg("In  createLinks tagN="+str(tagN)+"  en="+str(self.tagDict[tagN]))
+                if self.tagDict[tagN] :
+                    self.log.dbg("In  createLinks installSimple tagN="+str(tagN)+"  en="+str(self.tagDict[tagN]))
+                    installSimple = True
                     break
 
             # filter with multiple tags
-            tagsList = self.getFileTagsL(fileN)
-            installMulti = True
+            matchFound = False
+            installMulti = False
+            #self.log.dbg("In  createLinks tagMultiList="+str(self.tagMultiList))
             for tagsEnM in self.tagMultiList :
+                matchFound = False
+                #self.log.dbg("In  createLinks tagsEnM="+str(tagsEnM))
                 if tagsEnM[1] :
                     for tagM in tagsEnM[0] :
-                        if tagM[1] :
-                            # for enable, the tag must be present
-                            for tagN in tagsList :
-                                if tagM[0] == tagN :
-                                    installMulti = True
+                        #self.log.dbg("In  createLinks tagM="+str(tagM))
+                        # for enable, each tag must be present
+                        if tagsList.__contains__(tagM[0]) :
+                            #self.log.dbg("In  createLinks 1")
+                            matchFound = True
+                            if tagM[1] :
+                                #self.log.dbg("In  createLinks 2")
+                                installMulti = True
+                            else :
+                                #self.log.dbg("In  createLinks 3")
+                                installMulti = False
                         else :
-                            # for disable, the tag must not be present
-                            for tagN in tagsList :
-                                if tagM[0] == tagN :
-                                    installMulti = False
+                            #self.log.dbg("In  createLinks 4")
+                            matchFound = False
+                            installMulti = False
+                            break
+
+                if matchFound :
+                    break
 
             # installation priority
             install = False
-            if installMulti :
-                install = True
+            #self.log.dbg("In  createLinks matchFound="+str(matchFound))
+            #self.log.dbg("In  createLinks installMulti="+str(installMulti))
+            #self.log.dbg("In  createLinks installSimple="+str(installSimple))
+            if matchFound :
+                if installMulti :
+                    install = True
             elif installSimple :
                 install = True
 
             # installation
+            self.log.dbg("In  createLinks install="+str(install))
             if install :
                 curDir = os.getcwd()
                 os.chdir(linkDir)
@@ -659,7 +681,9 @@ class GuiC(gtk.Window) :
 
         self.set_title("Screensaver Images Tags")
         self.set_border_width(5)
-        self.set_default_size(600, 600)
+        width = 1000
+        height = 600
+        self.set_size_request(width, height)
 
 
         #
@@ -685,15 +709,16 @@ class GuiC(gtk.Window) :
         simpleTagSW = gtk.ScrolledWindow()
         simpleTagSW.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
         simpleTagSW.set_shadow_type(gtk.SHADOW_IN)
+        simpleTagSW.set_size_request(300, height-100)
         # Create tags treeview
         simpleTagSW.add(self.simpleGuiC.createTagTv())
 
-        hSimpleButMultiple.pack_start(simpleTagSW, True, True)
+        hSimpleButMultiple.pack_start(simpleTagSW, False, False)
 
 
         # Create buttons
         #
-        tagButTab = gtk.Table(1, 2, False)
+        tagButTab = gtk.Table(2, 1, False)
         #tagButTab.set_row_spacings(5)
         #tagButTab.set_col_spacings(5)
 
@@ -719,6 +744,7 @@ class GuiC(gtk.Window) :
         multiTagSW = gtk.ScrolledWindow()
         multiTagSW.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
         multiTagSW.set_shadow_type(gtk.SHADOW_IN)
+        #multiTagSW.set_size_request(width*3/5, height)
         # Create tags treeview
         # trick to copy 
         self.multiGuiC.tagC.tagMultiList = self.simpleGuiC.tagC.tagMultiList
@@ -734,26 +760,24 @@ class GuiC(gtk.Window) :
         #
 
         # Create buttons
-        butTab = gtk.Table(2, 4, True)
-        butTab.set_row_spacings(10)
-        butTab.set_col_spacings(10)
+        butTab = gtk.Table(1, 5, True)
 
         # scan tags
         gtk.stock_add([(gtk.STOCK_REFRESH, "Lire les tags", 0, 0, "")])
         scanBut = gtk.Button(stock=gtk.STOCK_REFRESH)
         scanBut.connect("clicked", self.onScan)
-        butTab.attach(scanBut, 0, 2, 0, 1, gtk.EXPAND, gtk.EXPAND, 0, 0)
+        butTab.attach(scanBut, 0, 1, 0, 1, gtk.EXPAND, gtk.EXPAND, 0, 0)
         # create links
         gtk.stock_add([(gtk.STOCK_EXECUTE, "Créé les images", 0, 0, "")])
         exeBut = gtk.Button(stock=gtk.STOCK_EXECUTE)
         exeBut.connect("clicked", self.onExecute)
-        butTab.attach(exeBut, 2, 4, 0, 1, gtk.EXPAND, gtk.EXPAND, 0, 0)
+        butTab.attach(exeBut, 1, 2, 0, 1, gtk.EXPAND, gtk.EXPAND, 0, 0)
         # quit
         quitBut = gtk.Button(stock=gtk.STOCK_QUIT)
         quitBut.connect("clicked", self.on_destroy)
-        butTab.attach(quitBut, 1, 3, 1, 2, gtk.EXPAND, gtk.EXPAND, 0, 0)
+        butTab.attach(quitBut, 4, 5, 0, 1, gtk.EXPAND, gtk.EXPAND, 0, 0)
 
-        vTagBut.pack_start(butTab, False, False)
+        vTagBut.pack_start(butTab, False, False, 10)
 
         # Display the window
         self.show_all()
@@ -765,7 +789,7 @@ class GuiC(gtk.Window) :
         self.simpleGuiC.onCopyTags()
         # copy data
         self.multiGuiC.tagC.tagMultiList = self.simpleGuiC.tagC.tagMultiList
-        self.simpleGuiC.createModel()
+        #self.simpleGuiC.createModel()
         self.multiGuiC.createModel()
 
 
@@ -795,6 +819,7 @@ class TagGuiC(gtk.Window) :
     def __init__(self, parentW, multi, logC) :
         # window parameter
         self.mainWindow = parentW
+        self.treeview = None
 
         self.log = logC
         self.tagC = TagC(self.log)
@@ -827,16 +852,17 @@ class TagGuiC(gtk.Window) :
         self.createModel()
 
         # create tag treeview
-        treeview = gtk.TreeView(self.model)
-        treeview.set_rules_hint(True)
-        treeview = self.addCol(treeview)
+        self.treeview = gtk.TreeView(self.model)
+        self.treeview.set_rules_hint(True)
+        self.treeview = self.addCol(self.treeview)
+        self.treeview.expand_all()
 
-        treeselect = treeview.get_selection()
+        treeselect = self.treeview.get_selection()
         treeselect.set_mode(gtk.SELECTION_MULTIPLE)
         treeselect.connect('changed', self.onChanged)
 
         self.log.info(HEADER, "Out createTagTv")
-        return treeview
+        return self.treeview
 
 
     def createModel(self) :
@@ -937,6 +963,9 @@ class TagGuiC(gtk.Window) :
                             COL_ENABLE_VISIBLE, lvl2[COL_ENABLE_VISIBLE],
                             COL_ENABLE_ACTIVATABLE, lvl2[COL_ENABLE_ACTIVATABLE]
                         )
+
+        if self.treeview is not None :
+            self.treeview.expand_all()
 
         self.log.info(HEADER, "Out createModel")
 
@@ -1065,13 +1094,13 @@ class TagGuiC(gtk.Window) :
             # Disable
             # From True to False (as value is before clicking)
             if selEnable :
-                self.tagC.setEnOnMulti(selName, False)
+                self.tagC.setEnOnMulti(selName.decode('utf-8'), False)
                 model.set(iterSel, COL_ENABLE, False)
 
             # Enable
             # From False to True
             else :
-                self.tagC.setEnOnMulti(selName, True)
+                self.tagC.setEnOnMulti(selName.decode('utf-8'), True)
                 model.set(iterSel, COL_ENABLE, True)
 
         else :
@@ -1092,13 +1121,13 @@ class TagGuiC(gtk.Window) :
             # Disable
             # From True to False (as value is before clicking)
             if selEnable :
-                self.tagC.setSimpleTagEn(selTagN, False)
+                self.tagC.setSimpleTagEn(selTagN.decode('utf-8'), False)
                 model.set(iterSel, COL_ENABLE, False)
 
             # Enable
             # From False to True
             else :
-                self.tagC.setSimpleTagEn(selTagN, True)
+                self.tagC.setSimpleTagEn(selTagN.decode('utf-8'), True)
                 model.set(iterSel, COL_ENABLE, True)
 
         self.log.info(HEADER, "Out onToggledItem")
