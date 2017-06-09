@@ -72,10 +72,10 @@ lockFile = os.path.join(logDir, HEADER + ".lock")
 progIcon = os.path.join(homeDir, "Greg", "work", "config", "icons", "screensaverLink.png")
 imagesDir = os.path.join(homeDir, "Images")
 #imagesDir = os.path.join(homeDir, "Test")
-#imagesDir = "/home/greg/Images/Evènement/"
 linkDir = os.path.join(homeDir, "Screensaver")
 configDir = os.path.join(homeDir, "Greg", "work", "config", "screensaverLink")
 configName = "config.xml"
+#configName = "config_test.xml"
 configN = os.path.join(configDir, configName)
 
 
@@ -229,7 +229,7 @@ class TagC() :
 
 
     def isAlreadyInMultiTag(self, tagMulti) :
-        self.log.info(HEADER, "In  isAlreadyInMultiTag tagMulti="+str(tagMulti))
+        self.log.dbg("In  isAlreadyInMultiTag tagMulti="+str(tagMulti))
         found = False
 
         # Sort it
@@ -258,7 +258,7 @@ class TagC() :
                 found = True
                 break
 
-        self.log.info(HEADER, "Out isAlreadyInMultiTag found=" + str(found))
+        self.log.dbg("Out isAlreadyInMultiTag found=" + str(found))
         return found
 
 
@@ -481,6 +481,7 @@ class TagC() :
 
 
     def readTag(self, fileN) :
+        self.log.info(HEADER, "In  readTag file=" + str(fileN))
         im = Image.open(fileN)
         attr = True
         try :
@@ -531,7 +532,7 @@ class TagC() :
 
 
     def copyTags(self, tagsToCopy) :
-        self.log.info(HEADER, "In  copyTags")
+        self.log.info(HEADER, "In  copyTags tagsToCopy=" + str(tagsToCopy))
         
         # Create link
         tagMulti = list()
@@ -556,7 +557,6 @@ class TagC() :
 
 
     def createLinks(self) :
-        self.log.info(HEADER, "In  createLinks")
         # delete link directory
         if os.path.isdir(linkDir) :
             shutil.rmtree(linkDir)
@@ -581,7 +581,7 @@ class TagC() :
             installMulti = False
             #self.log.dbg("In  createLinks tagMultiList="+str(self.tagMultiList))
             for tagsEnM in self.tagMultiList :
-                matchFound = False
+                matchFoundOnce = False
                 #self.log.dbg("In  createLinks tagsEnM="+str(tagsEnM))
                 if tagsEnM[1] :
                     for tagM in tagsEnM[0] :
@@ -589,7 +589,7 @@ class TagC() :
                         # for enable, each tag must be present
                         if tagsList.__contains__(tagM[0]) :
                             #self.log.dbg("In  createLinks 1")
-                            matchFound = True
+                            matchFoundOnce = True
                             if tagM[1] :
                                 #self.log.dbg("In  createLinks 2")
                                 installMulti = True
@@ -598,12 +598,11 @@ class TagC() :
                                 installMulti = False
                         else :
                             #self.log.dbg("In  createLinks 4")
-                            matchFound = False
-                            installMulti = False
+                            matchFoundOnce = False
                             break
 
-                if matchFound :
-                    break
+                if matchFoundOnce :
+                    matchFound = True
 
             # installation priority
             install = False
@@ -617,7 +616,7 @@ class TagC() :
                 install = True
 
             # installation
-            self.log.dbg("In  createLinks install="+str(install))
+            #self.log.dbg("In  createLinks install="+str(install))
             if install :
                 curDir = os.getcwd()
                 os.chdir(linkDir)
@@ -627,11 +626,10 @@ class TagC() :
                 linkN = re.sub("/", "_", linkN)
                 linkN = re.sub("^_", "", linkN)
                 os.symlink(fileN, linkN)
-                self.log.dbg("In  createLinks file="+str(fileN)+" linkN="+str(linkN))
+                self.log.info(HEADER, "In  createLinks file="+str(fileN)+", link="+str(linkN))
         
                 os.chdir(curDir)
 
-        self.log.info(HEADER, "Out createLinks")
 
 
 
@@ -846,7 +844,7 @@ class TagGuiC(gtk.Window) :
 
 
     def createTagTv(self) :
-        self.log.info(HEADER, "In  createTagTv")
+        self.log.dbg("In  createTagTv")
 
         # create model
         self.createModel()
@@ -861,7 +859,7 @@ class TagGuiC(gtk.Window) :
         treeselect.set_mode(gtk.SELECTION_MULTIPLE)
         treeselect.connect('changed', self.onChanged)
 
-        self.log.info(HEADER, "Out createTagTv")
+        self.log.dbg("Out createTagTv")
         return self.treeview
 
 
@@ -971,7 +969,7 @@ class TagGuiC(gtk.Window) :
 
 
     def addCol(self, treeview) :
-        self.log.info(HEADER, "In  addCol")
+        self.log.dbg("In  addCol")
         model = treeview.get_model()
 
         # Column for tag's enable
@@ -994,7 +992,7 @@ class TagGuiC(gtk.Window) :
         column.set_clickable(False)
 
         treeview.append_column(column)
-        self.log.info(HEADER, "Out addCol")
+        self.log.dbg("Out addCol")
         return treeview
 
 
@@ -1035,7 +1033,6 @@ class TagGuiC(gtk.Window) :
     # each time selection changes, this function is called
     def onChanged(self, selection) :
         self.log.info(HEADER, "In  onChanged")
-
         model, rows = selection.get_selected_rows()
 
         self.selMulti = list()
@@ -1071,9 +1068,7 @@ class TagGuiC(gtk.Window) :
                 else :
                     self.mainWindow.copyBut.set_sensitive(False)
 
-            self.log.dbg("selMulti=" + str(self.selMulti))
-
-        self.log.info(HEADER, "Out onChanged")
+        self.log.info(HEADER, "Out onChanged selMulti=" + str(self.selMulti))
 
 
     # When user clicks on a box
