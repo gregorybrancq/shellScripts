@@ -578,7 +578,7 @@ class TagC() :
 
             # filter with multiple tags
             matchFound = False
-            installMulti = False
+            installMulti = None
             #self.log.dbg("In  createLinks tagMultiList="+str(self.tagMultiList))
             for tagsEnM in self.tagMultiList :
                 matchFoundOnce = False
@@ -592,7 +592,8 @@ class TagC() :
                             matchFoundOnce = True
                             if tagM[1] :
                                 #self.log.dbg("In  createLinks 2")
-                                installMulti = True
+                                if installMulti is None :
+                                    installMulti = True
                             else :
                                 #self.log.dbg("In  createLinks 3")
                                 installMulti = False
@@ -604,11 +605,12 @@ class TagC() :
                 if matchFoundOnce :
                     matchFound = True
 
-            # installation priority
-            install = False
             #self.log.dbg("In  createLinks matchFound="+str(matchFound))
             #self.log.dbg("In  createLinks installMulti="+str(installMulti))
             #self.log.dbg("In  createLinks installSimple="+str(installSimple))
+
+            # installation priority
+            install = False
             if matchFound :
                 if installMulti :
                     install = True
