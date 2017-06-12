@@ -73,6 +73,7 @@ progIcon = os.path.join(homeDir, "Greg", "work", "config", "icons", "screensaver
 imagesDir = os.path.join(homeDir, "Images")
 #imagesDir = os.path.join(homeDir, "Test")
 linkDir = os.path.join(homeDir, "Screensaver")
+#linkDir = os.path.join(homeDir, "Screensaver_test")
 configDir = os.path.join(homeDir, "Greg", "work", "config", "screensaverLink")
 configName = "config.xml"
 #configName = "config_test.xml"
@@ -562,6 +563,7 @@ class TagC() :
             shutil.rmtree(linkDir)
         os.makedirs(linkDir)
 
+        i=0
         for fileN in self.getFiles() :
             #self.log.dbg("In  createLinks fileN="+str(fileN))
             tagsList = self.getFileTagsL(fileN)
@@ -629,9 +631,11 @@ class TagC() :
                 linkN = re.sub("^_", "", linkN)
                 os.symlink(fileN, linkN)
                 self.log.info(HEADER, "In  createLinks file="+str(fileN)+", link="+str(linkN))
+                i += 1
         
                 os.chdir(curDir)
 
+        dialog_info("ScreenSaver Link", str(i) + " images ont été ajoutés.")
 
 
 
