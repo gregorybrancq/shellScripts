@@ -576,6 +576,8 @@ class TagC() :
                 if self.tagDict[tagN] :
                     #self.log.dbg("In  createLinks installSimple tagN="+str(tagN)+"  en="+str(self.tagDict[tagN]))
                     installSimple = True
+                else :
+                    installSimple = False
                     break
 
             # filter with multiple tags
