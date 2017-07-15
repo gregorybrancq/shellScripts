@@ -30,7 +30,7 @@ prgs="totem vlc mplayer rhythmbox"
 
 # Day & Hour
 beginDay=1
-endDay=5
+endDay=7
 beginHour=1
 endHour=6
 
