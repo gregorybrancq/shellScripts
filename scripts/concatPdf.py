@@ -140,7 +140,7 @@ def main() :
         log.exit("1", "No pdf file found\n")
 
     ## Convert them
-    log.debug("fileList="+str(fileList))
+    log.dbg("fileList="+str(fileList))
     concatFile(fileList)
 
     ## End dialog

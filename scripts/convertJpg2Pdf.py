@@ -141,26 +141,26 @@ def convertFile(fileList) :
 #    fileDest = str()
 #
 #    for (fileD, fileN, fileE) in fileList :
-#        log.debug("fileD=" + fileD + ", fileN=" + fileN + ", fileE=" + fileE)
+#        log.dbg("fileD=" + fileD + ", fileN=" + fileN + ", fileE=" + fileE)
 #        if (fileD_mem != fileD) :
-#            log.debug("fileD_mem=" + fileD_mem + ", fileD=" + fileD)
+#            log.dbg("fileD_mem=" + fileD_mem + ", fileD=" + fileD)
 #            if (fileD_mem == "unknown_directory") :
 #                fileD_mem = fileD
 #                fileL_str += fileN + fileE + " "
 #                fileDest = fileN
-#                log.debug("1 fileD_mem=" + fileD_mem + ", fileL_str=" + fileL_str)
+#                log.dbg("1 fileD_mem=" + fileD_mem + ", fileL_str=" + fileL_str)
 #            else :
-#                log.debug("5 fileL_str=" + fileL_str + ", fileDest=" + fileDest)
+#                log.dbg("5 fileL_str=" + fileL_str + ", fileDest=" + fileDest)
 #                changeAndConvert(fileD, fileL_str, fileDest)
 #
 #                fileD_mem = fileD
 #                fileL_str = fileN + fileE + " "
 #                fileDest = fileN
-#                log.debug("2 fileD_mem=" + fileD_mem + ", fileL_str=" + fileL_str)
+#                log.dbg("2 fileD_mem=" + fileD_mem + ", fileL_str=" + fileL_str)
 #        else :
 #            fileD_mem = fileD
 #            fileL_str += fileN + fileE + " "
-#            log.debug("3 fileD_mem=" + fileD_mem + ", fileL_str=" + fileL_str)
+#            log.dbg("3 fileD_mem=" + fileD_mem + ", fileL_str=" + fileL_str)
 #
 #    changeAndConvert(fileD, fileL_str, fileDest)
 #
@@ -201,7 +201,7 @@ def main() :
         log.exit("Convert JPG to PDF", "No image has been found\n")
 
     ## Convert them
-    log.debug("fileList="+str(fileList))
+    log.dbg("fileList="+str(fileList))
     convertFile(fileList)
 
     ## End dialog
