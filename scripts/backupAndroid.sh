@@ -169,7 +169,7 @@ check() {
     else
         grep "rsync error:" $logF
         if [ $? -eq 0 ]; then
-            error=`grep "error" $logF`
+            error=`grep "error" $logF | grep -iv "database" | grep -iv "waze"`
             zenity --info --text="Error !!!\n\nSee log file = $logF\n\nError detected = \n$error"
         else
             rsyncMsg=`grep "Number of " $logF`"\n\n"`grep "Total " $logF`
@@ -197,6 +197,7 @@ main() {
     if [ $? -eq 1 ]; then
         
         mount
+        zenity --info --text="Copying...\n\nBackup directory = $backupDir.\nLog file = $logF"
         sync
         umount
         check
