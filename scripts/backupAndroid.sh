@@ -24,7 +24,7 @@ idol3Name="Idol3"
 idol3Mtp="OneTouch Idol 3 small (MTP)"
 idol3Mount="/media/idol3"
 idol3Internal="Mémoire de stockage interne"
-#idol3SdCard="Carte SD"
+idol3SdCard="Carte SD"
 idol3Backup="$HOME/Backup/Idol3"
 
 # Global variables
@@ -82,7 +82,7 @@ detect() {
         mountDir=$idol3Mount
         backupDir=$idol3Backup
         srcDirInternal=$idol3Internal
-        #srcDirSdCard=$idol3SdCard
+        srcDirSdCard=$idol3SdCard
         echo "$androidName detected with bus=$busNum and dev=$devNum" |& tee -a $logF
         return 1
     fi
@@ -101,9 +101,9 @@ sync() {
     if [ "$srcDirInternal" != "" ]; then
         syncDir "$srcDirInternal"
     fi
-    #if [ "$srcDirSdCard" != "" ]; then
-    #    syncDir "$srcDirSdCard"
-    #fi
+    if [ "$srcDirSdCard" != "" ]; then
+        syncDir "$srcDirSdCard"
+    fi
 }
 
 
@@ -197,7 +197,6 @@ main() {
     if [ $? -eq 1 ]; then
         
         mount
-        zenity --info --text="Copying...\n\nBackup directory = $backupDir.\nLog file = $logF"
         sync
         umount
         check
