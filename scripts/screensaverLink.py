@@ -226,7 +226,7 @@ class TagC() :
         self.log.dbg("In  addSimpleTag tagN="+str(tagN)+" tagEn="+str(tagEn))
         tagEn = self.convertStrToBool(tagEn)
         self.setSimpleTagEn(tagN, tagEn)
-        self.log.dbg("In  addSimpleTag tagDict="+str(self.tagDict))
+        self.log.dbg("Out addSimpleTag tagDict="+str(self.tagDict))
 
 
     def isAlreadyInMultiTag(self, tagMulti) :
@@ -376,6 +376,10 @@ class TagC() :
             self.writeConfig()
 
         else :
+            # Initialize variables
+            self.tagDict = dict()
+            self.tagMultiList = list()
+
             # Open config file
             tree = ET.parse(configN).getroot()
 
@@ -834,6 +838,7 @@ class TagGuiC(gtk.Window) :
                             # true  = tag list right (multiple)
 
         self.memColEn = "current"
+        self.memColEnMulti = "current"
         self.selMulti = list()  # [lvl1, lvl2, enable] (single)
                                 # [tagName, tagEnable] (multiple)
 
@@ -871,6 +876,19 @@ class TagGuiC(gtk.Window) :
         return self.treeview
 
 
+    # Convert tag multi list to a special name (included with + and -)
+    def convertListToSpecialName(self, listToConvert) :
+        res = str()
+        for pattern in listToConvert :
+            if pattern[1] :
+                res += "+ "
+            else :
+                res += "- "
+            res += pattern[0] + " "
+        res = re.sub(" $", "", res)
+        return res
+
+
     def createModel(self) :
         self.log.info(HEADER, "In  createModel multi=" + str(self.multi))
         topLvl = list()
@@ -880,18 +898,12 @@ class TagGuiC(gtk.Window) :
         if self.multi :
             for tagsEnM in self.tagC.tagMultiList :
                 tagLinfo = list()
+
+                tagsName = self.convertListToSpecialName(tagsEnM[0])
                 tagEn = tagsEnM[1]
-                tagName = str()
-                for tagM in tagsEnM[0] :
-                    if tagM[1] :
-                        tagName += "+ "
-                    else :
-                        tagName += "- "
-                    tagName += tagM[0] + " "
-                tagName = re.sub(" $", "", tagName)
 
                 # name
-                tagLinfo.append(tagName)
+                tagLinfo.append(tagsName)
                 # enable
                 tagLinfo.append(tagEn)
                 # visible
@@ -1006,31 +1018,44 @@ class TagGuiC(gtk.Window) :
 
     # When the user clicks on the column "enable"
     def onColEnable(self, cell, model) :
-        self.log.info(HEADER, "In  onColEnable")
-
-        if self.memColEn == "all" :
-            self.memColEn = "none"
-        elif self.memColEn == "none" :
-            self.memColEn = "current"
-        elif self.memColEn == "current" :
-            self.memColEn = "all"
-
         if self.multi :
-            for tagN in self.tagC.getSimpleTags() :
-                if self.memColEn == "all" :
-                    self.tagC.setEnOnMulti(tagN, True)
-                elif self.memColEn == "none" :
-                    self.tagC.setEnOnMulti(tagN, False)
-                elif self.memColEn == "current" :
-                    self.tagC.readConfig()
+            self.log.info(HEADER, "In  onColEnable memColEnMulti=" + str(self.memColEnMulti))
+
+            if self.memColEnMulti == "all" :
+                self.memColEnMulti = "none"
+            elif self.memColEnMulti == "none" :
+                self.memColEnMulti = "current"
+            elif self.memColEnMulti == "current" :
+                self.memColEnMulti = "all"
+
+            if self.memColEnMulti == "current" :
+                self.tagC.readConfig()
+            else :
+                for tagsEnM in self.tagC.tagMultiList :
+                    tagsName = self.convertListToSpecialName(tagsEnM[0])
+                    if self.memColEnMulti == "all" :
+                        self.tagC.setEnOnMulti(tagsName, True)
+                    elif self.memColEnMulti == "none" :
+                        self.tagC.setEnOnMulti(tagsName, False)
+
         else :
-            for tagN in self.tagC.getSimpleTags() :
-                if self.memColEn == "all" :
-                    self.tagC.setSimpleTagEn(tagN, True)
-                elif self.memColEn == "none" :
-                    self.tagC.setSimpleTagEn(tagN, False)
-                elif self.memColEn == "current" :
-                    self.tagC.readConfig()
+            self.log.info(HEADER, "In  onColEnable memColEn=" + str(self.memColEn))
+
+            if self.memColEn == "all" :
+                self.memColEn = "none"
+            elif self.memColEn == "none" :
+                self.memColEn = "current"
+            elif self.memColEn == "current" :
+                self.memColEn = "all"
+
+            if self.memColEn == "current" :
+                self.tagC.readConfig()
+            else :
+                for tagN in self.tagC.getSimpleTags() :
+                    if self.memColEn == "all" :
+                        self.tagC.setSimpleTagEn(tagN, True)
+                    elif self.memColEn == "none" :
+                        self.tagC.setSimpleTagEn(tagN, False)
 
         # update model
         self.createModel()
