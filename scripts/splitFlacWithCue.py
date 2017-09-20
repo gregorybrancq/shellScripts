@@ -99,14 +99,14 @@ def splitFlac(fileList) :
         fileFlacN = file1N
         fileFlacE = file1E
     else :
-        dialog_error("Split Flac with Cue", "\nThe 2 files must be flac AND cue.\n")
+        MessageDialog(type_='error', title="Split Flac with Cue", message="\nThe 2 files must be flac AND cue.\n").run()
 
     log.info(HEADER, "In  splitFlac fileCue=" + os.path.join(fileCueD, fileCueN + fileCueE))
     log.info(HEADER, "In  splitFlac fileFlac=" + os.path.join(fileFlacD, fileFlacN + fileFlacE))
     fileFlac = os.path.join(fileFlacD, fileFlacN + fileFlacE)
 
     if (fileFlacD != fileCueD) :
-        dialog_error("Split Flac with Cue", "\nThe 2 files flac and cue mus be in the same directory.\n")
+        MessageDialog(type_='error', title="Split Flac with Cue", message="\nThe 2 files flac and cue must be in the same directory.\n").run()
 
     if (fileFlacD != "") :
         os.chdir(fileFlacD)
@@ -159,9 +159,9 @@ def main() :
 
     ## Verify if there is at least one file to convert
     if (len(fileList) == 0) :
-        dialog_error("Split Flac with Cue", "\nNo flac and cue file have been found\n")
+        MessageDialog(type_='error', title="Split Flac with Cue", message="\nNo flac and cue file have been found\n").run()
     elif (len(fileList) != 2) :
-        dialog_error("Split Flac with Cue", "\nOnly 2 files are allowed = flac and cue\n")
+        MessageDialog(type_='error', title="Split Flac with Cue", message="\nOnly 2 files are allowed = flac and cue\n").run()
 
     log.info(HEADER, "In  main filelist = " + str(len(fileList)))
 
@@ -169,7 +169,7 @@ def main() :
     splitFlac(fileList)
 
     ## End dialog
-    dialog_end(warnC, errC, logFile, "Convert images", "\nJob fini : " + str(fileFlac) + " splitted.")
+    MessageDialogEnd(warnC, errC, logFile, "Convert images", "\nJob fini : " + str(fileFlac) + " splitted.")
     
     log.info(HEADER, "Out main")
 

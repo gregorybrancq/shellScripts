@@ -14,6 +14,17 @@ import time
 import datetime
 import random
 
+# use for graphical interface
+try :
+    import pygtk
+    pygtk.require('2.0')
+except ImportError as e:
+    sys.exit("Issue with PyGTK.\n" + str(e))
+try :
+    import gtk
+except (RuntimeError, ImportError) as e:
+    sys.exit("Issue with GTK.\n" + str(e))
+
 
 
 ###############################################
@@ -59,7 +70,7 @@ class LOGC(object):
         self.debug = False
         if self.gui :
             mes = "ERROR " + self.progName + " :   Exit code " + str(item) + "\n" + str(msg) + "\n"
-            dialog_error("ERROR " + self.progName + " code " + str(item), msg)
+            MessageDialog(type_='error', title="ERROR " + self.progName + " code " + str(item), message=msg).run()
         else :
             mes = "  ERROR " + self.progName + " :   Exit code " + str(item) + "\n" + color_error + str(msg) + color_reset + "\n"
         self.writeLog(mes)
@@ -68,81 +79,50 @@ class LOGC(object):
 
 
 
+
 ###############################################
-###############################################
-##                  GUI                      ##
-###############################################
+## Message Dialog Class
 ###############################################
 
-## Dialog GUI
-def dialog_info(title,msg) :
-    # use for graphical interface
-    import gobject
-    import gtk
-    import pygtk
-    pygtk.require('2.0')
-    gtk.gdk.threads_init()
+"""Shows a message. The message type, title and the message to be
+displayed can be passed when initializing the class."""
 
-    dialog = gtk.MessageDialog(None,
-        gtk.DIALOG_MODAL,
-        gtk.MESSAGE_INFO,
-        gtk.BUTTONS_CLOSE,
-        msg)                            
-    dialog.set_title(title)
-    dialog.run()
-    dialog.destroy()
+class MessageDialog(object):
+    """Shows a message. The message type, title and the message to be
+    displayed can be passed when initializing the class."""
 
+    def __init__(self, type_, title, message):
+        if type_ == 'error':
+            self.dialog = gtk.MessageDialog(
+                    type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_CLOSE)
+        elif type_ == 'info':
+            self.dialog = gtk.MessageDialog(
+                    type=gtk.MESSAGE_INFO, buttons=gtk.BUTTONS_CLOSE)
+        elif type_ == 'question':
+            self.dialog = gtk.MessageDialog(
+                    type=gtk.MESSAGE_QUESTION, buttons=gtk.BUTTONS_YES_NO)
+        self.dialog.set_title(title)
+        self.dialog.set_markup(message)
+        self.dialog.show_all()
 
-def dialog_error(title,msg) :
-    # use for graphical interface
-    import gobject
-    import gtk
-    import pygtk
-    pygtk.require('2.0')
-    gtk.gdk.threads_init()
+    def run(self):
+        """Runs the dialog and closes it afterwards."""
+        response = self.dialog.run()
+        self.dialog.hide()
+        return response
 
-    dialog = gtk.MessageDialog(None,
-        gtk.DIALOG_MODAL,
-        gtk.MESSAGE_ERROR,
-        gtk.BUTTONS_CLOSE,
-        msg)
-    dialog.set_title(title)
-    dialog.run()
-    dialog.destroy()
-
-
-def dialog_ask(title,msg) :
-    # use for graphical interface
-    import gobject
-    import gtk
-    import pygtk
-    pygtk.require('2.0')
-    gtk.gdk.threads_init()
-
-    dialog = gtk.MessageDialog(None,
-        gtk.DIALOG_MODAL,
-        gtk.MESSAGE_QUESTION,
-        gtk.BUTTONS_YES_NO,
-        msg)
-    dialog.set_title(title)
-    dialog.set_default_response(gtk.RESPONSE_YES)
-    question = dialog.run()
-    dialog.destroy()
-    if (question == gtk.RESPONSE_YES) :
-        return True
-    return False
 
 ## End dialog
-def dialog_end(warnC,errC,logFile,title,msg) :
+def MessageDialogEnd(warnC, errC, logFile, title, msg) :
     if (errC != 0) :
         msg += "\nError = " + str(errC)
         msg += "\nLog file = " + str(logFile)
-        dialog_error(title, msg)
+        MessageDialog(type_='error', title=title, message=msg).run()
     else :
         if (warnC != 0) :
             msg += "\nWarning = " + str(warnC)
         msg += "\n\nLog file = " + str(logFile)
-        dialog_info(title, msg)
+        MessageDialog(type_='info', title=title, message=msg).run()
 
 ###############################################
 

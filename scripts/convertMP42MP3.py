@@ -128,7 +128,7 @@ def main() :
 
     ## Verify if there is at least one file to convert
     if (len(fileList) == 0) :
-        dialog_error("Convert MP4 files", "\nNo video has been found\n")
+        MessageDialog(type_='error', title="Convert MP4 files", message="\nNo video has been found\n").run()
     else :
         log.info(HEADER, "In  main videos to convert = " + str(len(fileList)))
 
@@ -136,7 +136,7 @@ def main() :
     convertFile(fileList)
 
     ## End dialog
-    dialog_end(warnC, errC, logFile, "Convert video", "\nJob fini : " + str(len(fileList)) + " video converties.")
+    MessageDialogEnd(warnC, errC, logFile, "Convert video", "\nJob fini : " + str(len(fileList)) + " video converties.")
     
     log.info(HEADER, "Out main")
 

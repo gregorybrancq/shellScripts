@@ -160,7 +160,7 @@ def main() :
     convert(pdfList)
 
     ## End dialog
-    dialog_end(warnC, errC, logFile, "Convert Kobo", "\nJob fini : " + str(len(pdfList)) + " livres convertis.\nLivre : " + str(pdfList) + ".")
+    MessageDialogEnd(warnC, errC, logFile, "Convert Kobo", "\nJob fini : " + str(len(pdfList)) + " livres convertis.\nLivre : " + str(pdfList) + ".")
     
     log.info(HEADER, "Out main")
 

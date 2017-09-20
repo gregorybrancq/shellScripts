@@ -87,7 +87,7 @@ def unpack(movieList) :
     #    title = "Convert this file?"
     #for (movieD, movieN, movieE) in movieList :
     #    movietoConvert += os.path.join(movieD, movieN + movieE) + "\n"
-    #question = dialog_ask(title, movietoConvert)
+    #question = MessageDialog(type_='question', title=title, message=movietoConvert).run()
 
     #if question :
     for (movieD, movieN, movieE) in movieList :
@@ -159,7 +159,7 @@ def main() :
     unpack(movieList)
 
     ## End dialog
-    dialog_end(warnC, errC, logFile, "Unpack movies", "\nJob fini : " + str(len(movieList)) + " films convertis.")
+    MessageDialogEnd(warnC, errC, logFile, "Unpack movies", "\nJob fini : " + str(len(movieList)) + " films convertis.")
     
     ## Remove lock file
     remove_lock_file(lockFile)

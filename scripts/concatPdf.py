@@ -144,7 +144,7 @@ def main() :
     concatFile(fileList)
 
     ## End dialog
-    dialog_end(warnC, errC, logFile, "Concat PDF files", "\nJob fini.")
+    MessageDialogEnd(warnC, errC, logFile, "Concat PDF files", "\nJob fini.")
 
     log.info(HEADER, "Out main")
 

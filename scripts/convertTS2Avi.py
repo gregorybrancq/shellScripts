@@ -128,7 +128,7 @@ def main() :
 
     ## Verify if there is at least one video to convert
     if (len(fileList) == 0) :
-        dialog_error("Convert M2TS files", "\nNo video has been found\n")
+        MessageDialog(type_='error', title="Convert M2TS files", message="\nNo video has been found\n").run()
     else :
         log.info(HEADER, "In  main videos to convert = " + str(len(fileList)))
 
@@ -136,7 +136,7 @@ def main() :
     convertFile(fileList)
 
     ## End dialog
-    dialog_end(warnC, errC, logFile, "Convert images", "\nJob fini : " + str(len(fileList)) + " video converties.")
+    MessageDialogEnd(warnC, errC, logFile, "Convert images", "\nJob fini : " + str(len(fileList)) + " video converties.")
 
     log.info(HEADER, "Out main")
 

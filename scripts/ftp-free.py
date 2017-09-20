@@ -81,14 +81,14 @@ def main() :
     log.info(HEADER, "In  main args=" + str(args))
 
     if args.__len__() != 1 :
-        dialog_error("Send File to DL Free", "Only 1 file supported")
+        MessageDialog(type_='error', title="Send File to DL Free", message="Only 1 file supported").run()
         sys.exit(-1)
 
     fileN = ""
     if (os.path.isfile(args[0])) :
         fileN = args[0]
     else :
-        dialog_error("Send File to DL Free", args[0] + " is not a file")
+        MessageDialog(type_='error', title="Send File to DL Free", message=args[0] + " is not a file").run()
         sys.exit(-1)
 
     ## Launch the ftp free program
@@ -111,9 +111,9 @@ def main() :
         msg += "    " + re.findall("URL pour suppression du fichier : (.*)", out)[0] + "\n"
     
     if (err != "") :
-        dialog_error("Send File to DL Free", msg)
+        MessageDialog(type_='error', title="Send File to DL Free", message=msg).run()
     else :
-        dialog_info("Send File to DL Free", msg)
+        MessageDialog(type_='info', title="Send File to DL Free", message=msg).run()
 
     ## Send email
     log.info(HEADER, "In  main send mail")

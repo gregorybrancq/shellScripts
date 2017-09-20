@@ -141,7 +141,7 @@ def main() :
     splitFile(fileList)
 
     ## End dialog
-    dialog_end(warnC, errC, logFile, "Split PDF files", "\nJob fini.")
+    MessageDialogEnd(warnC, errC, logFile, "Split PDF files", "\nJob fini.")
     
     log.info(HEADER, "Out main")
 

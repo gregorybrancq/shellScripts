@@ -144,7 +144,7 @@ def main() :
 
     ## Verify if there is at least one photo to reducePdfWeight
     if (len(fileList) == 0) :
-        dialog_error("Reduce PDF weight", "\nNo pdf file has been found\n")
+        MessageDialog(type_='error', title="Reduce PDF weight", message="\nNo pdf file has been found\n").run()
     else :
         log.info(HEADER, "In  main reduce pdf weight = " + str(len(fileList)))
 
@@ -152,7 +152,7 @@ def main() :
     reduceWeight(fileList)
 
     ## End dialog
-    dialog_end(warnC, errC, logFile, "Reduce PDF weight", "\nJob fini : " + str(len(fileList)) + " pdf reduced.")
+    MessageDialogEnd(warnC, errC, logFile, "Reduce PDF weight", "\nJob fini : " + str(len(fileList)) + " pdf reduced.")
     
     log.info(HEADER, "Out main")
 

@@ -128,7 +128,7 @@ def main() :
 
     ## Verify if there is at least one file to convert
     if (len(fileList) == 0) :
-        dialog_error("Convert images", "\nNo image has been found\n")
+        MessageDialog(type_='error', title="Convert images", message="\nNo image has been found\n").run()
     else :
         log.info(HEADER, "In  main images to convert = " + str(len(fileList)))
 
@@ -136,7 +136,7 @@ def main() :
     convertFile(fileList)
 
     ## End dialog
-    dialog_end(warnC, errC, logFile, "Convert images", "\nJob fini : " + str(len(fileList)) + " images converties.")
+    MessageDialogEnd(warnC, errC, logFile, "Convert images", "\nJob fini : " + str(len(fileList)) + " images converties.")
     
     log.info(HEADER, "Out main")
 

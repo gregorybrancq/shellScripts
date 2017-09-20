@@ -126,7 +126,7 @@ def main() :
 
     ## Verify if there is at least one photo to unpack
     if (len(photoList) == 0) :
-        dialog_error("Pivoter les images", "\nNo photo has been found\n")
+        MessageDialog(type_='error', title="Pivoter les images", message="\nNo photo has been found\n").run()
     else :
         log.info(HEADER, "In  main photo to convert = " + str(len(photoList)))
 
@@ -134,7 +134,7 @@ def main() :
     exifConvert(photoList)
 
     ## End dialog
-    dialog_end(warnC, errC, logFile, "Pivoter les images", "\nJob fini : " + str(len(photoList)) + " images converties.")
+    MessageDialogEnd(warnC, errC, logFile, "Pivoter les images", "\nJob fini : " + str(len(photoList)) + " images converties.")
     
     log.info(HEADER, "Out main")
 

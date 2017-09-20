@@ -205,7 +205,7 @@ def main() :
     cleanFiles(fileListConvert, firstN, outputN)
 
     ## End dialog
-    dialog_end(warnC, errC, logFile, "Convert images", "\nJob fini.")
+    MessageDialogEnd(warnC, errC, logFile, "Convert images", "\nJob fini.")
     
     log.info(HEADER, "Out main")
 
