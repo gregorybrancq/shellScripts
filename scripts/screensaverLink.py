@@ -70,13 +70,23 @@ logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 lockFile = os.path.join(logDir, HEADER + ".lock")
 
 progIcon = os.path.join(homeDir, "Greg", "work", "config", "icons", "screensaverLink.png")
+
+# Minimum parameters for each image to be installed
+minWidth  = 800
+minHeight = 800
+
+## Official
 imagesDir = os.path.join(homeDir, "Images")
-#imagesDir = os.path.join(homeDir, "Greg", "work", "config", "screensaverLink", "Test")
 linkDir = os.path.join(homeDir, "Screensaver")
-#linkDir = os.path.join(homeDir, "Screensaver_test")
 configDir = os.path.join(homeDir, "Greg", "work", "config", "screensaverLink")
 configName = "config.xml"
+
+## Test
+#imagesDir = os.path.join(homeDir, "Greg", "work", "config", "screensaverLink", "Test")
+#linkDir = os.path.join(homeDir, "Screensaver_test")
+#configDir = os.path.join(homeDir, "Greg", "work", "config", "screensaverLink")
 #configName = "config_test.xml"
+
 configN = os.path.join(configDir, configName)
 
 
@@ -495,7 +505,13 @@ class TagC() :
             self.log.warn(HEADER, "In  readTag file="+str(fileN)+" has no tags")
             attr = False
         
-        if attr :
+        good = True
+        (width, height) = im.size
+        if (width < minWidth) or (height < minHeight) :
+            self.log.warn(HEADER, "In  readTag size of file="+str(fileN)+" is too small (width = " + str(width) + ", height = " + str(height)+ ").")
+            good = False
+
+        if attr and good :
             for segment, content in imL :
                 try :
                     marker, body = content.split('\x00', 1)
@@ -641,7 +657,9 @@ class TagC() :
         
                 os.chdir(curDir)
 
-        dialog_info("ScreenSaver Link", str(i) + " images ont été ajoutés.")
+        MessageDialog(type_='info', title="ScreenSaver Link", message=str(i) + " images ont été ajoutés.").run()
+
+###############################################
 
 
 
@@ -649,6 +667,11 @@ class TagC() :
 
 
 
+###############################################
+###############################################
+##                  CLASS                    ##
+###############################################
+###############################################
 
 class GuiC(gtk.Window) :
 
