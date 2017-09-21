@@ -40,6 +40,7 @@ from gtk import RESPONSE_YES, RESPONSE_NO
 import os, os.path
 import re
 import shutil
+import copy
 from optparse import OptionParser
 
 # tags for image
@@ -174,8 +175,8 @@ class TagC() :
         i = 1
         for tagsEnM in self.tagMultiList :
             res += "Tags " + str(i) + " enable=" + str(tagsEnM[1])  + "\n  "
-            for tagM in tagsEnM[0] :
-                res += str(tagM[0]) + " : " + str(tagM[1]) + ", "
+            for tagEnM in tagsEnM[0] :
+                res += str(tagEnM[0]) + " : " + str(tagEnM[1]) + ", "
             res += "\n"
             i += 1
         res += "\n\n"
@@ -538,7 +539,15 @@ class TagC() :
 
     def scanTags(self) :
         self.log.info(HEADER, "In  scanTags")
+
+        # Keep simple tag config backup
+        oldTagDict = copy.deepcopy(self.tagDict)
+
+        # Initialize
+        self.tagDict = dict()
         self.fileDict = dict()
+
+        # For all images
         if os.path.isdir(imagesDir) :
             for dirpath, dirnames, filenames in os.walk(imagesDir) :  # @UnusedVariable
                 self.log.dbg("In  scanTags dirpath="+str(dirpath)+" dirnames="+str(dirnames)+" filenames="+str(filenames))
@@ -549,6 +558,32 @@ class TagC() :
                         if extAuth.__contains__(extN) :
                             fileWithPath = os.path.join(dirpath, filename)
                             self.readTag(fileWithPath)
+
+        # Set the precedent config for simple tags
+        for oldTagN in oldTagDict.keys() :
+            if self.tagDict.has_key(oldTagN) :
+                self.setSimpleTagEn(oldTagN, oldTagDict[oldTagN])
+            
+        # Check if tag exists for all multi tags
+        #print "GBR 1\n" + str(self)
+        #removeIt = False
+        #for tagsEnM in self.tagMultiList :
+        #    newTagsEnM = list()
+        #    removeIt = list()
+        #    for tagEnM in tagsEnM[0] :
+        #        if not removeIt :
+        #            for tagEnM in removeIt :
+        #                self.tagMultiList[tagsEnM].remove[
+        #        if not self.tagDict.has_key(tagEnM[0]) :
+        #            removeIt.append([tagEnM[0], tagEnM[1]])
+
+        #    if removeIt :
+        #        self.tagMultiList.remove(tagsEnM)
+        #print "GBR 2\n" + str(self)
+
+            
+        
+
         self.log.info(HEADER, "Out scanTags")
 
 
