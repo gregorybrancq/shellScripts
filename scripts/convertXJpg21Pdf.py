@@ -193,15 +193,15 @@ def main() :
         log.exit("Convert X JPG to 1 PDF", "No image has been found\n")
 
     ## Convert them
-    log.log("fileList="+str(fileList))
+    log.dbg("fileList="+str(fileList))
     fileListConvert = convertFile(fileList)
 
     ## Concat them
-    log.log("fileListConvert="+str(fileListConvert))
+    log.dbg("fileListConvert="+str(fileListConvert))
     (firstN, outputN) = concatFile(fileListConvert)
 
     ## Delete intermediary files
-    log.log("fileListConvert="+str(fileListConvert))
+    log.dbg("fileListConvert="+str(fileListConvert))
     cleanFiles(fileListConvert, firstN, outputN)
 
     ## End dialog
