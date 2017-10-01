@@ -31,7 +31,7 @@ prgs="totem vlc mplayer rhythmbox"
 # Day & Hour
 beginDay=1
 endDay=7
-beginHour=1
+beginHour=0
 endHour=6
 
 if [ $logE -eq 1 ]; then
@@ -110,6 +110,7 @@ checkDateHour() {
         return 0
     fi
 }
+
 
 killPrgs() {
     if [ $logE -eq 1 ]; then
