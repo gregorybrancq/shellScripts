@@ -2,7 +2,7 @@
 
 #
 # Run through gnome-schedule
-#   - 5 workdays from 1h to 6h.
+#   - 5 workdays from 23h45 to 6h.
 #
 # Functionalities :
 #   - Kill mplayer and vlc
@@ -13,7 +13,7 @@ progName=$(basename "$0")
 
 # Log file
 logE=0
-logF="$HOME/Greg/work/env/log/$progName_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
+logF="$HOME/Greg/work/env/log/${progName}_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
 
 # Enable
 progEnable=1
@@ -28,11 +28,19 @@ mouseId=9
 # Programs list
 prgs="totem vlc mplayer rhythmbox"
 
-# Day & Hour
+# Sleep Interval (in min)
+sleepInterval="5"
+
+# Day, Hour, Min
 beginDay=1
 endDay=7
-beginHour=0
-endHour=6
+# Hour & Min, 
+# must not be the same number !
+beginTime="2345"
+endTime="0600"
+
+# defined time to unlock (endTime + 3xslepInterval)
+endExtraTime=`expr $endTime + 3 * $sleepInterval`
 
 if [ $logE -eq 1 ]; then
     echo " Main script $progName\n" > $logF
@@ -83,30 +91,46 @@ done
 # will return 1 if it's in the interval
 # will return 2 during one hour after the interval (to unlock)
 checkDateHour() {
-    day=`date +%u`
-    hour=`date +%H`
-    min=`date +%M`
+    curDay=`date +%u`
+    curTime=$(date +"%H%M" | bc)
+
     if [ $logE -eq 1 ]; then
         echo "`date`" >> $logF
-        echo "Day=$day Hour=$hour Min=$min" >> $logF
+        echo "Day=$curDay Time=$curTime" >> $logF
     fi
 
-    beginDayTmp=`expr $beginDay - 1`
-    endDayTmp=`expr $endDay + 1`
-    beginHourTmp=`expr $beginHour - 1`
-    if [ $logE -eq 1 ]; then
-        echo "beginDay=$beginDayTmp endDay=$endDayTmp beginHour=$beginHourTmp endHour=$endHour" >> $logF
-    fi
-
-    if [ $day -gt $beginDayTmp ] && [ $day -lt $endDayTmp ]; then
-        if [ $hour -gt $beginHourTmp ] && [ $hour -lt $endHour ]; then
-            return 1
-        elif [ $hour -eq $endHour ]; then
-            return 2
+    inInter=0
+    afterInter=0
+    if [ $curDay -ge $beginDay ] && [ $curDay -le $endDay ]; then
+        if [ $beginTime -le $endTime ]; then
+            if [ $curTime -ge $beginTime ] && [ $curTime -le $endTime ]; then
+                inInter=1
+            elif [ $curTime -ge $beginTime ] && [ $curTime -le $endExtraTime ]; then
+                afterInter=1
+            fi
         else
-            return 0
+            if [ $curTime -ge $beginTime ] || [ $curTime -le $endTime ]; then
+                inInter=1
+            elif [ $curTime -ge $beginTime ] || [ $curTime -le $endExtraTime ]; then
+                afterInter=1
+            fi
         fi
+    fi
+
+    if [ $inInter -eq 1 ]; then
+        if [ $logE -eq 1 ]; then
+            echo "In interval begin=$beginTime < curTime=$curTime < endTime=$endTime" >> $logF
+        fi
+        return 1
+    elif [ $afterInter -eq 1 ]; then
+        if [ $logE -eq 1 ]; then
+            echo "After interval begin=$beginTime < curTime=$curTime < endExtraTime=$endExtraTime" >> $logF
+        fi
+        return 2
     else
+        if [ $logE -eq 1 ]; then
+            echo "Out interval curTime=$curTime, begin=$beginTime < endTime=$endTime" >> $logF
+        fi
         return 0
     fi
 }
@@ -167,45 +191,47 @@ unblockKbMouse() {
 
 if [ $progEnable -eq 1 ]; then
 
-    # Check if the date/hour allows to execute
-    checkDateHour
-    varDH=$?
-    if [ $logE -eq 1 ]; then
-        echo "varDH = $varDH" >> $logF
-    fi
+    while [ 1 ]
+    do
 
-    if [ $block -eq 1 ]; then
+        # Check if the date/hour allows to execute
+        checkDateHour
+        varDH=$?
         if [ $logE -eq 1 ]; then
-            echo "Block" >> $logF
+            echo "varDH = $varDH" >> $logF
         fi
 
-        # Block keyboard and mouse
-        blockKbMouse
+        if [ $block -eq 1 ]; then
+            if [ $logE -eq 1 ]; then
+                echo "Block" >> $logF
+            fi
 
-    elif [ $varDH -eq 2 ] || [ $unblock -eq 1 ]; then
-        if [ $logE -eq 1 ]; then
-            echo "Unblock" >> $logF
+            # Block keyboard and mouse
+            blockKbMouse
+
+        elif [ $varDH -eq 2 ] || [ $unblock -eq 1 ]; then
+            if [ $logE -eq 1 ]; then
+                echo "Unblock" >> $logF
+            fi
+
+            # Unblock keyboard and mouse
+            unblockKbMouse
+
+        elif [ $varDH -eq 1 ]; then
+            if [ $logE -eq 1 ]; then
+                echo "Kill and block" >> $logF
+            fi
+
+            # Kill the different programs
+            killPrgs
+
+            # Block keyboard and mouse
+            blockKbMouse
+
         fi
 
-        # Unblock keyboard and mouse
-        unblockKbMouse
+        sleep ${sleepInterval}m
 
-    elif [ $varDH -eq 1 ]; then
-        if [ $logE -eq 1 ]; then
-            echo "Kill and block" >> $logF
-        fi
-
-        # Kill the different programs
-        killPrgs
-
-        # Block keyboard and mouse
-        blockKbMouse
-
-    else
-        if [ $logE -eq 1 ]; then
-            echo "Do nothing" >> $logF
-        fi
-
-    fi
+    done
 fi
 
