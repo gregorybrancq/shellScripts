@@ -559,10 +559,12 @@ class TagC() :
                             fileWithPath = os.path.join(dirpath, filename)
                             self.readTag(fileWithPath)
 
+        self.log.dbg("GBR 1\n" + str(self))
         # Set the precedent config for simple tags
         for oldTagN in oldTagDict.keys() :
             if self.tagDict.has_key(oldTagN) :
                 self.setSimpleTagEn(oldTagN, oldTagDict[oldTagN])
+        self.log.dbg("GBR 2\n" + str(self))
             
         # Check if tag exists for all multi tags
         #print "GBR 1\n" + str(self)
@@ -863,12 +865,10 @@ class GuiC(gtk.Window) :
 
     def onDelete(self, button=None) :
         self.multiGuiC.onDelTags()
-        self.multiGuiC.createModel()
 
 
     def onScan(self, button=None) :
         self.simpleGuiC.onScanTags()
-        self.simpleGuiC.createModel()
 
 
     def onExecute(self, button=None) :
@@ -1227,11 +1227,13 @@ class TagGuiC(gtk.Window) :
     # Delete multiple tags
     def onDelTags(self) :
         self.tagC.delTags(self.selMulti)
+        self.createModel()
 
 
     # Create multiple tags
     def onScanTags(self) :
         self.tagC.scanTags()
+        self.createModel()
 
 
     # Create links
