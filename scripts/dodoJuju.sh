@@ -5,7 +5,7 @@
 #   - 5 workdays from 23h45 to 6h.
 #
 # Functionalities :
-#   - Kill mplayer and vlc
+#   - Kill programs
 #   - Blocks keyboard and mouse
 # 
 
@@ -26,21 +26,22 @@ keyboardId=10
 mouseId=9
 
 # Programs list
-prgs="totem vlc mplayer rhythmbox"
+prgs="totem vlc mplayer smplayer rhythmbox"
 
 # Sleep Interval (in min)
 sleepInterval="5"
 
 # Day, Hour, Min
 beginDay=1
-endDay=7
+endDay=5
+beginWeek=6
+endWeek=7
 # Hour & Min, 
 # must not be the same number !
-beginTime="2345"
-endTime="0600"
-
-# defined time to unlock (endTime + 3xslepInterval)
-endExtraTime=`expr $endTime + 3 * $sleepInterval`
+beginDayTime="2345"
+endDayTime="0600"
+beginWeekTime="0100"
+endWeekTime="0700"
 
 if [ $logE -eq 1 ]; then
     echo " Main script $progName\n" > $logF
@@ -90,7 +91,7 @@ done
 # will return 0 if it's not in the interval
 # will return 1 if it's in the interval
 # will return 2 during one hour after the interval (to unlock)
-checkDateHour() {
+checkDayHour() {
     curDay=`date +%u`
     curTime=$(date +"%H%M" | bc)
 
@@ -99,9 +100,35 @@ checkDateHour() {
         echo "Day=$curDay Time=$curTime" >> $logF
     fi
 
+    # Check day
+    inDay=0
+    if [ $curDay -ge $beginDay ] && [ $curDay -le $endDay ]; then
+        inDay=1
+
+        # defined good time
+        beginTime=$beginDayTime
+        endTime=$endDayTime
+
+        # defined time to unlock (endTime + 3xslepInterval)
+        endExtraTime=`expr $endDayTime + 3 * $sleepInterval`
+
+    elif [ $curDay -ge $beginWeek ] && [ $curDay -le $endWeek ]; then
+        inDay=1
+
+        # defined good time
+        beginTime=$beginWeekTime
+        endTime=$endWeekTime
+
+        # defined time to unlock (endWeekTime + 3xslepInterval)
+        endExtraTime=`expr $endWeekTime + 3 * $sleepInterval`
+
+    fi
+
+    # Check hour
     inInter=0
     afterInter=0
-    if [ $curDay -ge $beginDay ] && [ $curDay -le $endDay ]; then
+    if [ $inDay -eq 1 ]; then
+
         if [ $beginTime -le $endTime ]; then
             if [ $curTime -ge $beginTime ] && [ $curTime -le $endTime ]; then
                 inInter=1
@@ -115,21 +142,23 @@ checkDateHour() {
                 afterInter=1
             fi
         fi
+
     fi
 
+    # Compute
     if [ $inInter -eq 1 ]; then
         if [ $logE -eq 1 ]; then
-            echo "In interval begin=$beginTime < curTime=$curTime < endTime=$endTime" >> $logF
+            echo "In interval beginTime=$beginTime < curTime=$curTime < endTime=$endTime" >> $logF
         fi
         return 1
     elif [ $afterInter -eq 1 ]; then
         if [ $logE -eq 1 ]; then
-            echo "After interval begin=$beginTime < curTime=$curTime < endExtraTime=$endExtraTime" >> $logF
+            echo "After interval beginTime=$beginTime < curTime=$curTime < endExtraTime=$endExtraTime" >> $logF
         fi
         return 2
     else
         if [ $logE -eq 1 ]; then
-            echo "Out interval curTime=$curTime, begin=$beginTime < endTime=$endTime" >> $logF
+            echo "Out interval curTime=$curTime, beginTime=$beginTime < endTime=$endTime" >> $logF
         fi
         return 0
     fi
@@ -194,8 +223,8 @@ if [ $progEnable -eq 1 ]; then
     while [ 1 ]
     do
 
-        # Check if the date/hour allows to execute
-        checkDateHour
+        # Check if the day/hour allows to execute
+        checkDayHour
         varDH=$?
         if [ $logE -eq 1 ]; then
             echo "varDH = $varDH" >> $logF
