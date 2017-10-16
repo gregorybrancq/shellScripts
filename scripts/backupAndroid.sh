@@ -17,7 +17,7 @@ filterF="$HOME/Greg/work/config/grsync/Android.filter"
 nexus4Name="Nexus4"
 nexus4Mtp="Nexus 4/5/7/10 (.*), Google Inc (for LG Electronics/Samsung)"
 nexus4Mount="/media/nexus4"
-nexus4Internal="Mémoire de stockage interne"
+nexus4Internal="Espace de stockage interne partagé"
 nexus4Backup="$HOME/Backup/Nexus4"
 
 idol3Name="Idol3"
@@ -66,6 +66,7 @@ detect() {
 
     echo $catchOut | grep "$nexus4Mtp"
     if [ $? -eq 0 ]; then
+        echo "Detect Nexus4" |& tee -a $logF
         busDevNum
         androidName=$nexus4Name
         mountDir=$nexus4Mount
@@ -77,6 +78,7 @@ detect() {
 
     echo $catchOut | grep "$idol3Mtp"
     if [ $? -eq 0 ]; then
+        echo "Detect Idol3" |& tee -a $logF
         busDevNum
         androidName=$idol3Name
         mountDir=$idol3Mount
@@ -121,11 +123,12 @@ mount() {
     # Check if the mount point is not already mounted
     ls $mountDir
     if [ -d "$srcDir" ]; then
-    umount
+        umount
     fi
 
     echo "Mount jmtpfs -device=$busNum,$devNum $mountDir" |& tee -a $logF
     jmtpfs -device=$busNum,$devNum $mountDir
+    sleep 2
 
 }
 
