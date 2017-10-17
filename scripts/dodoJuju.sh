@@ -32,16 +32,18 @@ prgs="totem vlc mplayer smplayer rhythmbox"
 sleepInterval="5"
 
 # Day, Hour, Min
+# begin and end must not be the same number !
 beginDay=1
-endDay=5
-beginWeek=6
-endWeek=7
-# Hour & Min, 
-# must not be the same number !
+endDay=4
 beginDayTime="2345"
 endDayTime="0600"
+
+beginWeek=5
+endWeek=7
 beginWeekTime="0100"
 endWeekTime="0700"
+
+
 
 if [ $logE -eq 1 ]; then
     echo " Main script $progName\n" > $logF
