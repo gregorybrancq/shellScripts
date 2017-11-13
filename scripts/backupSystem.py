@@ -74,13 +74,6 @@ lockFile = os.path.join(logDir, HEADER + ".lock")
 
 dirBackupList = ["/boot/grub", "/etc", "/opt", "/usr", "/run", "/var"]
 
-# variable to ignore pattern during copying
-dirIgnoreDict = dict()
-# issue with /var/spool/postfix/dev/urandom
-dirIgnoreDict["/var"] = "postfix"
-dirIgnoreDict["/var"] = "cache"
-#dirIgnoreDict["/var"] = "postfix", "second_pattern_to_ignore"
-
 # variable to ignore pattern during copying for home
 nameIgnoreList = list()
 nameIgnoreList.append("/home/greg/.cache")
@@ -111,12 +104,13 @@ def createDir(dirName) :
     log.info(HEADER, "CreateDir created dir=" + dirName)
 
 
-def copyDir(src, dest, ignoreName=None) :
+def copyDir(src, dest) :
     global log
     log.info(HEADER, "CopyDir src=" + src + ", dest=" + dest)
     try :
-        if ignoreName is not None :
-            shutil.copytree(src, dest, symlinks=True, ignore=shutil.ignore_patterns(ignoreName))
+        if re.search("/var", src) :
+            patterns = shutil.ignore_patterns("urandom", "cache", "postfix")
+            shutil.copytree(src, dest, symlinks=True, ignore=patterns)
         else :
             shutil.copytree(src, dest, symlinks=True)
     except shutil.Error as e :
@@ -143,12 +137,8 @@ def backupToDo() :
 
     # copy directories
     for dirToCopy in dirBackupList :
-        ignoreName = None
-        if dirIgnoreDict.__contains__(dirToCopy) :
-            ignoreName = dirIgnoreDict[dirToCopy]
-
         backupDest = backupDir + dirToCopy
-        copyDir(dirToCopy, backupDest, ignoreName)
+        copyDir(dirToCopy, backupDest)
            
     # copy home configuration files
     backupHomeDir = os.path.join(backupDir, "home_greg")
