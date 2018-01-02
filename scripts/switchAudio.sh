@@ -5,10 +5,20 @@ switch=1
 # Determine which interface is playing
 defSink=`pacmd list-sinks | grep -e 'name:' -e 'index' | grep "*" | awk -F "index: " '{print $NF}'`
 echo "defSink = $defSink"
-dacSink=`pactl list short sinks  | grep -i "focal" | awk -F " " '{print $1}'`
-echo "dacSink = $dacSink"
-headSink=`pactl list short sinks  | grep -vi "focal" | awk -F " " '{print $1}'`
-echo "headSink = $headSink"
+
+if [ $PORTABLE -eq 1 ] ; then
+    sabreSink=`pactl list short sinks | grep -i "sabre" | awk -F " " '{print $1}'`
+    echo "sabreSink = $sabreSink"
+    speakerSink=$sabreSink
+    headSink=`pactl list short sinks | grep -i "analog-stereo" | grep -i "pci" | awk -F " " '{print $1}'`
+    echo "headSink = $headSink"
+else
+    dacSink=`pactl list short sinks | grep -i "focal" | awk -F " " '{print $1}'`
+    echo "dacSink = $dacSink"
+    speakerSink=$dacSink
+    headSink=`pactl list short sinks | grep -vi "focal" | awk -F " " '{print $1}'`
+    echo "headSink = $headSink"
+fi
 
 
 # Check if all opened sinks are on default
@@ -25,6 +35,11 @@ done
 # Get back opened sinks
 defIndexS=`pactl list short sink-inputs | awk -F " " '{print $1}'`
 echo "defIndexS = $defIndexS"
+echo "switch = $switch"
+echo "defSink = $defSink TOTO"
+echo "headSink = $headSink TOTO"
+echo "speakerSink = $speakerSink"
+echo "PORTABLE = $PORTABLE"
 
 
 # Initialize audio
@@ -42,21 +57,28 @@ if [ $switch -eq 0 ] ; then
 
 # Switch to Speakers
 elif [ $defSink -eq $headSink ] ; then
-    winTitle="Focal XS"
-    winText="Switch audio to speakers"
-    winIcon="audio-speakers"
+    if [ $PORTABLE -eq 1 ] ; then
+        # Audiophonics Sabre
+        winTitle="Audiophonics U_Sabre"
+        winText="Switch audio to U_Sabre"
+        winIcon="audio-speakers"
+    else
+        # Focal XS
+        winTitle="Focal XS"
+        winText="Switch audio to speakers"
+        winIcon="audio-speakers"
+    fi
     echo $winText
     
-    # Focal XS
-    pacmd set-default-sink $dacSink
+    pacmd set-default-sink $speakerSink
     # For all opened sinks
     for defIndex in $defIndexS; do
-        echo "defIndex=$defIndex to $dacSink"
-        pacmd move-sink-input $defIndex $dacSink
+        echo "defIndex=$defIndex to $speakerSink"
+        pacmd move-sink-input $defIndex $speakerSink
     done
 
 # Switch to Headphones
-elif [ $defSink -eq $dacSink ] ; then
+elif [ $defSink -eq $speakerSink ] ; then
     winTitle="Sennheiser HD598"
     winText="Switch audio to headphones"
     winIcon="audio-headphones"
