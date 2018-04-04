@@ -1,7 +1,7 @@
 #!/bin/csh -f
 
 set pwdMem=$PWD
-cd /opt/timeline/timeline-1.0.1
+cd /opt/timeline/timeline-1.17.0
 set nb_args="$#argv"
 
 if ($nb_args != "0") then
@@ -19,5 +19,5 @@ if ($nb_args != "0") then
         set nb_args=`expr $nb_args - 1`
     end
 else
-    python timeline.py
+    python source/timeline.py
 endif
