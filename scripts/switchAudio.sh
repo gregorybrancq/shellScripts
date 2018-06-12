@@ -10,7 +10,7 @@ if [ $PORTABLE -eq 1 ] ; then
     sabreSink=`pactl list short sinks | grep -i "sabre" | awk -F " " '{print $1}'`
     echo "sabreSink = $sabreSink"
     speakerSink=$sabreSink
-    headSink=`pactl list short sinks | grep -i "analog-stereo" | grep -i "pci" | awk -F " " '{print $1}'`
+    headSink=`pactl list short sinks | grep -i "analog-stereo" | grep -i "pci" | grep -v "home" | awk -F " " '{print $1}'`
     echo "headSink = $headSink"
 else
     dacSink=`pactl list short sinks | grep -i "focal" | awk -F " " '{print $1}'`
@@ -34,12 +34,12 @@ done
 
 # Get back opened sinks
 defIndexS=`pactl list short sink-inputs | awk -F " " '{print $1}'`
-echo "defIndexS = $defIndexS"
-echo "switch = $switch"
-echo "defSink = $defSink TOTO"
-echo "headSink = $headSink TOTO"
-echo "speakerSink = $speakerSink"
-echo "PORTABLE = $PORTABLE"
+echo "defIndexS = $defIndexS%"
+echo "switch = $switch%"
+echo "defSink = $defSink%"
+echo "headSink = $headSink%"
+echo "speakerSink = $speakerSink%"
+echo "PORTABLE = $PORTABLE%"
 
 
 # Initialize audio
@@ -47,7 +47,7 @@ if [ $switch -eq 0 ] ; then
     winTitle="Initialize Audio"
     winText=""
     winIcon="audio-card"
-    echo $winText
+    #echo $winText
 
     # For all opened sinks
     for defIndex in $defIndexS; do
@@ -68,7 +68,7 @@ elif [ $defSink -eq $headSink ] ; then
         winText="Switch audio to speakers"
         winIcon="audio-speakers"
     fi
-    echo $winText
+    #echo $winText
     
     pacmd set-default-sink $speakerSink
     # For all opened sinks
@@ -82,7 +82,7 @@ elif [ $defSink -eq $speakerSink ] ; then
     winTitle="Sennheiser HD598"
     winText="Switch audio to headphones"
     winIcon="audio-headphones"
-    echo $winText
+    #echo $winText
     
     # Headphones
     pacmd set-default-sink $headSink
