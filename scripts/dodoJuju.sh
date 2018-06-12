@@ -22,11 +22,11 @@ unblock=0
 
 # To have these informations :
 #   > xinput -list
-keyboardId=10
-mouseId=9
+keyboardId=9
+mouseId=8
 
 # Programs list
-prgs="totem vlc mplayer smplayer rhythmbox"
+prgs="totem vlc mplayer smplayer rhythmbox amarok"
 
 # Sleep Interval (in min)
 sleepInterval="5"
