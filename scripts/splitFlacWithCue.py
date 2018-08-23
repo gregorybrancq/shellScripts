@@ -169,7 +169,7 @@ def main() :
     splitFlac(fileList)
 
     ## End dialog
-    MessageDialogEnd(warnC, errC, logFile, "Convert images", "\nJob fini : " + str(fileFlac) + " splitted.")
+    MessageDialogEnd(warnC, errC, logFile, "Convert music files", "\nJob fini : " + str(fileFlac) + " splitted.")
     
     log.info(HEADER, "Out main")
 
