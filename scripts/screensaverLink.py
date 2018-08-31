@@ -126,11 +126,12 @@ parser.add_option(
     )
 
 parser.add_option(
-    "--nogui",
-    action  = "store_false",
-    dest    = "gui",
-    default = True,
-    help    = "Don't launch the gui"
+    "-c",
+    "--create",
+    action  = "store_true",
+    dest    = "create",
+    default = False,
+    help    = "Read the tags and the config, then create the links in batch."
     )
 
 (parsedArgs , args) = parser.parse_args()
@@ -583,9 +584,6 @@ class TagC() :
         #        self.tagMultiList.remove(tagsEnM)
         #print "GBR 2\n" + str(self)
 
-            
-        
-
         self.log.info(HEADER, "Out scanTags")
 
 
@@ -615,6 +613,7 @@ class TagC() :
 
 
     def createLinks(self) :
+        self.log.info(HEADER, "In  createLinks")
         # delete link directory
         if os.path.isdir(linkDir) :
             shutil.rmtree(linkDir)
@@ -694,7 +693,8 @@ class TagC() :
         
                 os.chdir(curDir)
 
-        MessageDialog(type_='info', title="ScreenSaver Link", message=str(i) + " images ont été ajoutés.").run()
+        self.log.info(HEADER, "Out createLinks " + str(i) + " images ont été ajoutés.")
+        return i
 
 ###############################################
 
@@ -721,12 +721,11 @@ class GuiC(gtk.Window) :
     def run(self):
         self.log.info(HEADER, "In  run")
 
-        if parsedArgs.gui :
-            # create the main window
-            self.createWin()
-            
-            # display it
-            gtk.main()
+        # create the main window
+        self.createWin()
+        
+        # display it
+        gtk.main()
 
         self.log.info(HEADER, "Out run")
 
@@ -1239,7 +1238,8 @@ class TagGuiC(gtk.Window) :
     # Create links
     def onExeTags(self) :
         self.tagC.writeConfig()
-        self.tagC.createLinks()
+        nb = self.tagC.createLinks()
+        MessageDialog(type_='info', title="ScreenSaver Link", message=str(nb) + " images ont été ajoutés.").run()
 
 
 ###############################################
@@ -1262,12 +1262,17 @@ class TagGuiC(gtk.Window) :
 def main() :
     ## Create log class
     global log
-    log = LOGC(logFile, HEADER, parsedArgs.debug, parsedArgs.gui)
+    log = LOGC(logFile, HEADER, parsedArgs.debug)
 
     ## Graphic interface
-    gui = GuiC(log)
-    gui.run()
-
+    if parsedArgs.create :
+        tagC = TagC(log)
+        tagC.scanTags()
+        tagC.readConfig()
+        nb = tagC.createLinks()
+    else :
+        gui = GuiC(log)
+        gui.run()
 
 
 if __name__ == '__main__':
