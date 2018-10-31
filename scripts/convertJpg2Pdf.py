@@ -19,7 +19,7 @@ from python_common import *
 HEADER = "JpgTOPdf"
 
 ## directory
-logDir   = getLogDir()
+logDir = getLogDir()
 
 ###############################################
 

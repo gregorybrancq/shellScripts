@@ -22,8 +22,8 @@ unblock=0
 
 # To have these informations :
 #   > xinput -list
-keyboardId=9
-mouseId=8
+keyboardId=8
+mouseId=10
 
 # Programs list
 prgs="totem vlc mplayer smplayer rhythmbox amarok"

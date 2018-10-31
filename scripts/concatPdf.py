@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-Concatene PDF files
+Concatenate PDF files
 '''
 
 
