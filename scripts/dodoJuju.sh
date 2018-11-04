@@ -22,8 +22,9 @@ unblock=0
 
 # To have these informations :
 #   > xinput -list
-keyboardId=8
-mouseId=10
+keyboardId=9
+mouse1Id=10
+mouse2Id=11
 
 # Programs list
 prgs="totem vlc mplayer smplayer rhythmbox amarok"
@@ -193,7 +194,8 @@ blockKbMouse() {
     fi
     xinput disable $keyboardId
     #xinput set-prop $keyboardId "Device Enabled" 0
-    xinput disable $mouseId
+    xinput disable $mouse1Id
+    xinput disable $mouse2Id
     #xinput set-prop $mouseId "Device Enabled" 0
     if [ $logE -eq 1 ]; then
         echo "End block keyboard & mouse" >> $logF
@@ -207,7 +209,8 @@ unblockKbMouse() {
     fi
     xinput enable $keyboardId
     #xinput set-prop $keyboardId "Device Enabled" 1
-    xinput enable $mouseId
+    xinput enable $mouse1Id
+    xinput enable $mouse2Id
     #xinput set-prop $mouseId "Device Enabled" 1
     if [ $logE -eq 1 ]; then
         echo "End unblock keyboard & mouse" >> $logF
