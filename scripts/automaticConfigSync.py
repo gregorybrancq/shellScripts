@@ -10,20 +10,18 @@ Program to check which unison configuration using and launch the synchronisation
     
 
 import os
+import re
 import subprocess
 import socket
 
-addressCorres = dict()
-addressCorres["192.168.0.1"] = "portable_room"
-addressCorres["10.42.0.1"]   = "portable"
-addressCorres["192.168.0.2"] = "home"
-addressCorres["10.42.0.146"] = "home_desk"
-
-addressConfig = dict()
-addressConfig["home"] = "room_server_sata"
-addressConfig["home_desk"] = "dockstation_server_sata"
-addressConfig["portable"] = "server_dockstation_sata"
-addressConfig["portable_room"] = "server_room_sata"
+ipName = dict()
+ipName["192.168.0.1"]  = "server"
+ipName["10.42.0.1"]    = "server_shared_internet"
+ipName["10.13.0.1"]    = "server_vpn"
+ipName["192.168.0.2"]  = "portable"
+ipName["192.168.0.4"]  = "portable_wifi"
+ipName["192.168.0.41"] = "portable_office"
+ipName["10.42.0.146"]  = "portable_shared_internet"
 
 
 def getIp():
@@ -51,11 +49,12 @@ def checkAddress(ad):
     return False
 
 
-def runSync(cfg):
-    print("Run sync "+cfg)
-    unisonCfgFile=os.path.join(os.getenv("HOME"), ".unison", cfg+".prf")
+def runSync(localCfg, remoteCfg):
+    cfgName = localCfg + "-to-" + remoteCfg + "-mode_sata.prf"
+    print("Run sync " + cfgName)
+    unisonCfgFile=os.path.join(os.getenv("HOME"), ".unison", cfgName)
     if os.path.isfile(unisonCfgFile) :
-        runCmd="unison-gtk "+str(cfg)
+        runCmd="unison-gtk "+str(cfgName)
         procPopen = subprocess.Popen(runCmd, shell=True)
         procPopen.wait()
     else :
@@ -65,14 +64,25 @@ def runSync(cfg):
 
 
 def main():
-    myIp=getIp()
-    print "My IP="+str(myIp)
-    remoteIp=addressCorres[myIp]
-    print "My remote ip="+str(remoteIp)
-    if checkAddress(remoteIp) :
-        cfg=addressConfig[remoteIp]
-        print "My config="+str(cfg)
-        runSync(cfg)
+    localIp=getIp()
+    print "Local IP="+str(localIp)
+    localCfg=ipName[localIp]
+    print "Local config="+str(localCfg)
+
+    if re.search("portable", localCfg) :
+        remoteTarget="server"
+    elif re.search("server", localCfg) :
+        remoteTarget="portable"
+
+    for remoteIp in ipName :
+        if re.search(remoteTarget, ipName[remoteIp]) :
+            if checkAddress(remoteIp) :
+                remoteCfg=ipName[remoteIp]
+                print "Remote IP="+str(remoteIp)
+                print "Remote config="+str(remoteCfg)
+                break
+
+    runSync(localCfg, remoteCfg)
 
 
 
