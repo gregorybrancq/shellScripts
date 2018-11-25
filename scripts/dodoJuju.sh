@@ -16,7 +16,7 @@ logE=0
 logF="$HOME/Greg/work/env/log/${progName}_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
 
 # Enable
-progEnable=1
+fileEnable="/home/greg/.nododo"
 block=0
 unblock=0
 
@@ -223,7 +223,7 @@ unblockKbMouse() {
 # Main script
 #
 
-if [ $progEnable -eq 1 ]; then
+if [ ! -e $fileEnable ]; then
 
     while [ 1 ]
     do
