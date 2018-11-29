@@ -14,6 +14,9 @@ import re
 import subprocess
 import socket
 
+## common
+from python_common import *
+
 ipName = dict()
 ipName["192.168.0.1"]  = "server"
 ipName["10.42.0.1"]    = "server_shared_internet"
@@ -64,6 +67,8 @@ def runSync(localCfg, remoteCfg):
 
 
 def main():
+    remoteCfg = ""
+
     localIp=getIp()
     print "Local IP="+str(localIp)
     localCfg=ipName[localIp]
@@ -82,7 +87,10 @@ def main():
                 print "Remote config="+str(remoteCfg)
                 break
 
-    runSync(localCfg, remoteCfg)
+    if remoteCfg == "" :
+        MessageDialog(type_='error', title="Automatic Synchronisation", message="Can't find Remote IP.\nLocal IP is " + str(localIp) +".").run()
+    else :
+        runSync(localCfg, remoteCfg)
 
 
 
