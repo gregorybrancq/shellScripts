@@ -12,7 +12,7 @@
 progName=$(basename "$0")
 
 # Log file
-logE=0
+logE=1
 logF="$HOME/Greg/work/env/log/${progName}_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
 
 # Enable
@@ -243,7 +243,7 @@ if [ ! -e $fileEnable ]; then
             # Block keyboard and mouse
             blockKbMouse
 
-        elif [ $varDH -eq 2 ] || [ $unblock -eq 1 ]; then
+        elif [ $varDH -eq 0 ] || [ $varDH -eq 2 ] || [ $unblock -eq 1 ]; then
             if [ $logE -eq 1 ]; then
                 echo "Unblock" >> $logF
             fi
