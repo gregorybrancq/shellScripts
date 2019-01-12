@@ -185,7 +185,7 @@ def main() :
     log.info(HEADER, "In  main args=" + str(args))
 
     ## Create list of files
-    extAuth=[".jpg", ".JPG", ".jpeg", ".JPEG", ".tif", ".TIF", ".gif", ".GIF", ".bmp", ".BMP"]
+    extAuth=[".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG", ".tif", ".TIF", ".gif", ".GIF", ".bmp", ".BMP"]
     (fileList, warnC) = listFromArgs(log, HEADER, args, extAuth)
 
     ## Verify if there is at least one file to convert
