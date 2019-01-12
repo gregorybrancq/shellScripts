@@ -5,7 +5,7 @@
 
 
 cd ~/Greg/work/config/vpn/sequans
-more password
+#more password
 sudo ./connect-France.sh
 
 
