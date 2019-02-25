@@ -16,7 +16,7 @@ logE=1
 logF="$HOME/Greg/work/env/log/${progName}_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
 
 # Enable
-fileEnable="/home/greg/.nododo"
+fileEnable="/home/greg/.enable_dodo"
 block=0
 unblock=0
 
@@ -223,7 +223,23 @@ unblockKbMouse() {
 # Main script
 #
 
-if [ ! -e $fileEnable ]; then
+if [ $block -eq 1 ]; then
+    if [ $logE -eq 1 ]; then
+        echo "Block" >> $logF
+    fi
+
+    # Block keyboard and mouse
+    blockKbMouse
+
+elif [ $unblock -eq 1 ]; then
+    if [ $logE -eq 1 ]; then
+        echo "Unblock" >> $logF
+    fi
+
+    # Unblock keyboard and mouse
+    unblockKbMouse
+
+elif [ -e $fileEnable ]; then
 
     while [ 1 ]
     do
@@ -235,23 +251,7 @@ if [ ! -e $fileEnable ]; then
             echo "varDH = $varDH" >> $logF
         fi
 
-        if [ $block -eq 1 ]; then
-            if [ $logE -eq 1 ]; then
-                echo "Block" >> $logF
-            fi
-
-            # Block keyboard and mouse
-            blockKbMouse
-
-        elif [ $varDH -eq 0 ] || [ $varDH -eq 2 ] || [ $unblock -eq 1 ]; then
-            if [ $logE -eq 1 ]; then
-                echo "Unblock" >> $logF
-            fi
-
-            # Unblock keyboard and mouse
-            unblockKbMouse
-
-        elif [ $varDH -eq 1 ]; then
+        if [ $varDH -eq 1 ]; then
             if [ $logE -eq 1 ]; then
                 echo "Kill and block" >> $logF
             fi
@@ -262,10 +262,25 @@ if [ ! -e $fileEnable ]; then
             # Block keyboard and mouse
             blockKbMouse
 
+        elif [ $varDH -eq 0 ] || [ $varDH -eq 2 ]; then
+            if [ $logE -eq 1 ]; then
+                echo "Unblock" >> $logF
+            fi
+
+            # Unblock keyboard and mouse
+            unblockKbMouse
+
         fi
 
         sleep ${sleepInterval}m
 
     done
+
+else
+
+    if [ $logE -eq 1 ]; then
+        echo "$fileEnable is not present." >> $logF
+    fi
+
 fi
 
