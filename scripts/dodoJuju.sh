@@ -22,8 +22,8 @@ unblock=0
 
 # To have these informations :
 #   > xinput -list
-keyboardId=9
-mouse1Id=10
+keyboardId=10
+mouse1Id=9
 mouse2Id=11
 
 # Programs list
