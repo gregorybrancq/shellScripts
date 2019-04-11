@@ -10,8 +10,7 @@ from os.path import expanduser
 import sys
 import re
 import pwd
-import time
-import datetime
+from datetime import datetime
 import random
 
 # use for graphical interface
@@ -39,6 +38,7 @@ class LOGC(object):
         self.progName = prog_name
         self.debug = debug
         self.gui = gui
+        self.dtFormat = datetime.today().isoformat("_")
 
     def writeLog(self, msg):
         if self.debug :
@@ -53,17 +53,17 @@ class LOGC(object):
             pass
 
     def dbg(self, msg):
-        mes = " [ debug ] " + str(datetime.datetime.today().isoformat("_")) + " == " + msg
+        mes = " [ debug ] " + self.dtFormat + " == " + msg
         if self.debug :
             print " DBG : " + self.progName + str(mes)
     def info(self, item, msg):
-        mes = item + " [ info  ] " + str(datetime.datetime.today().isoformat("_")) + " == " + msg
+        mes = item + " [ info  ] " + self.dtFormat + " == " + msg
         self.writeLog(mes)
     def warn(self, item, msg):
-        mes = item + " [warning] " + str(datetime.datetime.today().isoformat("_")) + " == " + msg
+        mes = item + " [warning] " + self.dtFormat + " == " + msg
         self.writeLog(mes)
     def error(self, item, msg):
-        mes = item + " [ error ] " + str(datetime.datetime.today().isoformat("_")) + " == " + msg
+        mes = item + " [ error ] " + self.dtFormat + " == " + msg
         self.writeLog(mes)
         print "  ERROR " + self.progName + " :   Code " + str(item) + "\n" + str(msg) + "\n"
     def exit(self, item, msg):
@@ -157,6 +157,9 @@ def getHomeDir():
 def getBinDir():
     return os.path.join(getHomeDir(),"Greg/work/env/bin")
 
+def getScriptDir():
+    return os.path.join(getHomeDir(),"Greg/work/env/scripts")
+
 def getEnvDir():
     return os.path.join(getHomeDir(),"Greg/work/env")
 
@@ -179,6 +182,7 @@ def verify_lock_file(lockFile) :
             remove_lock_file(lockFile)
             break
         else :
+            import time
             time.sleep(1)
             timeout += 1
 
