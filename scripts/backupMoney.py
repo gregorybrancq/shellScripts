@@ -11,7 +11,7 @@ Backup Money files
 import sys
 import os, os.path
 import re
-import time, datetime
+from datetime import datetime
 import filecmp
 import shutil
 from optparse import OptionParser
@@ -58,7 +58,7 @@ parser.add_option(
 ## Global variables
 ###############################################
 
-t = str(datetime.datetime.today().isoformat("_"))
+t = str(datetime.today().isoformat("_"))
 logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 lockFile = os.path.join(logDir, HEADER + ".lock")
 warnC = 0
@@ -110,7 +110,7 @@ def backupToDo() :
             findBackup = True
 
     if not findBackup :
-        now = datetime.datetime.now()
+        now = datetime.now()
         newName = "Backup-" + str(now.strftime("%Y-%m-%d") + ".mny")
         log.info(HEADER, "In  compare copy newName=" + str(newName))
         shutil.copy2(fileOriginal, os.path.join(fileBackupDir, newName))

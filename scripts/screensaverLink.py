@@ -42,6 +42,7 @@ import re
 import shutil
 import copy
 from optparse import OptionParser
+from datetime import datetime
 
 # tags for image
 from PIL import Image
@@ -66,7 +67,7 @@ logDir  = getLogDir()
 ## Global variables
 ###############################################
 
-t = str(datetime.datetime.today().isoformat("_"))
+t = str(datetime.today().isoformat("_"))
 logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 lockFile = os.path.join(logDir, HEADER + ".lock")
 

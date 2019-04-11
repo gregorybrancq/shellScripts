@@ -11,7 +11,7 @@ Backup Pondus files
 import sys
 import os, os.path
 import re
-import time, datetime
+from datetime import datetime
 import filecmp
 import shutil
 from optparse import OptionParser
@@ -58,7 +58,7 @@ parser.add_option(
 ## Global variables
 ###############################################
 
-t = str(datetime.datetime.today().isoformat("_"))
+t = str(datetime.today().isoformat("_"))
 logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 lockFile = os.path.join(logDir, HEADER + ".lock")
 
@@ -104,7 +104,7 @@ def backupToDo(fileName) :
             break
 
     if not didBackup :
-        now = datetime.datetime.now()
+        now = datetime.now()
         (fileN, extN) = os.path.splitext(fileName)
         newName = fileN + "_" + str(now.strftime("%Y-%m-%d") + extN)
         log.info(HEADER, "In  backupToDo copy newName=" + str(newName))

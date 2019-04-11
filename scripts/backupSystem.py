@@ -20,7 +20,7 @@ Backup System files
 import sys
 import os, os.path
 import re
-import time, datetime
+from datetime import datetime
 from time import gmtime, strftime
 import shutil
 import glob
@@ -68,7 +68,7 @@ parser.add_option(
 ## Global variables
 ###############################################
 
-t = str(datetime.datetime.today().isoformat("_"))
+t = str(datetime.today().isoformat("_"))
 logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 lockFile = os.path.join(logDir, HEADER + ".lock")
 

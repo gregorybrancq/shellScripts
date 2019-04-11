@@ -11,7 +11,7 @@ Send file(s) to DL FREE from nemo
 import sys
 import os
 import re
-import time, datetime
+from datetime import datetime
 from subprocess import Popen, PIPE
 from optparse import OptionParser
 
@@ -55,7 +55,7 @@ parser.add_option(
 ## Global variables
 ###############################################
 
-t = str(datetime.datetime.today().isoformat("_"))
+t = str(datetime.today().isoformat("_"))
 logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 
 ###############################################

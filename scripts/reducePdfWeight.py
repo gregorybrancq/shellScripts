@@ -11,7 +11,7 @@ Reduce the weight of the pdf files
 import sys
 import os
 import shutil
-import time, datetime
+from datetime import datetime
 import subprocess
 from optparse import OptionParser
 
@@ -55,7 +55,7 @@ parser.add_option(
 ## Global variables
 ###############################################
 
-t = str(datetime.datetime.today().isoformat("_"))
+t = str(datetime.today().isoformat("_"))
 logFile = os.path.join(logDir, HEADER + "_" + t + ".log")
 errC = 0
 
