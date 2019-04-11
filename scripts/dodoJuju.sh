@@ -13,7 +13,12 @@ progName=$(basename "$0")
 
 # Log file
 logE=1
-logF="$HOME/Greg/work/env/log/${progName}_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
+if [ -d "$HOME/Greg/work/env/log" ]; then
+    logF="$HOME/Greg/work/env/log/${progName}_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
+else
+    logF="$HOME/Log/${progName}_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
+fi
+
 
 # Enable
 fileEnable="/home/greg/.enable_dodo"
