@@ -15,7 +15,7 @@ filterF="$HOME/Greg/work/config/grsync/Android.filter"
 
 # Phone
 nexus4Name="Nexus4"
-nexus4Mtp="Nexus 4/5/7/10 (.*), Google Inc (for LG Electronics/Samsung)"
+nexus4Mtp="Nexus/Pixel (MTP), Google Inc"
 nexus4Mount="/media/nexus4"
 nexus4Internal="Espace de stockage interne partagé"
 nexus4Backup="$HOME/Backup/Nexus4"
@@ -96,6 +96,7 @@ detect() {
 # Synchronisation
 syncDir() {
     echo "Sync src=$mountDir/$1 dest=$backupDir" |& tee -a $logF
+    echo "rsync -rah --progress --stats --filter \". $filterF\" \"$mountDir/$1\" \"$backupDir\""
     rsync -rah --progress --stats --filter ". $filterF" "$mountDir/$1" "$backupDir" |& tee -a $logF
 }
 
@@ -117,7 +118,7 @@ mount() {
     if [ $? -eq 0 ]; then
         echo "Kill automatic mtp mount point" |& tee -a $logF
         pkill -9 gvfsd-mtp
-        sleep 2
+        sleep 5
     fi
 
     # Check if the mount point is not already mounted
@@ -128,7 +129,7 @@ mount() {
 
     echo "Mount jmtpfs -device=$busNum,$devNum $mountDir" |& tee -a $logF
     jmtpfs -device=$busNum,$devNum $mountDir
-    sleep 2
+    sleep 5
 
 }
 
@@ -159,7 +160,7 @@ eexit() {
 
     rm -f $lockFile
     echo $error_str |& tee -a $logF
-    zenity --info --text="$error_str"
+    zenity --info --no-wrap --text="$error_str"
     exit 1
 }
 
@@ -173,10 +174,10 @@ check() {
         grep "rsync error:" $logF
         if [ $? -eq 0 ]; then
             error=`grep "error" $logF | grep -iv "database" | grep -iv "waze"`
-            zenity --info --text="Error !!!\n\nSee log file = $logF\n\nError detected = \n$error"
+            zenity --info --no-wrap --text="Error !!!\n\nSee log file = $logF\n\nError detected = \n$error"
         else
             rsyncMsg=`grep "Number of " $logF`"\n\n"`grep "Total " $logF`
-            zenity --info --text="Congratulations !!!\n\nBackup directory = $backupDir.\nLog file = $logF\n\nResume = \n$rsyncMsg."
+            zenity --info --no-wrap --text="Congratulations !!!\n\nBackup directory = $backupDir.\nLog file = $logF\n\nResume = \n$rsyncMsg."
         fi
     fi
 }
