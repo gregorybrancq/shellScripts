@@ -138,23 +138,19 @@ class Hardwares():
             self.hardwares.append(hardwareC)
 
     def block(self) :
-        log.info("In  block " + self.short)
-        for hardware in hardwares :
+        for hardware in self.hardwares :
             hardware.block()
-        log.info("Out block")
     
     def unblock(self) :
-        log.info("In  unblock " + self.short)
-        for hardware in hardwares :
+        for hardware in self.hardwares :
             hardware.unblock()
-        log.info("Out unblock")
 
 
 class Hardware():
     def __init__(self, name, fullName) :
         self.short = name
         self.full = fullName
-        self.type = "pointer"
+        self.id = int()
         self.getId()
 
     def __str__(self) :
@@ -166,13 +162,13 @@ class Hardware():
 
     def getId(self) :
         try :
-            self.id = subprocess.check_output(["xinput", "list", "--id-only", "pointer:" + str(self.full)]).strip()
+            self.id = subprocess.check_output(["xinput", "list", "--id-only", str(self.full)]).strip()
         except subprocess.CalledProcessError :
             log.error("In getId : error with " + str(self.short))
     
     def block(self) :
         log.info("In  block " + self.short)
-        #subprocess.call(["xinput", "disable", str(self.id)])
+        subprocess.call(["xinput", "disable", str(self.id)])
         log.info("Out block")
     
     def unblock(self) :
@@ -247,30 +243,46 @@ class EnableProg():
 class TimeSlot():
     def __init__(self) :
         self.curDOW = datetime.now().weekday()
-        self.curTime = time.strftime("%H:%M")
 
     def __str__(self) :
         res = str()
         res += "# current day of week = " + str(self.curDOW) + "\n"
-        res += "# current time        = " + str(self.curTime) + "\n"
         return res
+
+    # Check if current time + 5mn is in timeSlot defined by user
+    def checkBeforeTS(self) :
+        log.info("Check before time slot")
+        for userTime in userSlot[self.curDOW][1] :
+            curT5 = datetime.now() + timedelta(minutes=4)
+            curTime5 = format(curT5, '%H:%M')
+            if curTime5 > userTime :
+                return userSlot[self.curDOW][1][userTime]
 
     # Check if datetime is in timeSlot defined by user
     def inTS(self) :
-        log.info("In  inTS")
+        log.info("Check time slot")
         for userTime in userSlot[self.curDOW][1] :
-            print "GBR userTime=" + str(userTime)
-            if self.curTime > userTime :
+            curTime = time.strftime("%H:%M")
+            if curTime > userTime :
                 return userSlot[self.curDOW][1][userTime]
+
+    def message(self) :
+        log.info("Echo user")
+        subprocess.call(['zenity', '--info', '--timeout=300', '--no-wrap', \
+                    '--text="Il est temps d\'aller faire dodo\nT\'as 5mn avant l\'extinction des feux…"'])
 
     def suspend(self) :
         log.info("Suspend machine")
-        #subprocess.call(["systemctl", "suspend", str(self.id)])
+        subprocess.call(["systemctl", "suspend"])
 
-    def checkSuspend(self) :
-        log.info("In  checkSuspend")
+    def checkTimeSlot(self) :
+        log.info("In  checkTimeSlot")
         if not self.inTS() :
             self.suspend()
+        elif not self.checkBeforeTS() :
+            self.message()
+        else :
+            log.info("not in a suspend time slot")
 
 
 
@@ -294,7 +306,10 @@ def main() :
     log.info("In  main")
 
     hardwares = Hardwares()
-    hardwares.init(["Logitech", "TypeMatrix.com USB Keyboard"], ["mouseJuju", "MOSART Semi. 2.4G Wireless Mouse"])
+    # To get the good names : xinput list
+    hardwares.init(["keyboard", "keyboard:Logitech MK700"], \
+                   ["mouseJuju", "pointer:MOSART Semi. 2.4G Wireless Mouse Mouse"], \
+                   ["mouseHanna", "pointer:Logitech M505/B605"])
     print str(hardwares)
     
     enProg = EnableProg()
@@ -310,8 +325,8 @@ def main() :
     else :
         if enProg.isEn() :
             ts = TimeSlot()
-            print str(ts)
-            ts.checkSuspend()
+            #print str(ts)
+            ts.checkTimeSlot()
     
     log.info("Out main")
 
