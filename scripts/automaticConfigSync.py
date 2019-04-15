@@ -18,17 +18,18 @@ import socket
 from python_common import *
 
 ipName = dict()
-ipName["192.168.0.1"]  = "server"
-ipName["10.42.0.1"]    = "server_shared_internet"
-ipName["10.13.0.1"]    = "server_vpn"
-ipName["192.168.0.2"]  = "portable"
-ipName["192.168.0.4"]  = "portable_wifi"
-ipName["192.168.0.41"] = "portable_office"
-ipName["10.42.0.146"]  = "portable_shared_internet"
+ipName["192.168.0.1"]   = "server"
+ipName["10.42.0.1"]     = "server_shared_internet"
+ipName["10.13.0.6"]     = "server_vpn"
+ipName["192.168.0.2"]   = "portable"
+ipName["192.168.0.4"]   = "portable_wifi"
+ipName["192.168.33.29"] = "portable_office"
+ipName["10.42.0.146"]   = "portable_shared_internet"
 
 
 def getIp():
     #print([(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1])
+    #ips = subprocess.check_output(['hostname', '--all-ip-addresses'])
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
         # doesn't even have to be reachable
