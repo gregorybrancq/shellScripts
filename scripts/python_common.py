@@ -152,7 +152,7 @@ def getUserLogin() :
         sys.exit(-1)
 
 def getHomeDir():
-    return expanduser("~")
+    return expanduser("~greg")
 
 def getBinDir():
     return os.path.join(getHomeDir(),"Greg/work/env/bin")
