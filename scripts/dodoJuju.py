@@ -98,15 +98,15 @@ log = logging.getLogger(progName)
 logFile = os.path.join(logDir, progName + "_" \
             + str(datetime.today().isoformat("_") + ".log"))
 
-# false will suspend pc
+# True will suspend pc
 userSlot = [
-    ["lundi",    {"00:00": False, "06:00": True, "23:45": False}],
-    ["mardi",    {"00:00": False, "06:00": True, "23:45": False}],
-    ["mercredi", {"00:00": False, "06:00": True, "23:45": False}],
-    ["jeudi",    {"00:00": False, "06:00": True, "23:45": False}],
-    ["vendredi", {"00:00": False, "06:00": True}],
-    ["samedi",   {"00:00": True,  "01:00": False, "07:00": True}],
-    ["dimanche", {"00:00": True,  "01:00": False, "07:00": True, "23:45": False}]
+    ["lundi",    {"00:00": True, "06:00": False, "23:45": True}],
+    ["mardi",    {"00:00": True, "06:00": False, "23:45": True}],
+    ["mercredi", {"00:00": True, "06:00": False, "23:45": True}],
+    ["jeudi",    {"00:00": True, "06:00": False, "23:45": True}],
+    ["vendredi", {"00:00": True, "06:00": False}],
+    ["samedi",   {"00:00": False,  "01:00": True, "07:00": False}],
+    ["dimanche", {"00:00": False,  "01:00": True, "07:00": False, "23:45": True}]
 ]
 ###############################################
 
@@ -255,6 +255,8 @@ class TimeSlot():
         for userTime in userSlot[self.curDOW][1] :
             curT5 = datetime.now() + timedelta(minutes=4)
             curTime5 = format(curT5, '%H:%M')
+            log.debug("Check real time slot curTime5=" + str(curTime5))
+            log.debug("Check user time slot userTime=" + str(userTime))
             if curTime5 > userTime :
                 return userSlot[self.curDOW][1][userTime]
 
@@ -263,6 +265,8 @@ class TimeSlot():
         log.info("Check time slot")
         for userTime in userSlot[self.curDOW][1] :
             curTime = time.strftime("%H:%M")
+            log.debug("Check real time slot curTime =" + str(curTime))
+            log.debug("Check user time slot userTime=" + str(userTime))
             if curTime > userTime :
                 return userSlot[self.curDOW][1][userTime]
 
@@ -277,9 +281,9 @@ class TimeSlot():
 
     def checkTimeSlot(self) :
         log.info("In  checkTimeSlot")
-        if not self.inTS() :
+        if self.inTS() :
             self.suspend()
-        elif not self.checkBeforeTS() :
+        elif self.checkBeforeTS() :
             self.message()
         else :
             log.info("not in a suspend time slot")
@@ -325,7 +329,7 @@ def main() :
     else :
         if enProg.isEn() :
             ts = TimeSlot()
-            #print str(ts)
+            print str(ts)
             ts.checkTimeSlot()
     
     log.info("Out main")
