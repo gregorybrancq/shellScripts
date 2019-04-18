@@ -249,13 +249,21 @@ class TimeSlot():
         res += "# current day of week = " + str(self.curDOW) + "\n"
         return res
 
+    def sortUserSlot(self) :
+        userSort = userSlot[self.curDOW][1].keys()
+        log.debug("UserTime before sort =" + str(userSort))
+        userSort.sort(reverse=True)
+        log.debug("UserTime after sort =" + str(userSort))
+        return userSort
+
     # Check if current time + 5mn is in timeSlot defined by user
     def checkBeforeTS(self) :
         log.info("Check before time slot")
-        for userTime in userSlot[self.curDOW][1] :
-            curT5 = datetime.now() + timedelta(minutes=4)
-            curTime5 = format(curT5, '%H:%M')
-            log.debug("Check real time slot curTime5=" + str(curTime5))
+        curT5 = datetime.now() + timedelta(minutes=4)
+        curTime5 = format(curT5, '%H:%M')
+        log.debug("Check real time slot curTime5=" + str(curTime5))
+        log.debug("Check user times=" + str(userSlot[self.curDOW][1]))
+        for userTime in self.sortUserSlot() :
             log.debug("Check user time slot userTime=" + str(userTime))
             if curTime5 > userTime :
                 return userSlot[self.curDOW][1][userTime]
@@ -263,9 +271,10 @@ class TimeSlot():
     # Check if datetime is in timeSlot defined by user
     def inTS(self) :
         log.info("Check time slot")
-        for userTime in userSlot[self.curDOW][1] :
-            curTime = time.strftime("%H:%M")
-            log.debug("Check real time slot curTime =" + str(curTime))
+        curTime = time.strftime("%H:%M")
+        log.debug("Check real time slot curTime =" + str(curTime))
+        log.debug("Check user times=" + str(userSlot[self.curDOW][1]))
+        for userTime in self.sortUserSlot() :
             log.debug("Check user time slot userTime=" + str(userTime))
             if curTime > userTime :
                 return userSlot[self.curDOW][1][userTime]
@@ -273,7 +282,7 @@ class TimeSlot():
     def message(self) :
         log.info("Echo user")
         subprocess.call(['zenity', '--info', '--timeout=300', '--no-wrap', \
-                    '--text="Il est temps d\'aller faire dodo\nT\'as 5mn avant l\'extinction des feux…"'])
+                    '--text=Il est temps d\'aller faire dodo\nT\'as 5mn avant l\'extinction des feux…'])
 
     def suspend(self) :
         log.info("Suspend machine")
@@ -314,7 +323,7 @@ def main() :
     hardwares.init(["keyboard", "keyboard:Logitech MK700"], \
                    ["mouseJuju", "pointer:MOSART Semi. 2.4G Wireless Mouse Mouse"], \
                    ["mouseHanna", "pointer:Logitech M505/B605"])
-    print str(hardwares)
+    log.debug("Hardwares :\n" + str(hardwares))
     
     enProg = EnableProg()
 
@@ -329,8 +338,17 @@ def main() :
     else :
         if enProg.isEn() :
             ts = TimeSlot()
-            print str(ts)
+            log.debug("TimeSlot :\n" + str(ts))
             ts.checkTimeSlot()
+            if ts.inTS() :
+                hardwares.block()
+                ts.suspend()
+            elif ts.checkBeforeTS() :
+                ts.message()
+            else :
+                log.info("not in a suspend time slot")
+                hardwares.unblock()
+
     
     log.info("Out main")
 
