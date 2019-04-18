@@ -46,6 +46,10 @@ from datetime import datetime
 
 # tags for image
 from PIL import Image
+import warnings
+# To avoid kind of warnings
+# /usr/lib/python2.7/dist-packages/PIL/Image.py:2514: DecompressionBombWarning: Image size (131208140 pixels) exceeds limit of 89478485 pixels, could be decompression bomb DOS attack.
+warnings.simplefilter('ignore', Image.DecompressionBombWarning)
 
 # xml
 import xml.etree.ElementTree as ET
