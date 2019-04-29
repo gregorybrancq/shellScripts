@@ -10,6 +10,6 @@ case $1 in
     pre)
         ;;
     post)
-        /home/greg/Greg/work/env/bin/dodoJuju
+        /home/greg/Greg/work/env/bin/dodoJuju --unblock
         ;;
 esac
