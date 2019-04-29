@@ -288,18 +288,6 @@ class TimeSlot():
         log.info("Suspend machine")
         subprocess.call(["systemctl", "suspend"])
 
-    def checkTimeSlot(self) :
-        log.info("In  checkTimeSlot")
-        if self.inTS() :
-            self.suspend()
-        elif self.checkBeforeTS() :
-            self.message()
-        else :
-            log.info("not in a suspend time slot")
-
-
-
-
 ###############################################
 
 
@@ -339,7 +327,6 @@ def main() :
         if enProg.isEn() :
             ts = TimeSlot()
             log.debug("TimeSlot :\n" + str(ts))
-            ts.checkTimeSlot()
             if ts.inTS() :
                 hardwares.block()
                 ts.suspend()
@@ -347,8 +334,7 @@ def main() :
                 ts.message()
             else :
                 log.info("not in a suspend time slot")
-                hardwares.unblock()
-
+                #hardwares.unblock()
     
     log.info("Out main")
 
