@@ -70,23 +70,30 @@ def runSync(localCfg, remoteCfg):
 def main():
     remoteCfg = ""
 
-    localIp=getIp()
-    print "Local IP="+str(localIp)
-    localCfg=ipName[localIp]
-    print "Local config="+str(localCfg)
+    # Check if external disk is connected
+    if os.path.isdir("/media/greg/Greg_160Go") :
+        localCfg = "external_disk"
+        remoteCfg = "server"
 
-    if re.search("portable", localCfg) :
-        remoteTarget="server"
-    elif re.search("server", localCfg) :
-        remoteTarget="portable"
+    else :
+        # Else check network
+        localIp=getIp()
+        print "Local IP="+str(localIp)
+        localCfg=ipName[localIp]
+        print "Local config="+str(localCfg)
 
-    for remoteIp in ipName :
-        if re.search(remoteTarget, ipName[remoteIp]) :
-            if checkAddress(remoteIp) :
-                remoteCfg=ipName[remoteIp]
-                print "Remote IP="+str(remoteIp)
-                print "Remote config="+str(remoteCfg)
-                break
+        if re.search("portable", localCfg) :
+            remoteTarget="server"
+        elif re.search("server", localCfg) :
+            remoteTarget="portable"
+
+        for remoteIp in ipName :
+            if re.search(remoteTarget, ipName[remoteIp]) :
+                if checkAddress(remoteIp) :
+                    remoteCfg=ipName[remoteIp]
+                    print "Remote IP="+str(remoteIp)
+                    print "Remote config="+str(remoteCfg)
+                    break
 
     if remoteCfg == "" :
         MessageDialog(type_='error', title="Automatic Synchronisation", message="Can't find Remote IP.\nLocal IP is " + str(localIp) +".").run()
