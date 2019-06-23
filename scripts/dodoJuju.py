@@ -74,6 +74,15 @@ parser.add_option(
     help    = "Disable this program."
     )
 
+parser.add_option(
+    "-t",
+    "--time",
+    action  = "store_true",
+    dest    = "timeUser",
+    default = False,
+    help    = "Display time user."
+    )
+
 (parsedArgs , args) = parser.parse_args()
 
 ###############################################
@@ -323,6 +332,9 @@ def main() :
         enProg.enProg()
     elif parsedArgs.disable :
         enProg.disProg()
+    elif parsedArgs.timeUser :
+        for day in userSlot :
+            print str(day)
     else :
         if enProg.isEn() :
             ts = TimeSlot()
