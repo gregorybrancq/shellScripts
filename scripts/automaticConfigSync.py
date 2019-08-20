@@ -26,6 +26,9 @@ ipName["192.168.0.4"]   = "portable_wifi"
 ipName["192.168.33.29"] = "portable_office"
 ipName["10.42.0.146"]   = "portable_shared_internet"
 
+extDisk = "/media/greg/Transcend_600Go"
+
+
 
 def getIp():
     #print([(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1])
@@ -70,30 +73,27 @@ def runSync(localCfg, remoteCfg):
 def main():
     remoteCfg = ""
 
-    # Check if external disk is connected
-    if os.path.isdir("/media/greg/Greg_160Go") :
-        localCfg = "external_disk"
-        remoteCfg = "server"
+    localIp=getIp()
+    print "Local IP="+str(localIp)
+    localCfg=ipName[localIp]
+    print "Local config="+str(localCfg)
 
-    else :
-        # Else check network
-        localIp=getIp()
-        print "Local IP="+str(localIp)
-        localCfg=ipName[localIp]
-        print "Local config="+str(localCfg)
+    if re.search("portable", localCfg) :
+        remoteTarget="server"
+    elif re.search("server", localCfg) :
+        remoteTarget="portable"
+        # Check if external disk is connected
+        if os.path.isdir(extDisk) :
+            localCfg = "external_disk"
+            remoteCfg = "server"
 
-        if re.search("portable", localCfg) :
-            remoteTarget="server"
-        elif re.search("server", localCfg) :
-            remoteTarget="portable"
-
-        for remoteIp in ipName :
-            if re.search(remoteTarget, ipName[remoteIp]) :
-                if checkAddress(remoteIp) :
-                    remoteCfg=ipName[remoteIp]
-                    print "Remote IP="+str(remoteIp)
-                    print "Remote config="+str(remoteCfg)
-                    break
+    for remoteIp in ipName :
+        if re.search(remoteTarget, ipName[remoteIp]) :
+            if checkAddress(remoteIp) :
+                remoteCfg=ipName[remoteIp]
+                print "Remote IP="+str(remoteIp)
+                print "Remote config="+str(remoteCfg)
+                break
 
     if remoteCfg == "" :
         MessageDialog(type_='error', title="Automatic Synchronisation", message="Can't find Remote IP.\nLocal IP is " + str(localIp) +".").run()
