@@ -108,15 +108,29 @@ logFile = os.path.join(logDir, progName + "_" \
             + str(datetime.today().isoformat("_") + ".log"))
 
 # True will suspend pc
+
+# Holidays
 userSlot = [
-    ["lundi",    {"00:00": True, "06:00": False, "23:45": True}],
-    ["mardi",    {"00:00": True, "06:00": False, "23:45": True}],
-    ["mercredi", {"00:00": True, "06:00": False, "23:45": True}],
-    ["jeudi",    {"00:00": True, "06:00": False, "23:45": True}],
-    ["vendredi", {"00:00": True, "06:00": False}],
-    ["samedi",   {"00:00": False,  "01:00": True, "07:00": False}],
-    ["dimanche", {"00:00": False,  "01:00": True, "07:00": False, "23:45": True}]
+    ["lundi",    {"00:30": True, "06:00": False}],
+    ["mardi",    {"00:30": True, "06:00": False}],
+    ["mercredi", {"00:30": True, "06:00": False}],
+    ["jeudi",    {"00:30": True, "06:00": False}],
+    ["vendredi", {"00:30": True, "06:00": False}],
+    ["samedi",   {"02:00": True, "06:00": False}],
+    ["dimanche", {"02:00": True, "06:00": False}]
 ]
+
+# Work week
+# userSlot = [
+#     ["lundi",    {"00:00": True, "06:00": False, "23:45": True}],
+#     ["mardi",    {"00:00": True, "06:00": False, "23:45": True}],
+#     ["mercredi", {"00:00": True, "06:00": False, "23:45": True}],
+#     ["jeudi",    {"00:00": True, "06:00": False, "23:45": True}],
+#     ["vendredi", {"00:00": True, "06:00": False}],
+#     ["samedi",   {"00:00": False,  "01:00": True, "07:00": False}],
+#     ["dimanche", {"00:00": False,  "01:00": True, "07:00": False, "23:45": True}]
+# ]
+
 ###############################################
 
 
