@@ -110,26 +110,26 @@ logFile = os.path.join(logDir, progName + "_" \
 # True will suspend pc
 
 # Holidays
-userSlot = [
-    ["lundi",    {"00:30": True, "06:00": False}],
-    ["mardi",    {"00:30": True, "06:00": False}],
-    ["mercredi", {"00:30": True, "06:00": False}],
-    ["jeudi",    {"00:30": True, "06:00": False}],
-    ["vendredi", {"00:30": True, "06:00": False}],
-    ["samedi",   {"02:00": True, "06:00": False}],
-    ["dimanche", {"02:00": True, "06:00": False}]
-]
+#userSlot = [
+#    ["lundi",    {"00:30": True, "06:00": False}],
+#    ["mardi",    {"00:30": True, "06:00": False}],
+#    ["mercredi", {"00:30": True, "06:00": False}],
+#    ["jeudi",    {"00:30": True, "06:00": False}],
+#    ["vendredi", {"00:30": True, "06:00": False}],
+#    ["samedi",   {"02:00": True, "06:00": False}],
+#    ["dimanche", {"02:00": True, "06:00": False}]
+#]
 
 # Work week
-# userSlot = [
-#     ["lundi",    {"00:00": True, "06:00": False, "23:45": True}],
-#     ["mardi",    {"00:00": True, "06:00": False, "23:45": True}],
-#     ["mercredi", {"00:00": True, "06:00": False, "23:45": True}],
-#     ["jeudi",    {"00:00": True, "06:00": False, "23:45": True}],
-#     ["vendredi", {"00:00": True, "06:00": False}],
-#     ["samedi",   {"00:00": False,  "01:00": True, "07:00": False}],
-#     ["dimanche", {"00:00": False,  "01:00": True, "07:00": False, "23:45": True}]
-# ]
+userSlot = [
+    ["lundi",    {"00:00": True, "06:00": False, "23:45": True}],
+    ["mardi",    {"00:00": True, "06:00": False, "23:45": True}],
+    ["mercredi", {"00:00": True, "06:00": False, "23:45": True}],
+    ["jeudi",    {"00:00": True, "06:00": False, "23:45": True}],
+    ["vendredi", {"00:00": True, "06:00": False}],
+    ["samedi",   {"00:00": False,  "02:00": True, "07:00": False}],
+    ["dimanche", {"00:00": False,  "02:00": True, "07:00": False, "23:45": True}]
+]
 
 ###############################################
 
@@ -200,10 +200,11 @@ class Hardware():
         log.info("Out unblock")
 
 
-class EnableProg():
+class ProgEnDis():
     def __init__(self) :
         self.enable = bool()
         self.disableFile = os.path.join("/tmp", progName + ".disable")
+        self.justRemoveFile = False
         self.checkDisableFile()
 
     def __str__(self) :
@@ -217,12 +218,19 @@ class EnableProg():
             return True
         return False
 
+    # if just remove file
+    def isJustRemoveFile(self) :
+        if self.justRemoveFile :
+            return True
+        return False
+
     # Enable it
     def enProg(self) :
         log.info("In  enProg")
         if os.path.isfile(self.disableFile) :
             log.info("Delete disableFile " + str(self.disableFile))
             os.remove(self.disableFile)
+            self.justRemoveFile = True
         self.enable = True
     
     # Disable it
@@ -232,6 +240,7 @@ class EnableProg():
         fd.write(str(datetime.now()))
         fd.close()
         self.enable = False
+        self.checkDisableFile()
         log.info("Out disProg")
 
     # Check file date creation is
@@ -332,30 +341,35 @@ def main() :
     hardwares = Hardwares()
     # To get the good names : xinput list
     hardwares.init(["keyboard", "keyboard:Logitech MK700"], \
-                   ["mouseJuju", "pointer:MOSART Semi. 2.4G Wireless Mouse Mouse"], \
+                   ["mouseJuju", "pointer:MOSART Semi. 2.4G Wireless Mouse"], \
                    ["mouseHanna", "pointer:Logitech M505/B605"])
     log.debug("Hardwares :\n" + str(hardwares))
     
-    enProg = EnableProg()
+    progEnDis = ProgEnDis()
 
     if parsedArgs.block :
         hardwares.block()
     elif parsedArgs.unblock :
         hardwares.unblock()
     elif parsedArgs.enable :
-        enProg.enProg()
+        progEnDis.enProg()
     elif parsedArgs.disable :
-        enProg.disProg()
+        progEnDis.disProg()
     elif parsedArgs.timeUser :
         for day in userSlot :
             print str(day)
     else :
-        if enProg.isEn() :
+        if progEnDis.isEn() :
             ts = TimeSlot()
             log.debug("TimeSlot :\n" + str(ts))
             if ts.inTS() :
-                hardwares.block()
-                ts.suspend()
+                # when lock file was created after the TS
+                # this trick to have the user message
+                if progEnDis.isJustRemoveFile() :
+                    ts.message()
+                else :
+                    hardwares.block()
+                    ts.suspend()
             elif ts.checkBeforeTS() :
                 ts.message()
             else :
