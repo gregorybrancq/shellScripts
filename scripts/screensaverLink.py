@@ -557,7 +557,7 @@ class TagC() :
         if os.path.isdir(imagesDir) :
             for dirpath, dirnames, filenames in os.walk(imagesDir) :  # @UnusedVariable
                 self.log.dbg("In  scanTags dirpath="+str(dirpath)+" dirnames="+str(dirnames)+" filenames="+str(filenames))
-                if filenames.__len__ != 0 :
+                if ( not(re.search(".dtrash", dirpath)) and (filenames.__len__ != 0) ) :
                     for filename in filenames :
                         extAuth=[".jpg", ".JPG", ".jpeg", ".JPEG", ".tif", ".TIF", ".gif", ".GIF", ".bmp", ".BMP"]
                         (fileN, extN) = os.path.splitext(filename)
@@ -565,15 +565,12 @@ class TagC() :
                             fileWithPath = os.path.join(dirpath, filename)
                             self.readTag(fileWithPath)
 
-        self.log.dbg("GBR 1\n" + str(self))
         # Set the precedent config for simple tags
         for oldTagN in oldTagDict.keys() :
             if self.tagDict.has_key(oldTagN) :
                 self.setSimpleTagEn(oldTagN, oldTagDict[oldTagN])
-        self.log.dbg("GBR 2\n" + str(self))
             
         # Check if tag exists for all multi tags
-        #print "GBR 1\n" + str(self)
         #removeIt = False
         #for tagsEnM in self.tagMultiList :
         #    newTagsEnM = list()
@@ -587,7 +584,6 @@ class TagC() :
 
         #    if removeIt :
         #        self.tagMultiList.remove(tagsEnM)
-        #print "GBR 2\n" + str(self)
 
         self.log.info(HEADER, "Out scanTags")
 
@@ -626,53 +622,54 @@ class TagC() :
 
         i=0
         for fileN in self.getFiles() :
-            #self.log.dbg("In  createLinks fileN="+str(fileN))
+            self.log.dbg("In  createLinks fileN="+str(fileN))
             tagsList = self.getFileTagsL(fileN)
-            #self.log.dbg("In  createLinks tagsList="+str(tagsList))
+            self.log.dbg("In  createLinks tagsList="+str(tagsList))
 
             # filter with simple tags
             installSimple = False
             for tagN in tagsList :
-                #self.log.dbg("In  createLinks tagN="+str(tagN)+"  en="+str(self.tagDict[tagN]))
-                if self.tagDict[tagN] :
-                    #self.log.dbg("In  createLinks installSimple tagN="+str(tagN)+"  en="+str(self.tagDict[tagN]))
-                    installSimple = True
-                else :
-                    installSimple = False
-                    break
+                self.log.dbg("In  createLinks tagN="+str(tagN)+"  en="+str(self.tagDict[tagN]))
+                if self.tagDict.has_key(tagN) :
+                    if self.tagDict[tagN] :
+                        self.log.dbg("In  createLinks installSimple tagN="+str(tagN)+"  en="+str(self.tagDict[tagN]))
+                        installSimple = True
+                    else :
+                        installSimple = False
+                        break
 
             # filter with multiple tags
             matchFound = False
             installMulti = None
-            #self.log.dbg("In  createLinks tagMultiList="+str(self.tagMultiList))
+            self.log.dbg("In  createLinks tagMultiList="+str(self.tagMultiList))
             for tagsEnM in self.tagMultiList :
                 matchFoundOnce = False
-                #self.log.dbg("In  createLinks tagsEnM="+str(tagsEnM))
+                self.log.dbg("In  createLinks tagsEnM="+str(tagsEnM))
                 if tagsEnM[1] :
                     for tagM in tagsEnM[0] :
-                        #self.log.dbg("In  createLinks tagM="+str(tagM))
+                        self.log.dbg("In  createLinks tagM="+str(tagM))
                         # for enable, each tag must be present
                         if tagsList.__contains__(tagM[0]) :
-                            #self.log.dbg("In  createLinks 1")
+                            self.log.dbg("In  createLinks 1")
                             matchFoundOnce = True
                             if tagM[1] :
-                                #self.log.dbg("In  createLinks 2")
+                                self.log.dbg("In  createLinks 2")
                                 if installMulti is None :
                                     installMulti = True
                             else :
-                                #self.log.dbg("In  createLinks 3")
+                                self.log.dbg("In  createLinks 3")
                                 installMulti = False
                         else :
-                            #self.log.dbg("In  createLinks 4")
+                            self.log.dbg("In  createLinks 4")
                             matchFoundOnce = False
                             break
 
                 if matchFoundOnce :
                     matchFound = True
 
-            #self.log.dbg("In  createLinks matchFound="+str(matchFound))
-            #self.log.dbg("In  createLinks installMulti="+str(installMulti))
-            #self.log.dbg("In  createLinks installSimple="+str(installSimple))
+            self.log.dbg("In  createLinks matchFound="+str(matchFound))
+            self.log.dbg("In  createLinks installMulti="+str(installMulti))
+            self.log.dbg("In  createLinks installSimple="+str(installSimple))
 
             # installation priority
             install = False
@@ -683,7 +680,7 @@ class TagC() :
                 install = True
 
             # installation
-            #self.log.dbg("In  createLinks install="+str(install))
+            self.log.dbg("In  createLinks install="+str(install))
             if install :
                 curDir = os.getcwd()
                 os.chdir(linkDir)
