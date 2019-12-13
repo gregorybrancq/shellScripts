@@ -101,8 +101,11 @@ logDir  = getLogDir()
 ## logging
 # load config
 logging.config.fileConfig(os.path.join(scriptDir, 'logging.conf'))
+# disable logging
+logging.disable(sys.maxsize)
 # create logger
 log = logging.getLogger(progName)
+
 
 logFile = os.path.join(logDir, progName + "_" \
             + str(datetime.today().isoformat("_") + ".log"))
