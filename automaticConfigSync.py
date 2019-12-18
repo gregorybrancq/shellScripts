@@ -18,11 +18,11 @@ import socket
 from python_common import *
 
 ipName = dict()
-ipName["192.168.0.1"]   = "server"
+ipName["192.168.1.100"] = "server"
 ipName["10.42.0.1"]     = "server_shared_internet"
 ipName["10.13.0.6"]     = "server_vpn"
-ipName["192.168.0.3"]   = "portable"
-ipName["192.168.0.4"]   = "portable_wifi"
+ipName["192.168.1.102"] = "portable"
+ipName["192.168.1.103"] = "portable_wifi"
 ipName["192.168.33.29"] = "portable_office"
 ipName["10.42.0.146"]   = "portable_shared_internet"
 
