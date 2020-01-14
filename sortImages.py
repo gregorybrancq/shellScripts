@@ -100,11 +100,11 @@ def main() :
     log.info(HEADER, "In  main parsedArgs.target=" + str(parsedArgs.target))
 
     ## Create directory and move file
-    extAuth=[".jpg", ".JPG", ".jpeg", ".JPEG"]
+    extAuth=[".jpg", ".JPG", ".jpeg", ".JPEG", ".mp4", ".MP4"]
     for f in os.listdir(parsedArgs.target) :
-        log.dbg("file="+str(f))
         (fileN, extN) = os.path.splitext(f)
-        if os.path.isfile(f) and extAuth.__contains__(extN) :
+        if os.path.isfile(os.path.join(parsedArgs.target,f)) and extAuth.__contains__(extN) :
+            log.dbg("file ok "+str(f))
             if re.search("20[0-9]{6}", fileN) :
                 (year, month, day) = re.findall("(20[0-9]{2})([0-9]{2})([0-9]{2})", fileN)[0]
                 dirN=year+"-"+month+"-"+day
@@ -117,7 +117,7 @@ def main() :
 
                     
 
-    (fileList, warnC) = listFromArgs(log, HEADER, parsedArgs.target, extAuth)
+    #(fileList, warnC) = listFromArgs(log, HEADER, parsedArgs.target, extAuth)
 
     log.info(HEADER, "Out main")
 
