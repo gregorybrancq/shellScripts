@@ -629,14 +629,16 @@ class TagC() :
             # filter with simple tags
             installSimple = False
             for tagN in tagsList :
-                self.log.dbg("In  createLinks tagN="+str(tagN)+"  en="+str(self.tagDict[tagN]))
                 if self.tagDict.has_key(tagN) :
+                    self.log.dbg("In  createLinks tagN="+str(tagN)+"  en="+str(self.tagDict[tagN]))
                     if self.tagDict[tagN] :
                         self.log.dbg("In  createLinks installSimple tagN="+str(tagN)+"  en="+str(self.tagDict[tagN]))
                         installSimple = True
                     else :
                         installSimple = False
                         break
+                else :
+                    self.log.dbg("In  createLinks tagN="+str(tagN)+" doesn't exist in tagDict")
 
             # filter with multiple tags
             matchFound = False
