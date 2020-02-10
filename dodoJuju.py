@@ -345,8 +345,9 @@ def main() :
     hardwares = Hardwares()
     # To get the good names : xinput list
     hardwares.init(["keyboard", "keyboard:Logitech MK700"], \
-                   ["mouseJuju", "pointer:MOSART Semi. 2.4G Wireless Mouse"], \
-                   ["mouseHanna", "pointer:Logitech M505/B605"])
+                   ["mouseJuju", "pointer:MOSART Semi. 2.4G Wireless Mouse"])
+                   #["mouseJuju", "pointer:MOSART Semi. 2.4G Wireless Mouse"], \
+                   #["mouseHanna", "pointer:Logitech M505/B605"])
     log.debug("Hardwares :\n" + str(hardwares))
     
     progEnDis = ProgEnDis()
