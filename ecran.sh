@@ -9,7 +9,7 @@
 gnome-control-center display &
 proc_gcc=`ps -C gnome-control-center -o pid=`
 
-sleep 5s
+sleep 10s
 
 kill -9 $proc_gcc
 
