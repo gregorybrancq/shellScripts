@@ -78,9 +78,7 @@ def decryptFile(fileList) :
 
     for (fileD, fileN, fileE) in fileList :
 
-        print("fileN=" + fileN + "  fileE=" + fileE)
-
-        cmd='qpdf --decrypt ' + fileN + fileE + ' ' + fileN + fileE + '_tmp'
+        cmd='qpdf --decrypt "' + os.path.join(fileD, fileN + fileE) + '" "' + os.path.join(fileD, fileN + fileE) + '_tmp"'
         print("cmd=" + cmd)
         log.info(HEADER, "In  decryptFile cmd=" + str(cmd))
         procPopen = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT)
@@ -90,9 +88,9 @@ def decryptFile(fileList) :
             log.error(HEADER, "In  decryptFile file: issue with " + str(cmd))
         else :
             # copy result file
-            copyfile(fileN + fileE + '_tmp', fileN + fileE)
+            copyfile(os.path.join(fileD, fileN + fileE + '_tmp'), os.path.join(fileD, fileN + fileE))
             # delete temporary file
-            os.remove(fileN + fileE + '_tmp')
+            os.remove(os.path.join(fileD, fileN + fileE + '_tmp'))
 
     log.info(HEADER, "Out decryptFile")
 
