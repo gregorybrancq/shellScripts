@@ -1,5 +1,7 @@
 #!/bin/sh
 
+mail1="gregory.brancq@free.fr"
+
 # initialisations
 URL_FREE=http://dl.free.fr
 USER_AGENT="Mozilla/5.0 (X11; U; Linux i686; fr; rv:1.9.2.15) Gecko/20110303 Ubuntu/10.10 (maverick) Firefox/3.6.15"
@@ -18,7 +20,7 @@ PATTERN_SUIVI_DEPOT_MISE_EN_LIGNE='Mise en ligne du fichier'
 PATTERN_SUIVI_DEPOT_ANTIVIRUS='Test antivirus'
 PATTERN_FICHIER_DEPOSE="${PATTERN_SUIVI_DEPOT_TERMINE}"
 PATTERN_DEMANDE_SUPPRESSION="${PATTERN_SUIVI_DEPOT_TERMINE}"
-PATTERN_DEMANDE_SUPPRESSION_EFFECTIVE='Si vous souhaitez r&eacute;element supprimer le fichier'
+PATTERN_DEMANDE_SUPPRESSION_EFFECTIVE='Si vous souhaitez r&eacute;ellement supprimer le fichier'
 
 PATTERN_ERREUR_INTERNE="Erreur 500 - Erreur interne du serveur"
 PATTERN_DEMANDE_SUPPRESSION_EFFECTIVE2="Vous pouvez supprimer le fichier lorsque vous le d&eacute;sirez via l'adresse suivante:  "
@@ -53,7 +55,7 @@ echo "URL_DEPOT : ${URL_FREE}${URI_DEPOT}"
 echo "Etape 2 - depot du fichier ${FICHIER} sur ${URL_FREE}${URI_DEPOT}"
 FICHIER_RESULTAT_UPLOAD=$(mktemp)
 echo "FICHIER_RESULTAT_UPLOAD : ${FICHIER_RESULTAT_UPLOAD}"
-curl -A "${USER_AGENT}" -e "${REFERER}" -H "${ENTETE_ACCEPT}" -H "${ENTETE_ACCEPT_LANGUAGE}" -H "${ENTETE_ACCEPT_CHARSET}" -F "ufile=@${FICHIER};filename=${FICHIER};type=application/octet-stream" -F mail1="" -F mail2="" -F mail3="" -F mail4="" -F message="" -F password="" "${URL_FREE}${URI_DEPOT}" 1>"${FICHIER_RESULTAT_UPLOAD}" 2>"${FICHIER_RESULTAT_UPLOAD}.err"
+curl -A "${USER_AGENT}" -e "${REFERER}" -H "${ENTETE_ACCEPT}" -H "${ENTETE_ACCEPT_LANGUAGE}" -H "${ENTETE_ACCEPT_CHARSET}" -F "ufile=@${FICHIER};filename=${FICHIER};type=application/octet-stream" -F mail1="$mail1" -F mail2="" -F mail3="" -F mail4="" -F message="" -F password="" "${URL_FREE}${URI_DEPOT}" 1>"${FICHIER_RESULTAT_UPLOAD}" 2>"${FICHIER_RESULTAT_UPLOAD}.err"
 if [ $? -ne 0 ]; then
   echo "Echec lors du depot du fichier"
   exit 1
@@ -94,6 +96,8 @@ if [ -z "${URL_DEMANDE_SUPPRESSION}" ]; then
   echo "Echec lors du depot du fichier - URL de demande de suppression du fichier vide"
   #exit 1
 fi
+echo "URL_FICHIER_DEPOSE : ${URL_FICHIER_DEPOSE}"
+echo "URL_DEMANDE_SUPPRESSION : ${URL_DEMANDE_SUPPRESSION}"
 
 echo "Etape 4 - recuperation URL de suppression effective du fichier depose"
 FICHIER_RESULTAT_DEMANDE_SUPPRESSION=$(mktemp)
@@ -107,10 +111,10 @@ fi
 TEST_SUPPRESSION_FICHIER_SERVEUR=$(grep "${PATTERN_ERREUR_INTERNE}" ${FICHIER_RESULTAT_DEMANDE_SUPPRESSION})
 echo "TEST_SUPPRESSION_FICHIER_SERVEUR=$TEST_SUPPRESSION_FICHIER_SERVEUR"
 if [ -z "${TEST_SUPPRESSION_FICHIER_SERVEUR}" ]; then
-    # Pas de pbme de serveur
+    echo "Pas de pbme de serveur"
     URL_SUPPRESSION_FICHIER_DEPOSE=$(grep "${PATTERN_DEMANDE_SUPPRESSION_EFFECTIVE}" ${FICHIER_RESULTAT_DEMANDE_SUPPRESSION} | awk ' BEGIN { FS="<a href=\"" } { print $2 } '| cut -d \" -f 1)
 else
-    # Pbme de serveur
+    echo "Pbme de serveur"
     URL_SUPPRESSION_FICHIER_DEPOSE=$(grep "${PATTERN_DEMANDE_SUPPRESSION_EFFECTIVE2}" ${FICHIER_RESULTAT_SUIVI} | awk ' BEGIN { FS="<a class=\"underline\" href=\"" } { print $3 } ' | cut -d \" -f 1)
 fi
 if [ -z "${URL_SUPPRESSION_FICHIER_DEPOSE}" ]; then

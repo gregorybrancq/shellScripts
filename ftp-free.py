@@ -108,21 +108,24 @@ def main() :
         msg += "    " + re.findall("URL Fichier depose : (.*)", out)[0] + "\n"
     if re.search("URL pour suppression du fichier :", out) :
         msg += "URL de suppression: " + "\n"
-        msg += "    " + re.findall("URL pour suppression du fichier : (.*)", out)[0] + "\n"
+        msg += "    " + re.sub("&", "&amp;", re.findall("URL pour suppression du fichier : (.*)", out)[0]) + "\n"
     
+    log.info(HEADER, "In  main msg = " + msg)
+    log.info(HEADER, "In  main err = " + err)
+
     if (err != "") :
         MessageDialog(type_='error', title="Send File to DL Free", message=msg).run()
     else :
         MessageDialog(type_='info', title="Send File to DL Free", message=msg).run()
 
     ## Send email
-    log.info(HEADER, "In  main send mail")
-    log.info(HEADER, "In  main send mail args[0]=" + str(args[0]))
-    log.info(HEADER, "In  main send mail msg=" + str(msg))
-    try:
-        sendMail("Greg <gregory.brancq@free.fr>", "gregory.brancq@free.fr", "", "Send to DL Free : " + str(args[0]), str(msg), "");
-    except :
-        log.error(HEADER, "In  main send mail issue ")
+    #log.info(HEADER, "In  main send mail")
+    #log.info(HEADER, "In  main send mail args[0]=" + str(args[0]))
+    #log.info(HEADER, "In  main send mail msg=" + str(msg))
+    #try:
+    #    sendMail("Greg <gregory.brancq@free.fr>", "gregory.brancq@free.fr", "", "Send to DL Free : " + str(args[0]), str(msg), "");
+    #except :
+    #    log.error(HEADER, "In  main send mail issue ")
 
     log.info(HEADER, "Out main")
 
