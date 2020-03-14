@@ -57,6 +57,27 @@ def checkAddress(ad):
     return False
 
 
+def rsyncData(src, dst):
+    print("  " + src + " to " + dst)
+    cmd="rsync -rulpgvz --delete "
+    cmd+=src + " " + dst
+    procPopen = subprocess.Popen(cmd, shell=True)
+    procPopen.wait()
+    if (procPopen.returncode != 0) :
+        print("Error during rsync data")
+
+
+# copy local data to config directory
+def copyThunderbirdFirefoxData(localCfg, remoteCfg):
+    if (localCfg == "portable") and (remoteCfg == "server") :
+        print("Copy thunderbird data :")
+        rsyncData("/opt/data/thunderbird/*", "/home/greg/Greg/work/config/thunderbird/Portable")
+
+        print("Copy firefox data :")
+        rsyncData("/opt/data/firefox/*", "/home/greg/Greg/work/config/firefox/Portable")
+        
+
+
 def runSync(localCfg, remoteCfg):
     cfgName = localCfg + "-to-" + remoteCfg + "-mode_sata.prf"
     print("Run sync " + cfgName)
@@ -102,6 +123,7 @@ def main():
     if remoteCfg == "" :
         MessageDialog(type_='error', title="Automatic Synchronisation", message="Can't find Remote IP.\nLocal IP is " + str(localIp) +".").run()
     else :
+        copyThunderbirdFirefoxData(localCfg, remoteCfg)
         runSync(localCfg, remoteCfg)
 
 
