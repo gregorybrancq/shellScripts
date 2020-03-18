@@ -8,7 +8,7 @@ import logging.config
 from optparse import OptionParser
 from datetime import datetime, timedelta
 
-sys.path.append('../pythonCommon')
+sys.path.append('/home/greg/Greg/work/env/projects/pythonCommon')
 from progDisEn import ProgEnDis
 from basic import getScriptDir, getLogDir
 
