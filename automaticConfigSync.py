@@ -71,10 +71,10 @@ def rsyncData(src, dst):
 def copyThunderbirdFirefoxData(localCfg, remoteCfg):
     if (localCfg == "portable") and (remoteCfg == "server") :
         print("Copy thunderbird data :")
-        rsyncData("/opt/data/thunderbird/*", "/home/greg/Greg/work/config/thunderbird/Portable")
+        rsyncData("/media/perso/data/thunderbird/*", "/home/greg/Greg/work/config/thunderbird/Portable")
 
         print("Copy firefox data :")
-        rsyncData("/opt/data/firefox/*", "/home/greg/Greg/work/config/firefox/Portable")
+        rsyncData("/media/perso/data/firefox/*", "/home/greg/Greg/work/config/firefox/Portable")
         
 
 
