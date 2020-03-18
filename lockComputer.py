@@ -206,7 +206,7 @@ class TimeSlot:
         log.debug("UserTime after sort =" + str(userSort))
         return userSort
 
-    # Check if current time + 5mn is in timeSlot defined by user
+    # Check if current time + 4mn is in timeSlot defined by user
     def checkBeforeTS(self):
         log.info("Check before time slot")
         curT5 = datetime.now() + timedelta(minutes=4)
@@ -273,9 +273,9 @@ def main():
     elif parsedArgs.unblock:
         hardwareElts.unblock()
     elif parsedArgs.enable:
-        progEnDis.setEnable()
+        progEnDis.progEnable()
     elif parsedArgs.disable:
-        progEnDis.setDisable()
+        progEnDis.progDisable()
     elif parsedArgs.timeUser:
         for day in userSlot:
             print(str(day))
@@ -286,12 +286,12 @@ def main():
             if ts.inTS():
                 # when lock file was created after the TS
                 # this trick to have the user message
-                #if progEnDis.isJustRemoveFile():
-                #    message()
-                #else:
-                if not(os.path.isfile(backupRunning)):
-                    hardwareElts.block()
-                    suspend()
+                if progEnDis.isJustRemoveFile():
+                    message()
+                else:
+                    if not(os.path.isfile(backupRunning)):
+                        hardwareElts.block()
+                        suspend()
             elif ts.checkBeforeTS():
                 message()
             else:
