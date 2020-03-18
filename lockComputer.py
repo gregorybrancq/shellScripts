@@ -1,31 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-
-import logging.config
-import os
 import os.path
 import subprocess
 import sys
 import time
-from datetime import datetime, timedelta
+import logging.config
 from optparse import OptionParser
+from datetime import datetime, timedelta
 
-# common
-sys.path.append('..')
-from pythonCommon.color import *
-from pythonCommon.basic import getScriptDir, getLogDir
-import pythonCommon.log
-
-progName = "lockComputer"
-
-##############################################
+sys.path.append('../pythonCommon')
+from progDisEn import ProgEnDis
+from basic import getScriptDir, getLogDir
 
 
-##############################################
 ##############################################
 #              Line Parsing                 ##
-##############################################
 ##############################################
 
 parser = OptionParser()
@@ -92,6 +81,8 @@ parser.add_option(
 # Global variables
 ##############################################
 
+progName = "lockComputer"
+
 # directory
 scriptDir = getScriptDir()
 logDir = getLogDir()
@@ -106,6 +97,8 @@ log = logging.getLogger(progName)
 
 logFile = os.path.join(logDir, progName + "_"
                        + str(datetime.today().isoformat("_") + ".log"))
+disableFile = os.path.join("/tmp", progName + ".disable")
+backupRunning = os.path.join("/tmp/backupNight.running")
 
 # True will suspend pc
 
@@ -135,9 +128,7 @@ userSlot = [
 
 
 ##############################################
-##############################################
 #                  CLASS                    ##
-##############################################
 ##############################################
 
 class HardwareElements:
@@ -198,76 +189,6 @@ class Hardware:
         log.info("Out unblock")
 
 
-class ProgEnDis:
-    def __init__(self):
-        self.enable = bool()
-        self.disableFile = os.path.join("/tmp", progName + ".disable")
-        self.justRemoveFile = False
-        self.checkDisableFile()
-
-    def __str__(self):
-        res = str()
-        res += "# disableFile = " + str(self.disableFile) + "\n"
-        return res
-
-    # if this program can be launched
-    def isEn(self):
-        if self.enable:
-            return True
-        return False
-
-    # if just remove file
-    def isJustRemoveFile(self):
-        if self.justRemoveFile:
-            return True
-        return False
-
-    # Enable it
-    def enProg(self):
-        log.info("In  enProg")
-        if os.path.isfile(self.disableFile):
-            log.info("Delete disableFile " + str(self.disableFile))
-            os.remove(self.disableFile)
-            self.justRemoveFile = True
-        self.enable = True
-
-    # Disable it
-    def disProg(self):
-        log.info("In  disProg")
-        fd = open(self.disableFile, 'w')
-        fd.write(str(datetime.now()))
-        fd.close()
-        self.enable = False
-        self.checkDisableFile()
-        log.info("Out disProg")
-
-    # Check file date creation is
-    #  return True  if > 1 day
-    #  return False if < 1 day
-    def checkFileDate(self):
-        fd = open(self.disableFile, 'r')
-        dateFileStr = fd.read().rstrip('\n')
-        dateFileDT = datetime.strptime(dateFileStr, "%Y-%m-%d %H:%M:%S.%f")
-        currentDT = datetime.now()
-        if dateFileDT + timedelta(days=1) < currentDT:
-            log.info("In  checkFileDate file has been created more than 1 day")
-            return True
-        return False
-
-    # Check if disableFile exists more than one day
-    def checkDisableFile(self):
-        if not os.path.isfile(self.disableFile):
-            log.info("In  checkDisableFile : no disableFile")
-            self.enable = True
-        else:
-            # check if more than one day
-            if self.checkFileDate():
-                log.info("In  checkDisableFile : more than one day")
-                self.enProg()
-            else:
-                log.info("In  checkDisableFile : less than one day")
-                self.enable = False
-
 
 class TimeSlot:
     def __init__(self):
@@ -312,9 +233,7 @@ class TimeSlot:
 
 
 ##############################################
-##############################################
 #                FUNCTIONS                  ##
-##############################################
 ##############################################
 
 def suspend():
@@ -332,9 +251,7 @@ def message():
 
 ##############################################
 ##############################################
-##############################################
 #                 MAIN                      ##
-##############################################
 ##############################################
 ##############################################
 
@@ -349,29 +266,30 @@ def main():
     # ["mouseHanna", "pointer:Logitech M505/B605"])
     log.debug("Hardwares :\n" + str(hardwareElts))
 
-    progEnDis = ProgEnDis()
+    progEnDis = ProgEnDis(disableFile=disableFile)
 
     if parsedArgs.block:
         hardwareElts.block()
     elif parsedArgs.unblock:
         hardwareElts.unblock()
     elif parsedArgs.enable:
-        progEnDis.enProg()
+        progEnDis.setEnable()
     elif parsedArgs.disable:
-        progEnDis.disProg()
+        progEnDis.setDisable()
     elif parsedArgs.timeUser:
         for day in userSlot:
             print(str(day))
     else:
-        if progEnDis.isEn():
+        if progEnDis.isEnable():
             ts = TimeSlot()
             log.debug("TimeSlot :\n" + str(ts))
             if ts.inTS():
                 # when lock file was created after the TS
                 # this trick to have the user message
-                if progEnDis.isJustRemoveFile():
-                    message()
-                else:
+                #if progEnDis.isJustRemoveFile():
+                #    message()
+                #else:
+                if not(os.path.isfile(backupRunning)):
                     hardwareElts.block()
                     suspend()
             elif ts.checkBeforeTS():
