@@ -81,7 +81,7 @@ parser.add_option(
 # Global variables
 ##############################################
 
-progName = "lockComputer"
+progName = "computerLock"
 
 # directory
 scriptDir = getScriptDir()

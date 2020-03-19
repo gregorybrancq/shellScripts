@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# this script must be linked here by root user
+# ln -s /home/greg/Greg/work/env/bin/computerLockWakeUp.sh /lib/systemd/system-sleep/lockComputerWakeUp
+
+export DISPLAY=:0.0
+export XAUTHORITY=/home/greg/.Xauthority
+
+case $1 in
+    post)
+        echo "Execute lockComputer script from /lib/systemd/system-sleep"
+        /home/greg/Greg/work/env/bin/computerLock --unblock
+        ;;
+esac
