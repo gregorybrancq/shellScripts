@@ -133,6 +133,5 @@ dmypy.json
 Supprimerait .idea/.gitignore
 Supprimerait .idea/dictionaries/
 Supprimerait .idea/inspectionProfiles/
-Supprimerait .idea/lockComputer.iml
 Supprimerait .idea/modules.xml
 Supprimerait .idea/vcs.xml
