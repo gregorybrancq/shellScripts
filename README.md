@@ -1,2 +1,2 @@
-# Home Environment
-Environment created for Ubuntu desktop
+# shellScripts
+all shell scripts
