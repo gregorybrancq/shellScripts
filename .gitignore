@@ -1,5 +1,3 @@
-# Created by .ignore support plugin (hsz.mobi)
-### Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -129,9 +127,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-Supprimerait .idea/.gitignore
-Supprimerait .idea/dictionaries/
-Supprimerait .idea/inspectionProfiles/
-Supprimerait .idea/modules.xml
-Supprimerait .idea/vcs.xml
