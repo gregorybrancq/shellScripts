@@ -21,7 +21,7 @@ nexus4Internal="Espace de stockage interne partagé"
 nexus4Backup="$HOME/Backup/Nexus4"
 
 idol3Name="Idol3"
-idol3Mtp="OneTouch Idol 3 small (MTP)"
+idol3Mtp="OneTouch Idol 3 (MTP)"
 idol3Mount="/media/idol3"
 idol3Internal="Mémoire de stockage interne"
 idol3SdCard="Carte SD"
