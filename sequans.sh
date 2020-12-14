@@ -4,7 +4,7 @@
 #env SEQUANS_VPN=1 roxterm --hide-menubar --geometry=100x30+350+280 --title='OPEN VPN Sequans' -e sequans
 
 
-cd ~/Greg/work/config/vpn/sequans
+cd ~/Config/tools/vpn/sequans
 #more password
 ./connect
 

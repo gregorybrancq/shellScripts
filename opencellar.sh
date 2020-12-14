@@ -1,5 +1,5 @@
 #!/bin/sh -f
 
-cd $HOME/Greg/work/config/opencellar
+cd $HOME/Config/tools/opencellar
 java -jar "/opt/opencellar/opencellar.jar"
 

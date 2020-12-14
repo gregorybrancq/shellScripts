@@ -10,8 +10,8 @@
 progName=$(basename "$0")
 
 # Files
-logF="$HOME/Greg/work/env/log/${progName}_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
-filterF="$HOME/Greg/work/config/grsync/Android.filter"
+logF="$HOME/Config/env/log/${progName}_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
+filterF="$HOME/Config/tools/grsync/Android.filter"
 
 # Phone
 nexus4Name="Nexus4"
