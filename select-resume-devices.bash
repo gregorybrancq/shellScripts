@@ -45,7 +45,7 @@ do
   DEVICE_PRODUCT=`echo $DEVICE_DATA | cut -d"|" -f2`
 
   # create udev rule for current device
-  DEVICE_RULE="SUBSYSTEM==\"usb\", ATTRS{idVendor}==\"$DEVICE_VENDOR\", ATTRS{idProduct}==\"$DEVICE_PRODUCT\" RUN+=\"/home/greg/Config/env/scripts/enable-wakeup \$env{DEVPATH}\" "
+  DEVICE_RULE="SUBSYSTEM==\"usb\", ATTRS{idVendor}==\"$DEVICE_VENDOR\", ATTRS{idProduct}==\"$DEVICE_PRODUCT\" RUN+=\"/home/greg/Tools/env/scripts/enable-wakeup \$env{DEVPATH}\" "
 
   # add udev rule for current device
   echo "# ${DEVICE_NAME}" >> $UDEV_FILE

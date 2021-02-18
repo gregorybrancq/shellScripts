@@ -10,7 +10,7 @@
 progName=$(basename "$0")
 
 # Files
-logF="$HOME/Config/env/log/${progName}_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
+logF="$HOME/Tools/env/log/${progName}_`date +%Y-%m-%d_%H:%M:%S.%N`.log"
 filterF="$HOME/Config/tools/grsync/Android.filter"
 
 # Phone
